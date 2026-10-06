@@ -117,6 +117,19 @@ export const savedArticles = pgTable(
   ],
 );
 
+export const notifications = pgTable("notifications", {
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  type: text("type").notNull(),
+  title: text("title").notNull(),
+  body: text("body").notNull(),
+  href: text("href"),
+  readAt: timestamp("read_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
 export type GameRow = typeof games.$inferSelect;
 export type ArticleRow = typeof articles.$inferSelect;
 export type UserRow = typeof users.$inferSelect;

@@ -20,6 +20,7 @@ import {
   updateUserProfile,
   usernameBelongsToAnotherUser,
 } from "../repository/auth-repository";
+import { createNotification } from "@/features/notifications/repository/notification-repository";
 
 export interface AuthActionState {
   error?: string;
@@ -65,6 +66,13 @@ export async function signupAction(
       username,
       displayName,
       passwordHash: hashPassword(password),
+    });
+    await createNotification({
+      userId: user.id,
+      type: "account",
+      title: "Welcome to your GameVerse signal",
+      body: "Your member space is live. Build a library and watchlist to personalize what comes next.",
+      href: "/account",
     });
     await startSession(user.id);
   } catch (error) {
