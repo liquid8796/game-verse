@@ -34,7 +34,8 @@ describe("AdViewer runner integrity", () => {
     expect(batContent).toContain("[19] Tuong tac lau voi website [Deep Engagement]");
     expect(batContent).toContain("[20] Xac suat tuong tac lau [Deep Engagement Ratio]");
     expect(batContent).toContain("[21] Cuon trang truoc khi click quang cao [Scroll before ad click]");
-    expect(batContent).toContain("%ARG_DEEP_ENGAGE% %ARG_DEEP_RATIO% %ARG_SCROLL_BEFORE%");
+    expect(batContent).toContain("[22] Hau tuong tac sau khi xem quang cao [Post-ad engagement]");
+    expect(batContent).toContain("%ARG_DEEP_ENGAGE% %ARG_DEEP_RATIO% %ARG_SCROLL_BEFORE% %ARG_POST_ENGAGE%");
 
     const adViewerContent = readFileSync(join(root, "scripts/adViewer.mjs"), "utf8");
     expect(adViewerContent).toContain("performDeepEngagement");
@@ -42,11 +43,12 @@ describe("AdViewer runner integrity", () => {
     expect(adViewerContent).toContain("parseDeepEngagement");
     expect(adViewerContent).toContain("parseDeepEngagementRatio");
     expect(adViewerContent).toContain("parseScrollBeforeClick");
+    expect(adViewerContent).toContain("parsePostAdEngagement");
     expect(adViewerContent).toContain("[Hậu tương tác]");
 
     const { execSync } = require("node:child_process");
     const testSnippet = `
-      import { parseDeepEngagement, parseDeepEngagementRatio, parseScrollBeforeClick } from './scripts/adViewer.mjs';
+      import { parseDeepEngagement, parseDeepEngagementRatio, parseScrollBeforeClick, parsePostAdEngagement } from './scripts/adViewer.mjs';
       const results = {
         deep1: parseDeepEngagement(['node', 'adViewer.mjs', '--deep-engagement'], {}),
         deep2: parseDeepEngagement(['node', 'adViewer.mjs', '--no-deep-engagement'], {}),
@@ -60,6 +62,9 @@ describe("AdViewer runner integrity", () => {
         scroll1: parseScrollBeforeClick(['node', 'adViewer.mjs'], {}),
         scroll2: parseScrollBeforeClick(['node', 'adViewer.mjs', '--no-scroll-before-click'], {}),
         scroll3: parseScrollBeforeClick(['node', 'adViewer.mjs', '--scroll-before-click'], {}),
+        post1: parsePostAdEngagement(['node', 'adViewer.mjs'], {}),
+        post2: parsePostAdEngagement(['node', 'adViewer.mjs', '--no-post-ad-engagement'], {}),
+        post3: parsePostAdEngagement(['node', 'adViewer.mjs', '--post-ad-engagement'], {}),
       };
       console.log(JSON.stringify(results));
     `;
@@ -77,5 +82,8 @@ describe("AdViewer runner integrity", () => {
     expect(parsed.scroll1).toBe(true);
     expect(parsed.scroll2).toBe(false);
     expect(parsed.scroll3).toBe(true);
+    expect(parsed.post1).toBe(true);
+    expect(parsed.post2).toBe(false);
+    expect(parsed.post3).toBe(true);
   });
 });
