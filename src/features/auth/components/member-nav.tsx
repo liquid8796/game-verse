@@ -6,12 +6,13 @@ const memberLinks = [
   ["Watchlist", "/me/watchlist", "watchlist"],
   ["Saved", "/me/saved", "saved"],
   ["Notifications", "/me/notifications", "notifications"],
+  ["Calendar", "/me/calendar", "calendar"],
 ] as const;
 
 export function MemberNav({
   active,
 }: {
-  active: "profile" | "library" | "watchlist" | "saved" | "notifications";
+  active: "profile" | "library" | "watchlist" | "saved" | "notifications" | "calendar";
 }) {
   return (
     <nav className="member-subnav" aria-label="Member navigation">
