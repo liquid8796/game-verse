@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored browser extension shipped by the deployment tooling.
+    "deploy/extensions/**",
   ]),
 ]);
 
