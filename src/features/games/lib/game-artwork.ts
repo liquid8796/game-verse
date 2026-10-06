@@ -10,7 +10,7 @@ export const gameArtwork: Record<string, GameArtwork> = {
     src: "/game-media/gta-vi.webp",
     alt: "Grand Theft Auto VI promotional artwork",
     credit: "Rockstar Games",
-    sourceUrl: "https://www.rockstargames.com/VI/media",
+    sourceUrl: "https://www.rockstargames.com/VI/media/artwork-wallpapers",
   },
   fortnite: {
     src: "/game-media/fortnite.webp",
