@@ -1,9 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 import { AdSlot } from "@/components/ad-slot";
 import { HeroWorld } from "@/components/hero-world";
 import { SectionHeading } from "@/components/section-heading";
 import { TrendTicker } from "@/components/trend-ticker";
 import { ArticleCard } from "@/features/articles/components/article-card";
+import { getGameArtwork } from "@/features/games/lib/game-artwork";
 import { formatDate } from "@/lib/format";
 import { getSiteUrl } from "@/lib/site-url";
 import { getHomeData } from "@/server/queries/content";
@@ -18,6 +20,11 @@ export default async function Home() {
     articles[0];
   const guides = articles.filter((article) => article.type === "guide").slice(0, 3);
   if (!hero) return null;
+  const heroArtwork = getGameArtwork(hero.slug);
+  const featureGame = feature?.gameId
+    ? games.find((game) => game.id === feature.gameId)
+    : undefined;
+  const featureArtwork = featureGame ? getGameArtwork(featureGame.slug) : undefined;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -31,7 +38,7 @@ export default async function Home() {
     <main id="main" className="site-main">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <section className="hero">
-        <HeroWorld accent={hero.accent} />
+        <HeroWorld accent={hero.accent} imageSrc={heroArtwork?.src} />
         <div className="shell hero-content">
           <div>
             <p className="hero-kicker">Next major signal · {formatDate(hero.releaseDate)}</p>
@@ -90,7 +97,17 @@ export default async function Home() {
           <div className="shell">
             <SectionHeading index="02" title="Field report" />
             <div className="feature-split">
-              <div className="feature-art" aria-hidden="true" />
+              <div className="feature-art" aria-hidden="true">
+                {featureArtwork && (
+                  <Image
+                    className="feature-art-image"
+                    src={featureArtwork.src}
+                    alt=""
+                    fill
+                    sizes="(max-width: 920px) 100vw, 60vw"
+                  />
+                )}
+              </div>
               <div className="feature-copy">
                 <span>{feature.type} · {feature.readMinutes} min</span>
                 <h3>{feature.title}</h3>
@@ -112,13 +129,25 @@ export default async function Home() {
             copy="Dates worth putting on the calendar — and evergreen games worth checking back into."
           />
           <div className="release-grid">
-            {games.slice(0, 4).map((game) => (
-              <Link className="release-card" href={"/games/" + game.slug} key={game.id}>
-                <time>{game.releaseDate ? formatDate(game.releaseDate) : "LIVE"}</time>
-                <h3>{game.title}</h3>
-                <p>{game.platforms.slice(0, 3).join(" · ")}</p>
-              </Link>
-            ))}
+            {games.slice(0, 4).map((game) => {
+              const artwork = getGameArtwork(game.slug);
+              return (
+                <Link className="release-card" href={"/games/" + game.slug} key={game.id}>
+                  {artwork && (
+                    <Image
+                      className="release-card-image"
+                      src={artwork.src}
+                      alt=""
+                      fill
+                      sizes="(max-width: 620px) 100vw, (max-width: 920px) 50vw, 25vw"
+                    />
+                  )}
+                  <time>{game.releaseDate ? formatDate(game.releaseDate) : "LIVE"}</time>
+                  <h3>{game.title}</h3>
+                  <p>{game.platforms.slice(0, 3).join(" · ")}</p>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>

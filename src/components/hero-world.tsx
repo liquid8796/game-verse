@@ -1,8 +1,9 @@
 "use client";
 
 import type { CSSProperties, PointerEvent } from "react";
+import Image from "next/image";
 
-export function HeroWorld({ accent }: { accent: string }) {
+export function HeroWorld({ accent, imageSrc }: { accent: string; imageSrc?: string }) {
   function move(event: PointerEvent<HTMLDivElement>) {
     const rect = event.currentTarget.getBoundingClientRect();
     event.currentTarget.style.setProperty("--pointer-x", (((event.clientX - rect.left) / rect.width) * 100) + "%");
@@ -10,7 +11,7 @@ export function HeroWorld({ accent }: { accent: string }) {
   }
   return (
     <div
-      className="hero-world"
+      className={imageSrc ? "hero-world hero-world-has-image" : "hero-world"}
       onPointerMove={move}
       onPointerLeave={(event) => {
         event.currentTarget.style.setProperty("--pointer-x", "68%");
@@ -19,9 +20,16 @@ export function HeroWorld({ accent }: { accent: string }) {
       style={{ "--world-accent": accent } as CSSProperties}
       aria-hidden="true"
     >
-      <div className="hero-sun" /><div className="hero-horizon" />
-      <div className="hero-city hero-city-back" /><div className="hero-city hero-city-front" />
-      <div className="hero-road" /><div className="hero-grid-lines" /><div className="hero-light" />
+      {imageSrc ? (
+        <Image className="hero-world-image" src={imageSrc} alt="" fill priority sizes="100vw" />
+      ) : (
+        <>
+          <div className="hero-sun" /><div className="hero-horizon" />
+          <div className="hero-city hero-city-back" /><div className="hero-city hero-city-front" />
+          <div className="hero-road" />
+        </>
+      )}
+      <div className="hero-grid-lines" /><div className="hero-light" />
     </div>
   );
 }

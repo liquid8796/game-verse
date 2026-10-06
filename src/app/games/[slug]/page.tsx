@@ -1,8 +1,10 @@
 import type { CSSProperties } from "react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArticleCard } from "@/features/articles/components/article-card";
+import { getGameArtwork } from "@/features/games/lib/game-artwork";
 import { formatDate } from "@/lib/format";
 import { getSiteUrl } from "@/lib/site-url";
 import { getArticlesForGame, getGameBySlug } from "@/server/queries/content";
@@ -14,6 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const game = await getGameBySlug(slug);
   if (!game) return { title: "Game not found" };
+  const artwork = getGameArtwork(game.slug);
 
   const canonical = "/games/" + game.slug;
   return {
@@ -35,11 +38,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${game.title} | GameVerse`,
       description: game.deck,
       url: canonical,
+      images: artwork ? [{ url: artwork.src, alt: artwork.alt }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
       title: `${game.title} | GameVerse`,
       description: game.deck,
+      images: artwork ? [artwork.src] : undefined,
     },
   };
 }
@@ -50,6 +55,7 @@ export default async function GamePage({ params }: Props) {
   if (!game) notFound();
   const articles = await getArticlesForGame(game.id);
   const siteUrl = getSiteUrl();
+  const artwork = getGameArtwork(game.slug);
 
   const gameJsonLd = {
     "@context": "https://schema.org",
@@ -60,6 +66,7 @@ export default async function GamePage({ params }: Props) {
     gamePlatform: game.platforms,
     author: { "@type": "Organization", name: game.developer },
     publisher: { "@type": "Organization", name: game.publisher },
+    image: artwork ? siteUrl + artwork.src : undefined,
     datePublished: game.releaseDate ?? undefined,
     ...(game.score
       ? {
@@ -96,6 +103,16 @@ export default async function GamePage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
       />
       <header className="game-detail-hero" style={{ "--game-accent": game.accent } as CSSProperties}>
+        {artwork && (
+          <Image
+            className="game-detail-image"
+            src={artwork.src}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+          />
+        )}
         <div className="shell game-detail-grid">
           <div>
             <p className="page-kicker">{game.genre} · {game.status}</p>
@@ -114,6 +131,7 @@ export default async function GamePage({ params }: Props) {
             </dl>
           </div>
         </div>
+        {artwork && <span className="game-detail-media-credit">Media · {artwork.credit}</span>}
       </header>
       <section className="content-section"><div className="shell">
         <div className="section-heading">
