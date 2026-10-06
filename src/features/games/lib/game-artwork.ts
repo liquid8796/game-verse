@@ -7,7 +7,7 @@ export interface GameArtwork {
 
 export const gameArtwork: Record<string, GameArtwork> = {
   "gta-vi": {
-    src: "/game-media/gta-vi.webp",
+    src: "/game-media/gta-vi-official-cover.webp",
     alt: "Grand Theft Auto VI promotional artwork",
     credit: "Rockstar Games",
     sourceUrl: "https://www.rockstargames.com/VI/media/artwork-wallpapers",
