@@ -28,7 +28,6 @@ export function HeroWorld({ accent, imageSrc }: { accent: string; imageSrc?: str
           fill
           priority
           sizes="100vw"
-          unoptimized
         />
       ) : (
         <>
