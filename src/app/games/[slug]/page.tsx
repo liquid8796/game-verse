@@ -8,6 +8,14 @@ import { getCurrentUser } from "@/features/auth/lib/session";
 import { getGameArtwork } from "@/features/games/lib/game-artwork";
 import { LibraryControl } from "@/features/library/components/library-control";
 import { getLibraryStatus } from "@/features/library/repository/library-repository";
+import { RatingControl } from "@/features/reviews/components/rating-control";
+import { ReviewForm } from "@/features/reviews/components/review-form";
+import {
+  getMemberRating,
+  getMemberReview,
+  getRatingSummary,
+  listGameReviews,
+} from "@/features/reviews/repository/review-repository";
 import { WatchlistControl } from "@/features/watchlist/components/watchlist-control";
 import { isGameWatched } from "@/features/watchlist/repository/watchlist-repository";
 import { formatDate } from "@/lib/format";
@@ -58,10 +66,20 @@ export default async function GamePage({ params }: Props) {
   const { slug } = await params;
   const game = await getGameBySlug(slug);
   if (!game) notFound();
-  const articles = await getArticlesForGame(game.id);
   const member = await getCurrentUser();
-  const libraryStatus = member ? await getLibraryStatus(member.id, game.id) : undefined;
-  const watched = member ? await isGameWatched(member.id, game.id) : false;
+  const [articles, ratingSummary, reviews] = await Promise.all([
+    getArticlesForGame(game.id),
+    getRatingSummary(game.id),
+    listGameReviews(game.id),
+  ]);
+  const [libraryStatus, watched, currentRating, currentReview] = member
+    ? await Promise.all([
+        getLibraryStatus(member.id, game.id),
+        isGameWatched(member.id, game.id),
+        getMemberRating(member.id, game.id),
+        getMemberReview(member.id, game.id),
+      ])
+    : [undefined, false, undefined, undefined];
   const siteUrl = getSiteUrl();
   const artwork = getGameArtwork(game.slug);
 
@@ -76,14 +94,14 @@ export default async function GamePage({ params }: Props) {
     publisher: { "@type": "Organization", name: game.publisher },
     image: artwork ? siteUrl + artwork.src : undefined,
     datePublished: game.releaseDate ?? undefined,
-    ...(game.score
+    ...(ratingSummary.count
       ? {
           aggregateRating: {
             "@type": "AggregateRating",
-            ratingValue: game.score,
-            bestRating: 100,
-            worstRating: 0,
-            ratingCount: 1,
+            ratingValue: Number(ratingSummary.average.toFixed(1)),
+            bestRating: 10,
+            worstRating: 1,
+            ratingCount: ratingSummary.count,
           },
         }
       : {}),
@@ -166,6 +184,93 @@ export default async function GamePage({ params }: Props) {
         ) : (
           <div className="empty-state"><strong>Coverage is loading in.</strong><span>Check back as the signal gets stronger.</span></div>
         )}
+      </div></section>
+      <section className="content-section community-reviews-section"><div className="shell">
+        <div className="section-heading">
+          <span className="section-index">02</span>
+          <div>
+            <h2>Community signal</h2>
+            <p>Public player ratings and reviews. Only signed-in members can publish or change them.</p>
+          </div>
+        </div>
+
+        <div className="community-rating-summary">
+          <div>
+            <span>Community score</span>
+            <strong>{ratingSummary.count ? ratingSummary.average.toFixed(1) : "—"}</strong>
+            <small>/ 10</small>
+          </div>
+          <div>
+            <span>Ratings</span>
+            <strong>{ratingSummary.count}</strong>
+          </div>
+          <div>
+            <span>Reviews</span>
+            <strong>{reviews.length}</strong>
+          </div>
+        </div>
+
+        {member ? (
+          <div className="community-member-panel">
+            <div>
+              <div className="member-panel-index">YOUR SIGNAL / RATING</div>
+              <RatingControl
+                gameId={game.id}
+                slug={game.slug}
+                currentRating={currentRating}
+              />
+            </div>
+            <div>
+              <div className="member-panel-index">YOUR SIGNAL / REVIEW</div>
+              <ReviewForm
+                gameId={game.id}
+                slug={game.slug}
+                review={currentReview}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="community-signin-callout">
+            <div>
+              <span>Member-only publishing</span>
+              <strong>Have a take worth adding?</strong>
+              <p>Ratings and reviews stay public, but publishing requires a GameVerse account.</p>
+            </div>
+            <Link className="button-primary" href={"/login?next=" + encodeURIComponent("/games/" + game.slug)}>
+              Sign in to review
+            </Link>
+          </div>
+        )}
+
+        {reviews.length ? (
+          <div className="community-review-list">
+            {reviews.map((review) => (
+              <article className="community-review" key={review.userId}>
+                <header>
+                  <div className="review-avatar" aria-hidden="true">
+                    {review.displayName.slice(0, 2).toUpperCase()}
+                  </div>
+                  <div>
+                    <strong>{review.displayName}</strong>
+                    <span>@{review.username}</span>
+                  </div>
+                  {review.rating && <b>{review.rating}/10</b>}
+                </header>
+                <h3>{review.headline}</h3>
+                <p>{review.body}</p>
+                <time dateTime={review.updatedAt.toISOString()}>
+                  Updated {new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" }).format(review.updatedAt)}
+                </time>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="empty-state community-empty">
+            <strong>No player reviews yet.</strong>
+            <span>The first public community signal can start here.</span>
+          </div>
+        )}
+
         <div style={{ marginTop: 34 }}><Link className="text-link" href="/games">← Back to game index</Link></div>
       </div></section>
     </main>

@@ -1,0 +1,1 @@
+ALTER TABLE "game_ratings" ADD CONSTRAINT "game_ratings_score_check" CHECK ("game_ratings"."score" between 1 and 10);
