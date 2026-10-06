@@ -31,5 +31,6 @@ describe("OCI deployment ordering", () => {
     expect(script).toContain(
       'sudo sed -i "s#^NEXT_PUBLIC_SITE_URL=.*#NEXT_PUBLIC_SITE_URL=$SITE_URL#" "$SHARED/.env"',
     );
+    expect(script).toContain("NEXT_PUBLIC_ADS_ENABLED=true");
   });
 });

@@ -12,11 +12,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const article = await getArticleBySlug(slug);
   if (!article) return { title: "Story not found" };
+
+  const canonical = "/articles/" + article.slug;
   return {
     title: article.title,
     description: article.excerpt,
-    alternates: { canonical: "/articles/" + article.slug },
-    openGraph: { type: "article", title: article.title, description: article.excerpt, publishedTime: article.publishedAt },
+    keywords: [
+      article.type,
+      article.author,
+      "gaming story",
+      "game guide",
+      "GameVerse",
+    ],
+    alternates: { canonical },
+    openGraph: {
+      type: "article",
+      title: article.title,
+      description: article.excerpt,
+      publishedTime: article.publishedAt,
+      url: canonical,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.excerpt,
+    },
   };
 }
 
@@ -24,24 +44,61 @@ export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;
   const article = await getArticleBySlug(slug);
   if (!article) notFound();
+
+  const siteUrl = getSiteUrl();
   const jsonLd = {
-    "@context": "https://schema.org", "@type": "Article", headline: article.title,
-    description: article.excerpt, datePublished: article.publishedAt,
-    author: { "@type": "Organization", name: article.author },
-    publisher: { "@type": "Organization", name: "GameVerse" },
-    mainEntityOfPage: getSiteUrl() + "/articles/" + article.slug,
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.excerpt,
+    datePublished: article.publishedAt,
+    dateModified: article.publishedAt,
+    author: { "@type": "Person", name: article.author },
+    publisher: {
+      "@type": "Organization",
+      name: "GameVerse",
+      url: siteUrl,
+    },
+    mainEntityOfPage: siteUrl + "/articles/" + article.slug,
   };
+
+  const breadcrumbsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: "Stories", item: siteUrl + "/articles" },
+      { "@type": "ListItem", position: 3, name: article.title, item: siteUrl + "/articles/" + article.slug },
+    ],
+  };
+
   return (
     <main id="main" className="article-page">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+      />
       <article className="shell">
         <header className="article-page-head">
-          <p className="page-kicker">{article.type}</p><h1>{article.title}</h1>
+          <p className="page-kicker">{article.type}</p>
+          <h1>{article.title}</h1>
           <p className="standfirst">{article.excerpt}</p>
-          <div className="byline"><span>By {article.author}</span><time dateTime={article.publishedAt}>{formatDate(article.publishedAt)}</time><span>{article.readMinutes} minute read</span></div>
+          <div className="byline">
+            <span>By {article.author}</span>
+            <time dateTime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
+            <span>{article.readMinutes} minute read</span>
+          </div>
         </header>
         <AdSlot name="article-top" />
-        <div className="prose">{article.body.split("\n\n").map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>
+        <div className="prose">
+          {article.body.split("\n\n").map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
+          ))}
+        </div>
         <AdSlot name="article-bottom" format="rectangle" />
       </article>
     </main>

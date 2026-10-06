@@ -5,9 +5,21 @@ import { getAllGames } from "@/server/queries/content";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Games",
-  description: "Browse the mainstream games currently in the GameVerse signal.",
+  title: "Games Directory",
+  description: "Browse the mainstream games currently in the GameVerse signal. Scores, genres, platforms and connected stories.",
   alternates: { canonical: "/games" },
+  keywords: ["games directory", "games index", "popular games", "PC games", "console games", "GameVerse"],
+  openGraph: {
+    type: "website",
+    title: "Games Directory | GameVerse",
+    description: "Browse the mainstream games currently in the GameVerse signal.",
+    url: "/games",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Games Directory | GameVerse",
+    description: "Browse the mainstream games currently in the GameVerse signal.",
+  },
 };
 
 export default async function GamesPage() {

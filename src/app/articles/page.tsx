@@ -3,10 +3,23 @@ import { ArticleCard } from "@/features/articles/components/article-card";
 import { getAllArticles } from "@/server/queries/content";
 
 export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
-  title: "Stories",
-  description: "GameVerse news, guides, features and reviews.",
+  title: "Stories & Guides",
+  description: "GameVerse news, guides, features and reviews with the answer visible from the doorway.",
   alternates: { canonical: "/articles" },
+  keywords: ["game news", "gaming guides", "walkthroughs", "game reviews", "field reports", "gaming features"],
+  openGraph: {
+    type: "website",
+    title: "Stories & Guides | GameVerse",
+    description: "GameVerse news, guides, features and reviews with the answer visible from the doorway.",
+    url: "/articles",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Stories & Guides | GameVerse",
+    description: "GameVerse news, guides, features and reviews with the answer visible from the doorway.",
+  },
 };
 
 export default async function ArticlesPage() {

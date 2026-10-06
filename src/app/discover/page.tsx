@@ -6,8 +6,20 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Discover",
-  description: "Search GameVerse games, studios, genres, guides, and stories.",
+  description: "Instant search across GameVerse games, studios, genres, guides, and stories.",
   alternates: { canonical: "/discover" },
+  keywords: ["search games", "gaming discovery", "games and guides", "GameVerse search"],
+  openGraph: {
+    type: "website",
+    title: "Discover | GameVerse",
+    description: "Instant search across GameVerse games, studios, genres, guides, and stories.",
+    url: "/discover",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Discover | GameVerse",
+    description: "Search games, guides, and stories across GameVerse.",
+  },
 };
 
 export default async function DiscoverPage() {

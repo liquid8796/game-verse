@@ -60,7 +60,7 @@ if ! sudo test -f "$SHARED/.env"; then
   sudo bash -c "cat > '$SHARED/.env'" <<EOF
 DATABASE_URL=postgresql://gameverse:$DB_PASS@127.0.0.1:5432/gameverse
 NEXT_PUBLIC_SITE_URL=$SITE_URL
-NEXT_PUBLIC_ADS_ENABLED=false
+NEXT_PUBLIC_ADS_ENABLED=true
 NODE_ENV=production
 EOF
   sudo chown root:gameverse "$SHARED/.env"
@@ -71,6 +71,12 @@ if sudo grep -q '^NEXT_PUBLIC_SITE_URL=' "$SHARED/.env"; then
   sudo sed -i "s#^NEXT_PUBLIC_SITE_URL=.*#NEXT_PUBLIC_SITE_URL=$SITE_URL#" "$SHARED/.env"
 else
   echo "NEXT_PUBLIC_SITE_URL=$SITE_URL" | sudo tee -a "$SHARED/.env" >/dev/null
+fi
+
+if sudo grep -q '^NEXT_PUBLIC_ADS_ENABLED=' "$SHARED/.env"; then
+  sudo sed -i "s#^NEXT_PUBLIC_ADS_ENABLED=.*#NEXT_PUBLIC_ADS_ENABLED=true#" "$SHARED/.env"
+else
+  echo "NEXT_PUBLIC_ADS_ENABLED=true" | sudo tee -a "$SHARED/.env" >/dev/null
 fi
 sudo chown root:gameverse "$SHARED/.env"
 sudo chmod 0640 "$SHARED/.env"
