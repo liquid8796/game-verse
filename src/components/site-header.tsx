@@ -37,6 +37,7 @@ export async function SiteHeader() {
                 <Link href="/me/saved">Saved stories</Link>
                 <Link href="/me/notifications">Notifications</Link>
                 <Link href="/me/calendar">Release calendar</Link>
+                <Link href="/me/feed">For You</Link>
                 <form action={logoutAction}><button type="submit">Sign out</button></form>
               </div>
             </details>
@@ -60,6 +61,7 @@ export async function SiteHeader() {
                 <Link href="/me/saved">Saved stories</Link>
                 <Link href="/me/notifications">Notifications</Link>
                 <Link href="/me/calendar">Release calendar</Link>
+                <Link href="/me/feed">For You</Link>
               </>
             ) : <Link href="/login">Sign in</Link>}
           </nav>

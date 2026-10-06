@@ -43,7 +43,7 @@ export default async function AccountPage() {
             <div><dt>Session</dt><dd>Secure · 30 days</dd></div>
             <div><dt>Profile</dt><dd>Private member data</dd></div>
           </dl>
-          <p>The next member modules will appear here as they unlock: library, watchlist, saved stories, notifications, calendar and feed.</p>
+          <p>Your private member layer is live: library, watchlist, saved stories, notifications, release calendar and a personalized feed.</p>
         </aside>
       </section>
     </main>
