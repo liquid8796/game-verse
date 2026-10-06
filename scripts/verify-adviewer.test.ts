@@ -86,4 +86,35 @@ describe("AdViewer runner integrity", () => {
     expect(parsed.post2).toBe(false);
     expect(parsed.post3).toBe(true);
   });
+
+  it("verifies anti-detect VPN option in batch launcher and adViewer module", () => {
+    const batContent = readFileSync(join(root, "run-ad-viewer.bat"), "utf8");
+    expect(batContent).toContain("Tuy chon Anti-Detect VPN (Proton VPN / VPN he thong)");
+    expect(batContent).toContain("%ARG_ANTI_DETECT_VPN%");
+
+    const adViewerContent = readFileSync(join(root, "scripts/adViewer.mjs"), "utf8");
+    expect(adViewerContent).toContain("parseAntiDetectVpn");
+    expect(adViewerContent).toContain("resolveVpnGeo");
+    expect(adViewerContent).toContain("[AntiDetect VPN]");
+
+    const { execSync } = require("node:child_process");
+    const testSnippet = `
+      import { parseAntiDetectVpn } from './scripts/adViewer.mjs';
+      const results = {
+        vpnDefault: parseAntiDetectVpn(['node', 'adViewer.mjs'], {}),
+        vpnEnable: parseAntiDetectVpn(['node', 'adViewer.mjs', '--anti-detect-vpn'], {}),
+        vpnDisable: parseAntiDetectVpn(['node', 'adViewer.mjs', '--no-anti-detect-vpn'], {}),
+        vpnEnv0: parseAntiDetectVpn(['node', 'adViewer.mjs'], { AD_VIEWER_ANTI_DETECT_VPN: '0' }),
+        vpnEnv1: parseAntiDetectVpn(['node', 'adViewer.mjs'], { AD_VIEWER_ANTI_DETECT_VPN: '1' }),
+      };
+      console.log(JSON.stringify(results));
+    `;
+    const stdout = execSync(`node --input-type=module -e "${testSnippet.replace(/\n/g, ' ')}"`, { cwd: root, encoding: "utf8" });
+    const parsed = JSON.parse(stdout.trim());
+    expect(parsed.vpnDefault).toBe(true);
+    expect(parsed.vpnEnable).toBe(true);
+    expect(parsed.vpnDisable).toBe(false);
+    expect(parsed.vpnEnv0).toBe(false);
+    expect(parsed.vpnEnv1).toBe(true);
+  });
 });
