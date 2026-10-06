@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GameVerse
 
-## Getting Started
+GameVerse is a server-rendered mainstream gaming publication built around fast discovery, useful editorial coverage, game hubs, and ad-safe layouts.
 
-First, run the development server:
+## Stack
 
-```bash
+- Next.js App Router + TypeScript
+- React Server Components by default
+- PostgreSQL 17 + Drizzle ORM
+- Vitest + Testing Library
+- Caddy + systemd on Oracle Cloud
+- No Docker
+
+## Local development
+
+Copy the environment template and point it at a PostgreSQL database:
+
+```powershell
+Copy-Item .env.example .env.local
+npm ci
+npm run db:migrate
+npm run db:seed
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Quality gates:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```powershell
+npm test
+npm run typecheck
+npm run lint
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Architecture
 
-## Learn More
+The app is a modular monolith. Server-rendered routes call feature query services, which consume repository interfaces. PostgreSQL/Drizzle implementations live under `src/server/db`; UI code does not import the database client directly.
 
-To learn more about Next.js, take a look at the following resources:
+Primary routes:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `/` — editorial homepage
+- `/games` and `/games/[slug]` — directory and game hubs
+- `/articles` and `/articles/[slug]` — stories and guides
+- `/discover` — cross-content search
+- `/api/health` — application/database readiness
+- `/robots.txt` and `/sitemap.xml` — crawler surfaces
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## OCI deployment
 
-## Deploy on Vercel
+Production mirrors the VM's existing pattern:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Ubuntu 24.04
+- Node 24
+- PostgreSQL 17 on loopback
+- Caddy on ports 80/443
+- GameVerse on `127.0.0.1:3003`
+- systemd unit `gameverse.service`
+- app root `/opt/gameverse/current`
+- secrets in `/opt/gameverse/shared/.env`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The temporary production hostname is:
+
+`https://gameverse.158.180.59.36.sslip.io`
+
+Deploy only from a clean `master` that exactly matches `origin/master`:
+
+```powershell
+.\scripts\deploy-oci.ps1
+```
+
+The script archives the committed revision, uploads it over SSH, creates the isolated database/user on first deploy, migrates and seeds PostgreSQL, builds on the VM, validates Caddy, restarts systemd, and verifies the health endpoint.
+
+Display ads are intentionally disabled until an ad network ID/configuration is supplied. The layout already reserves ad integration through the `AdSlot` abstraction.

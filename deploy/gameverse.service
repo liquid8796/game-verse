@@ -1,0 +1,31 @@
+[Unit]
+Description=GameVerse mainstream gaming publication
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=gameverse
+Group=gameverse
+WorkingDirectory=/opt/gameverse/current
+EnvironmentFile=/opt/gameverse/shared/.env
+ExecStart=/usr/bin/npm start -- --hostname 127.0.0.1 --port 3003
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+KillSignal=SIGINT
+UMask=0077
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+ReadWritePaths=/opt/gameverse/current/.next
+
+[Install]
+WantedBy=multi-user.target
