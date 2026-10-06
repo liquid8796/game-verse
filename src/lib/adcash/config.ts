@@ -1,11 +1,11 @@
 /**
  * Cấu hình mạng quảng cáo Adcash:
- * AutoTag (zoneId: '7gpx1rimky') theo yêu cầu phê duyệt trang web GameVerse.
+ * AutoTag (zoneId: '1zmakzh6c') theo yêu cầu phê duyệt trang web GameVerse.
  *
  * Bước 1: <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
- * Bước 2: <script type="text/javascript">aclib.runAutoTag({ zoneId: '7gpx1rimky' });</script>
+ * Bước 2: <script type="text/javascript">aclib.runAutoTag({ zoneId: '1zmakzh6c' });</script>
  */
-export const ADCASH_AUTOTAG_ZONE_ID = "7gpx1rimky" as const;
+export const ADCASH_AUTOTAG_ZONE_ID = "1zmakzh6c" as const;
 export const ADCASH_ZONE_ID = ADCASH_AUTOTAG_ZONE_ID;
 
 export const ADCASH_LIB_SRC = "//acscdn.com/script/aclib.js" as const;

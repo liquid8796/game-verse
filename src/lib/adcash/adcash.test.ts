@@ -8,8 +8,8 @@ import {
 
 describe("Adcash configuration", () => {
   it("uses the verified autotag zone id and official script cdn", () => {
-    expect(ADCASH_AUTOTAG_ZONE_ID).toBe("7gpx1rimky");
-    expect(ADCASH_ZONE_ID).toBe("7gpx1rimky");
+    expect(ADCASH_AUTOTAG_ZONE_ID).toBe("1zmakzh6c");
+    expect(ADCASH_ZONE_ID).toBe("1zmakzh6c");
     expect(ADCASH_LIB_SRC).toBe("//acscdn.com/script/aclib.js");
   });
 

@@ -19,7 +19,7 @@ describe("AdViewer runner integrity", () => {
     const content = readFileSync(viewerPath, "utf8");
     expect(content).toContain("https://gameverse.online");
     expect(content).toContain("gameverse.online:443");
-    expect(content).toContain("7gpx1rimky");
+    expect(content).toContain("1zmakzh6c");
     expect(content).toContain("https://www.google.com/search?q=gameverse");
   });
 

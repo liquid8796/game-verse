@@ -14,7 +14,7 @@ function pathAllowsAds(pathname: string): boolean {
 
 /**
  * Adcash Client Ads Component.
- * Cung cấp vùng chứa hỗ trợ cho Adcash AutoTag (7gpx1rimky).
+ * Cung cấp vùng chứa hỗ trợ cho Adcash AutoTag (1zmakzh6c).
  */
 export function AdcashClientAds() {
   const pathname = usePathname();
@@ -32,7 +32,7 @@ export function AdcashClientAds() {
       id="adcash-ad-container"
       className="adcash-container"
       aria-label="Advertisement"
-      data-adcash-zone={process.env.NEXT_PUBLIC_ADCASH_ZONE_ID ?? "7gpx1rimky"}
+      data-adcash-zone={process.env.NEXT_PUBLIC_ADCASH_ZONE_ID ?? "1zmakzh6c"}
     />
   );
 }
