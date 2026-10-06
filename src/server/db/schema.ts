@@ -2,12 +2,14 @@ import {
   boolean,
   date,
   integer,
+  primaryKey,
   pgTable,
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
 import type { ArticleType } from "@/features/articles/domain/article";
 import type { GameStatus } from "@/features/games/domain/game";
+import type { LibraryStatus } from "@/features/library/domain/library";
 
 export const games = pgTable("games", {
   id: text("id").primaryKey(),
@@ -64,6 +66,24 @@ export const sessions = pgTable("sessions", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).defaultNow().notNull(),
 });
+
+export const gameLibrary = pgTable(
+  "game_library",
+  {
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    gameId: text("game_id")
+      .notNull()
+      .references(() => games.id, { onDelete: "cascade" }),
+    status: text("status").$type<LibraryStatus>().notNull(),
+    addedAt: timestamp("added_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.userId, table.gameId] }),
+  ],
+);
 
 export type GameRow = typeof games.$inferSelect;
 export type ArticleRow = typeof articles.$inferSelect;

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { MemberNav } from "@/features/auth/components/member-nav";
 import { ProfileForm } from "@/features/auth/components/profile-form";
 import { requireCurrentUser } from "@/features/auth/lib/session";
 
@@ -27,6 +28,7 @@ export default async function AccountPage() {
           <small>Joined {joined}</small>
         </div>
       </section>
+      <div className="shell"><MemberNav active="profile" /></div>
       <section className="shell member-account-grid">
         <div className="member-settings-panel">
           <div className="member-panel-index">PROFILE / 01</div>

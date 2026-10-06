@@ -4,7 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArticleCard } from "@/features/articles/components/article-card";
+import { getCurrentUser } from "@/features/auth/lib/session";
 import { getGameArtwork } from "@/features/games/lib/game-artwork";
+import { LibraryControl } from "@/features/library/components/library-control";
+import { getLibraryStatus } from "@/features/library/repository/library-repository";
 import { formatDate } from "@/lib/format";
 import { getSiteUrl } from "@/lib/site-url";
 import { getArticlesForGame, getGameBySlug } from "@/server/queries/content";
@@ -54,6 +57,8 @@ export default async function GamePage({ params }: Props) {
   const game = await getGameBySlug(slug);
   if (!game) notFound();
   const articles = await getArticlesForGame(game.id);
+  const member = await getCurrentUser();
+  const libraryStatus = member ? await getLibraryStatus(member.id, game.id) : undefined;
   const siteUrl = getSiteUrl();
   const artwork = getGameArtwork(game.slug);
 
@@ -129,6 +134,13 @@ export default async function GamePage({ params }: Props) {
               <div><dt>Publisher</dt><dd>{game.publisher}</dd></div>
               <div><dt>Platforms</dt><dd>{game.platforms.join(" · ")}</dd></div>
             </dl>
+            {member && (
+              <LibraryControl
+                gameId={game.id}
+                slug={game.slug}
+                status={libraryStatus}
+              />
+            )}
           </div>
         </div>
         {artwork && <span className="game-detail-media-credit">Media · {artwork.credit}</span>}

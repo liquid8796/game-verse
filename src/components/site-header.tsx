@@ -25,6 +25,7 @@ export async function SiteHeader() {
               </summary>
               <div>
                 <Link href="/account">Account</Link>
+                <Link href="/me/library">My library</Link>
                 <form action={logoutAction}><button type="submit">Sign out</button></form>
               </div>
             </details>
@@ -39,7 +40,12 @@ export async function SiteHeader() {
           <summary aria-label="Open navigation">Menu</summary>
           <nav aria-label="Mobile navigation">
             {links.map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}
-            {member ? <Link href="/account">Account</Link> : <Link href="/login">Sign in</Link>}
+            {member ? (
+              <>
+                <Link href="/account">Account</Link>
+                <Link href="/me/library">My library</Link>
+              </>
+            ) : <Link href="/login">Sign in</Link>}
           </nav>
         </details>
       </div>
