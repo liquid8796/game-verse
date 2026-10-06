@@ -56,4 +56,18 @@ describe("SEO and Metadata configuration", () => {
       expect(item.lastModified).toBeInstanceOf(Date);
     }
   });
+
+  it("provides Google AdSense verification in ads.txt", () => {
+    const { readFileSync, existsSync } = require("node:fs");
+    const { join } = require("node:path");
+    const adsTxtPath = join(process.cwd(), "public/ads.txt");
+    expect(existsSync(adsTxtPath)).toBe(true);
+    const content = readFileSync(adsTxtPath, "utf8");
+    expect(content).toContain("google.com, pub-7851683096379872, DIRECT, f08c47fec0942fa0");
+
+    const layoutPath = join(process.cwd(), "src/app/layout.tsx");
+    const layoutContent = readFileSync(layoutPath, "utf8");
+    expect(layoutContent).toContain("ca-pub-7851683096379872");
+    expect(layoutContent).toContain("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js");
+  });
 });

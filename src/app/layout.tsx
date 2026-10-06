@@ -81,6 +81,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={display.variable + " " + body.variable}>
       <head>
+        <meta name="google-adsense-account" content="ca-pub-7851683096379872" />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7851683096379872"
+          crossOrigin="anonymous"
+        />
         <AdcashHead />
       </head>
       <body>
