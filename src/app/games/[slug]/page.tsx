@@ -8,6 +8,8 @@ import { getCurrentUser } from "@/features/auth/lib/session";
 import { getGameArtwork } from "@/features/games/lib/game-artwork";
 import { LibraryControl } from "@/features/library/components/library-control";
 import { getLibraryStatus } from "@/features/library/repository/library-repository";
+import { WatchlistControl } from "@/features/watchlist/components/watchlist-control";
+import { isGameWatched } from "@/features/watchlist/repository/watchlist-repository";
 import { formatDate } from "@/lib/format";
 import { getSiteUrl } from "@/lib/site-url";
 import { getArticlesForGame, getGameBySlug } from "@/server/queries/content";
@@ -59,6 +61,7 @@ export default async function GamePage({ params }: Props) {
   const articles = await getArticlesForGame(game.id);
   const member = await getCurrentUser();
   const libraryStatus = member ? await getLibraryStatus(member.id, game.id) : undefined;
+  const watched = member ? await isGameWatched(member.id, game.id) : false;
   const siteUrl = getSiteUrl();
   const artwork = getGameArtwork(game.slug);
 
@@ -135,11 +138,18 @@ export default async function GamePage({ params }: Props) {
               <div><dt>Platforms</dt><dd>{game.platforms.join(" · ")}</dd></div>
             </dl>
             {member && (
-              <LibraryControl
-                gameId={game.id}
-                slug={game.slug}
-                status={libraryStatus}
-              />
+              <div className="member-game-actions">
+                <LibraryControl
+                  gameId={game.id}
+                  slug={game.slug}
+                  status={libraryStatus}
+                />
+                <WatchlistControl
+                  gameId={game.id}
+                  slug={game.slug}
+                  watched={watched}
+                />
+              </div>
             )}
           </div>
         </div>

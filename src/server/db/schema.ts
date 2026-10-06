@@ -85,6 +85,22 @@ export const gameLibrary = pgTable(
   ],
 );
 
+export const gameWatchlist = pgTable(
+  "game_watchlist",
+  {
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    gameId: text("game_id")
+      .notNull()
+      .references(() => games.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.userId, table.gameId] }),
+  ],
+);
+
 export type GameRow = typeof games.$inferSelect;
 export type ArticleRow = typeof articles.$inferSelect;
 export type UserRow = typeof users.$inferSelect;
