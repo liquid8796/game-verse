@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AdSlot } from "@/components/ad-slot";
+import { getCurrentUser } from "@/features/auth/lib/session";
+import { SaveArticleControl } from "@/features/saved/components/save-article-control";
+import { isArticleSaved } from "@/features/saved/repository/saved-repository";
 import { formatDate } from "@/lib/format";
 import { getSiteUrl } from "@/lib/site-url";
 import { getArticleBySlug } from "@/server/queries/content";
@@ -44,6 +47,8 @@ export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;
   const article = await getArticleBySlug(slug);
   if (!article) notFound();
+  const member = await getCurrentUser();
+  const saved = member ? await isArticleSaved(member.id, article.id) : false;
 
   const siteUrl = getSiteUrl();
   const jsonLd = {
@@ -92,6 +97,13 @@ export default async function ArticlePage({ params }: Props) {
             <time dateTime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
             <span>{article.readMinutes} minute read</span>
           </div>
+          {member && (
+            <SaveArticleControl
+              articleId={article.id}
+              slug={article.slug}
+              saved={saved}
+            />
+          )}
         </header>
         <AdSlot name="article-top" />
         <div className="prose">

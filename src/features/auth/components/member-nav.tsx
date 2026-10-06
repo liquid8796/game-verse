@@ -4,9 +4,14 @@ const memberLinks = [
   ["Profile", "/account", "profile"],
   ["Library", "/me/library", "library"],
   ["Watchlist", "/me/watchlist", "watchlist"],
+  ["Saved", "/me/saved", "saved"],
 ] as const;
 
-export function MemberNav({ active }: { active: "profile" | "library" | "watchlist" }) {
+export function MemberNav({
+  active,
+}: {
+  active: "profile" | "library" | "watchlist" | "saved";
+}) {
   return (
     <nav className="member-subnav" aria-label="Member navigation">
       {memberLinks.map(([label, href, key]) => (
