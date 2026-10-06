@@ -36,6 +36,7 @@ set -euo pipefail
 
 APP_ROOT=/opt/gameverse
 CURRENT="$APP_ROOT/current"
+STAGING="$APP_ROOT/staging"
 SHARED="$APP_ROOT/shared"
 SITE_URL="__SITE_URL__"
 
@@ -43,7 +44,7 @@ if ! id gameverse >/dev/null 2>&1; then
   sudo useradd --system --home "$APP_ROOT" --shell /usr/sbin/nologin gameverse
 fi
 
-sudo install -d -o gameverse -g gameverse -m 0750 "$APP_ROOT" "$CURRENT"
+sudo install -d -o gameverse -g gameverse -m 0750 "$APP_ROOT"
 sudo install -d -o root -g gameverse -m 0750 "$SHARED"
 
 if [ ! -f "$SHARED/.env" ]; then
@@ -66,20 +67,28 @@ EOF
   sudo chmod 0640 "$SHARED/.env"
 fi
 
-sudo rm -rf "$CURRENT"
-sudo install -d -o gameverse -g gameverse -m 0750 "$CURRENT"
-sudo tar -xzf /tmp/gameverse-release.tgz -C "$CURRENT"
-sudo chown -R gameverse:gameverse "$CURRENT"
+sudo rm -rf "$STAGING"
+sudo install -d -o gameverse -g gameverse -m 0750 "$STAGING"
+sudo tar -xzf /tmp/gameverse-release.tgz -C "$STAGING"
+sudo chown -R gameverse:gameverse "$STAGING"
 
-sudo install -o root -g root -m 0644 "$CURRENT/deploy/gameverse.service" /etc/systemd/system/gameverse.service
-sudo install -o root -g root -m 0644 "$CURRENT/deploy/gameverse.caddy" /etc/caddy/conf.d/gameverse.caddy
+sudo install -o root -g root -m 0644 "$STAGING/deploy/gameverse.service" /etc/systemd/system/gameverse.service
+sudo install -o root -g root -m 0644 "$STAGING/deploy/gameverse.caddy" /etc/caddy/conf.d/gameverse.caddy
 
-sudo -u gameverse bash -lc "cd '$CURRENT' && set -a && source '$SHARED/.env' && set +a && npm ci --include=dev && npm run db:migrate && npm run db:seed && npm run build && npm prune --omit=dev"
+sudo -u gameverse bash -lc "cd '$STAGING' && set -a && source '$SHARED/.env' && set +a && npm ci --include=dev && npm run db:migrate && npm run db:seed && npm run build && npm prune --omit=dev"
 
 sudo systemctl daemon-reload
-sudo systemctl enable gameverse.service >/dev/null
 sudo caddy validate --config /etc/caddy/Caddyfile
 sudo systemctl reload caddy
+
+if sudo systemctl is-active --quiet gameverse.service; then
+  sudo systemctl stop gameverse.service
+fi
+sudo rm -rf "$CURRENT"
+sudo mv "$STAGING" "$CURRENT"
+sudo chown -R gameverse:gameverse "$CURRENT"
+
+sudo systemctl enable gameverse.service >/dev/null
 sudo systemctl restart gameverse.service
 
 for attempt in $(seq 1 30); do
