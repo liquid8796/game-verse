@@ -21,4 +21,8 @@ describe("OCI deployment ordering", () => {
     expect(removeCurrentIndex).toBeGreaterThan(stopIndex);
     expect(promoteIndex).toBeGreaterThan(removeCurrentIndex);
   });
+
+  it("checks the protected shared environment file with elevated access", () => {
+    expect(script).toContain('if ! sudo test -f "$SHARED/.env"; then');
+  });
 });

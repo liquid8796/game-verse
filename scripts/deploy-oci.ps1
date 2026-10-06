@@ -47,7 +47,7 @@ fi
 sudo install -d -o gameverse -g gameverse -m 0750 "$APP_ROOT"
 sudo install -d -o root -g gameverse -m 0750 "$SHARED"
 
-if [ ! -f "$SHARED/.env" ]; then
+if ! sudo test -f "$SHARED/.env"; then
   DB_PASS="$(openssl rand -hex 24)"
   if sudo -u postgres psql -Atqc "select 1 from pg_roles where rolname='gameverse'" | grep -q 1; then
     sudo -u postgres psql -v ON_ERROR_STOP=1 -c "alter role gameverse with login password '$DB_PASS';"
