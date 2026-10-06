@@ -21,7 +21,15 @@ export function HeroWorld({ accent, imageSrc }: { accent: string; imageSrc?: str
       aria-hidden="true"
     >
       {imageSrc ? (
-        <Image className="hero-world-image" src={imageSrc} alt="" fill priority sizes="100vw" />
+        <Image
+          className="hero-world-image"
+          src={imageSrc}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          unoptimized
+        />
       ) : (
         <>
           <div className="hero-sun" /><div className="hero-horizon" />
