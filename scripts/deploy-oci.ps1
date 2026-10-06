@@ -2,7 +2,7 @@ param(
     [string]$HostName = "158.180.59.36",
     [string]$UserName = "ubuntu",
     [string]$IdentityFile = "$HOME\.ssh\jarvis_oci_ed25519",
-    [string]$SiteUrl = "https://gameverse.158.180.59.36.sslip.io"
+    [string]$SiteUrl = "https://gameverse.online"
 )
 
 $ErrorActionPreference = "Stop"
@@ -66,6 +66,14 @@ EOF
   sudo chown root:gameverse "$SHARED/.env"
   sudo chmod 0640 "$SHARED/.env"
 fi
+
+if sudo grep -q '^NEXT_PUBLIC_SITE_URL=' "$SHARED/.env"; then
+  sudo sed -i "s#^NEXT_PUBLIC_SITE_URL=.*#NEXT_PUBLIC_SITE_URL=$SITE_URL#" "$SHARED/.env"
+else
+  echo "NEXT_PUBLIC_SITE_URL=$SITE_URL" | sudo tee -a "$SHARED/.env" >/dev/null
+fi
+sudo chown root:gameverse "$SHARED/.env"
+sudo chmod 0640 "$SHARED/.env"
 
 sudo rm -rf "$STAGING"
 sudo install -d -o gameverse -g gameverse -m 0750 "$STAGING"

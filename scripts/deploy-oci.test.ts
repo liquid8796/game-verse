@@ -25,4 +25,11 @@ describe("OCI deployment ordering", () => {
   it("checks the protected shared environment file with elevated access", () => {
     expect(script).toContain('if ! sudo test -f "$SHARED/.env"; then');
   });
+
+  it("uses the production domain and updates canonical site url without rotating credentials", () => {
+    expect(script).toContain('[string]$SiteUrl = "https://gameverse.online"');
+    expect(script).toContain(
+      'sudo sed -i "s#^NEXT_PUBLIC_SITE_URL=.*#NEXT_PUBLIC_SITE_URL=$SITE_URL#" "$SHARED/.env"',
+    );
+  });
 });

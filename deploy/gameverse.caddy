@@ -1,4 +1,4 @@
-gameverse.158.180.59.36.sslip.io {
+gameverse.online {
     encode zstd gzip
 
     header {
@@ -10,4 +10,8 @@ gameverse.158.180.59.36.sslip.io {
     }
 
     reverse_proxy 127.0.0.1:3003
+}
+
+www.gameverse.online, gameverse.158.180.59.36.sslip.io {
+    redir https://gameverse.online{uri} permanent
 }

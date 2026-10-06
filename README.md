@@ -58,9 +58,12 @@ Production mirrors the VM's existing pattern:
 - app root `/opt/gameverse/current`
 - secrets in `/opt/gameverse/shared/.env`
 
-The temporary production hostname is:
+The production hostname is:
 
-`https://gameverse.158.180.59.36.sslip.io`
+`https://gameverse.online`
+
+`https://www.gameverse.online` and the original `sslip.io` hostname redirect to the
+canonical apex domain.
 
 Deploy only from a clean `master` that exactly matches `origin/master`:
 
