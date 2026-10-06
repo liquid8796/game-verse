@@ -1,0 +1,1 @@
+node adViewer.mjs  --headless --click-mode=cdp --no-proxy  --canvas-blocker --max-lifetime-min=12564166464646 --delay-min=5 --delay-max=10 --max-recursive-clicks=4 --clear-cache-cycles=1 --device=desktop --browsers=chromium --instances=6 --hover=10 --render-timeout=30 --popunder-ratio=70 --focus-popunder-social --ad-network=adcash --traffic-source=all --traffic-ratio=70
