@@ -31,7 +31,7 @@ export default async function Home() {
     "@type": "WebSite",
     name: "GameVerse",
     url: getSiteUrl(),
-    description: "Mainstream game news, useful guides and release radar.",
+    description: "Game guides, features and release information for PC and console players.",
   };
 
   return (
@@ -41,7 +41,7 @@ export default async function Home() {
         <HeroWorld accent={hero.accent} imageSrc={heroArtwork?.src} />
         <div className="shell hero-content">
           <div>
-            <p className="hero-kicker">Next major signal · {formatDate(hero.releaseDate)}</p>
+            <p className="hero-kicker">Upcoming release · {formatDate(hero.releaseDate)}</p>
             <h1>
               {hero.title.split(" ").slice(0, -1).join(" ")}
               <em>{hero.title.split(" ").at(-1)}</em>
@@ -49,7 +49,7 @@ export default async function Home() {
             <p className="hero-deck">{hero.deck}</p>
             <div className="hero-actions">
               <Link className="button-primary" href={"/games/" + hero.slug}>
-                Enter game hub <span aria-hidden="true">↗</span>
+                Explore {hero.title} <span aria-hidden="true">↗</span>
               </Link>
               <Link className="button-ghost" href="/games">Browse all games</Link>
             </div>
@@ -57,7 +57,7 @@ export default async function Home() {
           <aside className="hero-stat-panel" aria-label={hero.title + " quick facts"}>
             <div><span>Status</span><strong>{hero.status}</strong></div>
             <div><span>Genre</span><strong>{hero.genre}</strong></div>
-            <div><span>GameVerse heat</span><strong>{hero.heat}/100</strong></div>
+            <div><span>Developer</span><strong>{hero.developer}</strong></div>
             <div><span>Platforms</span><strong>{hero.platforms.slice(0, 2).join(" · ")}</strong></div>
           </aside>
         </div>
@@ -69,8 +69,8 @@ export default async function Home() {
         <div className="shell">
           <SectionHeading
             index="01"
-            title="Now playing"
-            copy="The games pulling the most attention across GameVerse right now."
+            title="On our radar"
+            copy="New releases, competitive favourites and games you can settle into for an evening. Start with a game to find its overview and guides."
             href="/games"
             linkLabel="Full directory"
           />
@@ -95,7 +95,7 @@ export default async function Home() {
       {feature && (
         <section className="content-section">
           <div className="shell">
-            <SectionHeading index="02" title="Field report" />
+            <SectionHeading index="02" title="A closer look" copy="The small details that explain why a game stays with us." />
             <div className="feature-split">
               <div className="feature-art" aria-hidden="true">
                 {featureArtwork && (
@@ -113,7 +113,7 @@ export default async function Home() {
                 <h3>{feature.title}</h3>
                 <p>{feature.excerpt}</p>
                 <Link className="text-link" href={"/articles/" + feature.slug}>
-                  Open field report <span aria-hidden="true">↗</span>
+                  Read the feature <span aria-hidden="true">↗</span>
                 </Link>
               </div>
             </div>
@@ -125,8 +125,8 @@ export default async function Home() {
         <div className="shell">
           <SectionHeading
             index="03"
-            title="Release radar"
-            copy="Dates worth putting on the calendar — and evergreen games worth checking back into."
+            title="What to play next"
+            copy="See what's on the way, or return to a game that's already available. Each hub includes platform details and a place to start."
           />
           <div className="release-grid">
             {games.slice(0, 4).map((game) => {
@@ -156,8 +156,8 @@ export default async function Home() {
         <div className="shell">
           <SectionHeading
             index="04"
-            title="Worth opening"
-            copy="Useful coverage first. No twenty-paragraph runway before the answer."
+            title="Practical guides"
+            copy="Work through a tricky mechanic, get comfortable with a new game, or fix a habit that keeps costing you rounds."
             href="/articles"
             linkLabel="All stories"
           />

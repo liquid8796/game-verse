@@ -32,7 +32,8 @@ export default async function LibraryPage() {
           <p className="page-kicker">Personal collection</p>
           <h1 className="page-title">My game <span>library.</span></h1>
           <p className="member-page-deck">
-            Keep the games you are playing, chasing, finishing or shelving in one signal.
+            Track what you’re playing, what you’ve finished and what you’d like to try.
+            Change a game’s status as you go; your library doesn’t need to be a to-do list.
           </p>
         </div>
         <div className="member-library-total">
@@ -71,8 +72,8 @@ export default async function LibraryPage() {
         ) : (
           <div className="member-library-empty">
             <span>00 / EMPTY</span>
-            <h2>Your shelf is waiting.</h2>
-            <p>Open any game page and choose Playing, Backlog, Wishlist or another library state.</p>
+            <h2>No games in your library yet.</h2>
+            <p>Open a game page and choose Playing, Backlog, Wishlist or another status. You can change it whenever your plans do.</p>
             <Link className="button-primary" href="/games">Browse games</Link>
           </div>
         )}

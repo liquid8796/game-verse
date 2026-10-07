@@ -27,10 +27,11 @@ export default async function NotificationsPage() {
     <main id="main" className="member-page member-notifications-page">
       <section className="shell member-page-head">
         <div>
-          <p className="page-kicker">Member signal</p>
+          <p className="page-kicker">Your updates</p>
           <h1 className="page-title">Notification <span>center.</span></h1>
           <p className="member-page-deck">
-            Release alerts, watched-game updates and account signals land here.
+            Read your account notifications here. Unread items are marked so you can
+            find them quickly and clear them when you’re done.
           </p>
         </div>
         <div className="member-library-total">
@@ -43,7 +44,7 @@ export default async function NotificationsPage() {
         {items.length ? (
           <>
             <div className="notifications-toolbar">
-              <span>{items.length} recent signals</span>
+              <span>{items.length} recent notifications</span>
               {unread > 0 && (
                 <form action={markAllNotificationsReadAction}>
                   <button type="submit">Mark all read</button>
@@ -71,7 +72,7 @@ export default async function NotificationsPage() {
                     </div>
                     <h2>{item.title}</h2>
                     <p>{item.body}</p>
-                    {item.href && <Link href={item.href}>Open signal <span>↗</span></Link>}
+                    {item.href && <Link href={item.href}>View details <span>↗</span></Link>}
                   </div>
                   {!item.readAt && (
                     <form action={markNotificationReadAction}>
@@ -86,8 +87,8 @@ export default async function NotificationsPage() {
         ) : (
           <div className="member-library-empty">
             <span>00 / CLEAR</span>
-            <h2>Your signal is quiet.</h2>
-            <p>Follow games and build your library. Future releases and updates will surface here.</p>
+            <h2>No notifications yet.</h2>
+            <p>New account notifications will appear here. In the meantime, your watchlist keeps the games you follow in one place.</p>
             <Link className="button-primary" href="/me/watchlist">Open watchlist</Link>
           </div>
         )}

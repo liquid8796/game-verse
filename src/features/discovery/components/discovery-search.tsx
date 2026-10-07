@@ -37,7 +37,7 @@ export function DiscoverySearch({ games, articles }: { games: Game[]; articles: 
           ))}
         </div>
       ) : (
-        <div className="empty-state" aria-live="polite"><strong>No signal found for “{query}”.</strong><span>Try a broader game, genre, studio, or guide topic.</span></div>
+        <div className="empty-state" aria-live="polite"><strong>No results for “{query}”.</strong><span>Try a game title, studio, genre or a shorter guide topic.</span></div>
       )}
     </div>
   );

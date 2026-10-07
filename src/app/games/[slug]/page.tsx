@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { EditorialBody } from "@/components/editorial-body";
 import { ArticleCard } from "@/features/articles/components/article-card";
 import { getCurrentUser } from "@/features/auth/lib/session";
 import { getGameArtwork } from "@/features/games/lib/game-artwork";
@@ -146,9 +147,10 @@ export default async function GamePage({ params }: Props) {
           </div>
           <div>
             <div className="score-blocks">
-              <div className="score-block"><span>GV score</span><strong>{game.score}</strong></div>
-              <div className="score-block"><span>Heat</span><strong>{game.heat}</strong></div>
+              <div className="score-block"><span>Player rating / 10</span><strong>{ratingSummary.count ? ratingSummary.average.toFixed(1) : "—"}</strong></div>
+              <div className="score-block"><span>GV interest</span><strong>{game.heat}</strong></div>
             </div>
+            <p className="game-interest-note">GV interest reflects our editorial ordering. Player ratings appear below.</p>
             <dl className="data-stack">
               <div><dt>Release</dt><dd>{formatDate(game.releaseDate)}</dd></div>
               <div><dt>Developer</dt><dd>{game.developer}</dd></div>
@@ -173,24 +175,33 @@ export default async function GamePage({ params }: Props) {
         </div>
         {artwork && <span className="game-detail-media-credit">Media · {artwork.credit}</span>}
       </header>
+      {game.overview && (
+        <section className="content-section game-overview"><div className="shell">
+          <div className="section-heading">
+            <span className="section-index">01</span>
+            <div><h2>About {game.title}</h2><p>{game.status === "upcoming" ? "The announced setting, platforms and things to know before release." : "How it plays, who it suits and where to start."}</p></div>
+          </div>
+          <EditorialBody body={game.overview} headingLevel={3} />
+        </div></section>
+      )}
       <section className="content-section"><div className="shell">
         <div className="section-heading">
-          <span className="section-index">01</span>
-          <div><h2>Coverage</h2><p>{articles.length} connected stor{articles.length === 1 ? "y" : "ies"}.</p></div>
+          <span className="section-index">02</span>
+          <div><h2>Stories and guides</h2><p>{articles.length} stor{articles.length === 1 ? "y" : "ies"} about {game.title}.</p></div>
         </div>
         {articles.length ? (
           <div className="article-grid">{articles.map((article, index) =>
             <ArticleCard key={article.id} article={article} prominent={index === 0} />)}</div>
         ) : (
-          <div className="empty-state"><strong>Coverage is loading in.</strong><span>Check back as the signal gets stronger.</span></div>
+          <div className="empty-state"><strong>No stories published yet.</strong><span>Browse the game overview above, or explore our other guides.</span></div>
         )}
       </div></section>
       <section className="content-section community-reviews-section"><div className="shell">
         <div className="section-heading">
-          <span className="section-index">02</span>
+          <span className="section-index">03</span>
           <div>
-            <h2>Community signal</h2>
-            <p>Public player ratings and reviews. Only signed-in members can publish or change them.</p>
+            <h2>Player reviews</h2>
+            <p>Read what other players think, or sign in to share your own rating and review.</p>
           </div>
         </div>
 
@@ -213,7 +224,7 @@ export default async function GamePage({ params }: Props) {
         {member ? (
           <div className="community-member-panel">
             <div>
-              <div className="member-panel-index">YOUR SIGNAL / RATING</div>
+              <div className="member-panel-index">YOUR RATING</div>
               <RatingControl
                 gameId={game.id}
                 slug={game.slug}
@@ -221,7 +232,7 @@ export default async function GamePage({ params }: Props) {
               />
             </div>
             <div>
-              <div className="member-panel-index">YOUR SIGNAL / REVIEW</div>
+              <div className="member-panel-index">YOUR REVIEW</div>
               <ReviewForm
                 gameId={game.id}
                 slug={game.slug}
@@ -232,9 +243,9 @@ export default async function GamePage({ params }: Props) {
         ) : (
           <div className="community-signin-callout">
             <div>
-              <span>Member-only publishing</span>
-              <strong>Have a take worth adding?</strong>
-              <p>Ratings and reviews stay public, but publishing requires a GameVerse account.</p>
+              <span>Share your experience</span>
+              <strong>What did you enjoy? What fell short?</strong>
+              <p>Sign in to add a rating or review. Other readers can see it on this page.</p>
             </div>
             <Link className="button-primary" href={"/login?next=" + encodeURIComponent("/games/" + game.slug)}>
               Sign in to review
@@ -267,7 +278,7 @@ export default async function GamePage({ params }: Props) {
         ) : (
           <div className="empty-state community-empty">
             <strong>No player reviews yet.</strong>
-            <span>The first public community signal can start here.</span>
+            <span>Played it? Sign in and tell other readers what to expect.</span>
           </div>
         )}
 

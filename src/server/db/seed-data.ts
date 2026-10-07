@@ -1,4 +1,7 @@
 import type { Article } from "@/features/articles/domain/article";
+import { competitiveArticles } from "./editorial/competitive-articles";
+import { featureArticles } from "./editorial/feature-articles";
+import { gameOverviews } from "./editorial/game-overviews";
 import type { Game } from "@/features/games/domain/game";
 
 export const seedGames: Game[] = [
@@ -6,7 +9,8 @@ export const seedGames: Game[] = [
     id: "gta-vi",
     slug: "gta-vi",
     title: "Grand Theft Auto VI",
-    deck: "Vice City is calling again. Track the details, trailers, and launch runway in one place.",
+    deck: gameOverviews["gta-vi"].deck,
+    overview: gameOverviews["gta-vi"].body,
     genre: "Open world",
     developer: "Rockstar Games",
     publisher: "Rockstar Games",
@@ -22,7 +26,8 @@ export const seedGames: Game[] = [
     id: "fortnite",
     slug: "fortnite",
     title: "Fortnite",
-    deck: "The ever-changing battle royale where every season rewrites the playbook.",
+    deck: gameOverviews["fortnite"].deck,
+    overview: gameOverviews["fortnite"].body,
     genre: "Battle royale",
     developer: "Epic Games",
     publisher: "Epic Games",
@@ -38,7 +43,8 @@ export const seedGames: Game[] = [
     id: "minecraft",
     slug: "minecraft",
     title: "Minecraft",
-    deck: "A creative sandbox with an audience that never really logs off.",
+    deck: gameOverviews["minecraft"].deck,
+    overview: gameOverviews["minecraft"].body,
     genre: "Sandbox",
     developer: "Mojang Studios",
     publisher: "Xbox Game Studios",
@@ -54,7 +60,8 @@ export const seedGames: Game[] = [
     id: "valorant",
     slug: "valorant",
     title: "VALORANT",
-    deck: "Precision gunplay, agent utility, and a meta that rewards preparation.",
+    deck: gameOverviews["valorant"].deck,
+    overview: gameOverviews["valorant"].body,
     genre: "Tactical shooter",
     developer: "Riot Games",
     publisher: "Riot Games",
@@ -70,7 +77,8 @@ export const seedGames: Game[] = [
     id: "counter-strike-2",
     slug: "counter-strike-2",
     title: "Counter-Strike 2",
-    deck: "Round-by-round pressure, economy decisions, and the purest version of tactical FPS stakes.",
+    deck: gameOverviews["counter-strike-2"].deck,
+    overview: gameOverviews["counter-strike-2"].body,
     genre: "Tactical shooter",
     developer: "Valve",
     publisher: "Valve",
@@ -86,7 +94,8 @@ export const seedGames: Game[] = [
     id: "league-of-legends",
     slug: "league-of-legends",
     title: "League of Legends",
-    deck: "The long-running competitive MOBA where a patch can redraw the map overnight.",
+    deck: gameOverviews["league-of-legends"].deck,
+    overview: gameOverviews["league-of-legends"].body,
     genre: "MOBA",
     developer: "Riot Games",
     publisher: "Riot Games",
@@ -102,7 +111,8 @@ export const seedGames: Game[] = [
     id: "roblox",
     slug: "roblox",
     title: "Roblox",
-    deck: "A platform-sized universe of player-made games, trends, and unexpected breakout hits.",
+    deck: gameOverviews["roblox"].deck,
+    overview: gameOverviews["roblox"].body,
     genre: "Platform",
     developer: "Roblox Corporation",
     publisher: "Roblox Corporation",
@@ -118,7 +128,8 @@ export const seedGames: Game[] = [
     id: "genshin-impact",
     slug: "genshin-impact",
     title: "Genshin Impact",
-    deck: "A huge evolving action RPG built around exploration, characters, and constant new horizons.",
+    deck: gameOverviews["genshin-impact"].deck,
+    overview: gameOverviews["genshin-impact"].body,
     genre: "Action RPG",
     developer: "HoYoverse",
     publisher: "HoYoverse",
@@ -132,95 +143,5 @@ export const seedGames: Game[] = [
   },
 ];
 
-export const seedArticles: Article[] = [
-  {
-    id: "gta-vi-runway",
-    slug: "gta-vi-launch-runway",
-    title: "GTA VI: the launch runway starts here",
-    excerpt:
-      "The details worth keeping in your head as Rockstar's next open-world event gets closer.",
-    body:
-      "Grand Theft Auto VI does not need help becoming an event. The useful job is separating the durable facts from the noise.\n\nGameVerse is tracking the confirmed platform plan, official trailers, setting details, and the changes that matter to players deciding when and where to jump in.\n\nAs launch gets closer, this page will become the clean index: official updates first, practical explainers second, speculation clearly labeled or left out.",
-    type: "feature",
-    gameId: "gta-vi",
-    author: "GameVerse Desk",
-    publishedAt: "2026-10-06T02:00:00.000Z",
-    readMinutes: 5,
-    featured: true,
-  },
-  {
-    id: "valorant-crosshair",
-    slug: "valorant-clean-crosshair-guide",
-    title: "Build a VALORANT crosshair you can actually read",
-    excerpt:
-      "A practical setup method for clarity, consistency, and less mid-round second guessing.",
-    body:
-      "A crosshair is not a personality test. It is a tiny piece of interface design that should answer one question instantly: where is the center of your screen?\n\nStart small, keep the center readable against both light and dark environments, and resist changing settings after every bad match.\n\nConsistency gives your eyes time to learn the shape. Make one deliberate setup, play with it long enough to evaluate it, then adjust one variable at a time.",
-    type: "guide",
-    gameId: "valorant",
-    author: "Mara Chen",
-    publishedAt: "2026-10-05T18:00:00.000Z",
-    readMinutes: 4,
-    featured: true,
-  },
-  {
-    id: "cs2-economy",
-    slug: "cs2-economy-reset-guide",
-    title: "The CS2 economy reset every returning player needs",
-    excerpt:
-      "Stop buying round by round. Read the match as a sequence of future purchases.",
-    body:
-      "Counter-Strike punishes isolated decisions. A heroic rifle purchase that leaves the next round broken can cost more than the round it was meant to save.\n\nThink in team-wide buy windows: what can five players field now, what loss bonus follows, and what utility is essential for the next full attempt?\n\nThe goal is not to save forever. It is to arrive at important rounds with enough shared resources to execute a real plan.",
-    type: "guide",
-    gameId: "counter-strike-2",
-    author: "Theo Ward",
-    publishedAt: "2026-10-04T14:30:00.000Z",
-    readMinutes: 6,
-    featured: false,
-  },
-  {
-    id: "minecraft-second-screen",
-    slug: "why-minecraft-keeps-winning",
-    title: "Why Minecraft still wins the second screen",
-    excerpt:
-      "It is a game, a social room, a building toy, and background comfort at the same time.",
-    body:
-      "Minecraft has survived generations of hardware because its core loop is unusually elastic. A session can be five focused minutes or an entire evening with friends.\n\nThat flexibility matters in an attention-fragmented world. The game can hold the foreground, share it, or simply provide a familiar place while a group talks.\n\nThe result is cultural durability that looks less like a single hit and more like infrastructure.",
-    type: "feature",
-    gameId: "minecraft",
-    author: "Iris Vale",
-    publishedAt: "2026-10-03T11:00:00.000Z",
-    readMinutes: 7,
-    featured: true,
-  },
-  {
-    id: "fortnite-loadout",
-    slug: "fortnite-loadout-habits",
-    title: "Fortnite loadout habits that survive every season",
-    excerpt:
-      "Weapons rotate. Good inventory logic does not.",
-    body:
-      "The loot pool changes, but a useful loadout still needs answers for close pressure, reliable mid-range damage, recovery, and movement.\n\nTreat slots as jobs instead of favorite item names. When a season removes one tool, replace the role rather than forcing an old pattern onto a new pool.\n\nThat keeps your decision-making stable even while the island changes around it.",
-    type: "guide",
-    gameId: "fortnite",
-    author: "GameVerse Guides",
-    publishedAt: "2026-10-02T16:00:00.000Z",
-    readMinutes: 5,
-    featured: false,
-  },
-  {
-    id: "release-calendar",
-    slug: "the-2026-release-calendar-is-getting-loud",
-    title: "The 2026 release calendar is getting loud",
-    excerpt:
-      "The useful question is no longer what to play. It is what deserves your time first.",
-    body:
-      "A crowded calendar turns discovery into triage. Big launches compete with live-service habits, backlog guilt, and games that never really end.\n\nGameVerse's release radar focuses on decisions: dates, platforms, likely time commitment, and the coverage that helps you decide whether a game belongs on your list.\n\nMore choice is only useful when the signal stays readable.",
-    type: "news",
-    gameId: null,
-    author: "GameVerse Desk",
-    publishedAt: "2026-10-01T09:00:00.000Z",
-    readMinutes: 4,
-    featured: false,
-  },
-];
+export const seedArticles: Article[] = [...featureArticles, ...competitiveArticles]
+  .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));

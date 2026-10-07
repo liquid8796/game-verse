@@ -22,8 +22,8 @@ export default async function SignupPage({
       <section className="shell member-auth-shell">
         <div className="member-auth-copy">
           <p className="page-kicker">Join GameVerse</p>
-          <h1>Make the Verse <em>yours.</em></h1>
-          <p>Build a personal gaming layer without locking public news, guides or game pages behind an account.</p>
+          <h1>Keep your games <em>together.</em></h1>
+          <p>Save stories for later, keep track of what you’re playing, and follow games you want to try. Create an account to build your own library and share reviews with other players.</p>
           <div className="member-benefit-strip" aria-label="Member benefits">
             <span>Library</span><span>Watchlist</span><span>Alerts</span><span>Personal feed</span>
           </div>

@@ -8,6 +8,7 @@ export function gameRowToDomain(row: GameRow): Game {
     slug: row.slug,
     title: row.title,
     deck: row.deck,
+    overview: row.overview,
     genre: row.genre,
     developer: row.developer,
     publisher: row.publisher,
@@ -32,6 +33,7 @@ export function articleRowToDomain(row: ArticleRow): Article {
     gameId: row.gameId,
     author: row.author,
     publishedAt: row.publishedAt.toISOString(),
+    updatedAt: row.updatedAt.toISOString(),
     readMinutes: row.readMinutes,
     featured: row.featured,
   };

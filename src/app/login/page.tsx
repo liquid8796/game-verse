@@ -22,8 +22,8 @@ export default async function LoginPage({
       <section className="shell member-auth-shell">
         <div className="member-auth-copy">
           <p className="page-kicker">Member access</p>
-          <h1>Return to your <em>signal.</em></h1>
-          <p>Your library, alerts, saved stories and personal feed live behind one secure account.</p>
+          <h1>Pick up where you <em>left off.</em></h1>
+          <p>Sign in to find your game library, watchlist and saved stories. Your account also keeps your player ratings and reviews together.</p>
         </div>
         <div className="member-auth-panel">
           <div className="member-panel-index">01 / SIGN IN</div>

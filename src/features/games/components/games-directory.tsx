@@ -30,11 +30,11 @@ export function GamesDirectory({ games }: { games: Game[] }) {
             onClick={() => setGenre(item)}>{item}</button>)}
         </div>
       </div>
-      <p className="result-count" aria-live="polite">{filtered.length} game{filtered.length === 1 ? "" : "s"} in signal</p>
+      <p className="result-count" aria-live="polite">{filtered.length} game{filtered.length === 1 ? "" : "s"} found</p>
       {filtered.length ? (
         <div className="game-grid">{filtered.map((game, index) => <GameCard key={game.id} game={game} index={index} />)}</div>
       ) : (
-        <div className="empty-state"><strong>No games matched that signal.</strong><span>Try a title, studio, or a broader genre.</span></div>
+        <div className="empty-state"><strong>No games matched your search.</strong><span>Try another title or studio, or select a broader genre.</span></div>
       )}
     </div>
   );

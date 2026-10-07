@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { AdSlot } from "@/components/ad-slot";
+import { EditorialBody, getEditorialHeadings } from "@/components/editorial-body";
 import { getCurrentUser } from "@/features/auth/lib/session";
 import { SaveArticleControl } from "@/features/saved/components/save-article-control";
 import { isArticleSaved } from "@/features/saved/repository/saved-repository";
@@ -49,6 +51,7 @@ export default async function ArticlePage({ params }: Props) {
   if (!article) notFound();
   const member = await getCurrentUser();
   const saved = member ? await isArticleSaved(member.id, article.id) : false;
+  const headings = getEditorialHeadings(article.body).filter((heading) => heading.title !== "Sources");
 
   const siteUrl = getSiteUrl();
   const jsonLd = {
@@ -57,7 +60,7 @@ export default async function ArticlePage({ params }: Props) {
     headline: article.title,
     description: article.excerpt,
     datePublished: article.publishedAt,
-    dateModified: article.publishedAt,
+    dateModified: article.updatedAt ?? article.publishedAt,
     author: { "@type": "Person", name: article.author },
     publisher: {
       "@type": "Organization",
@@ -95,6 +98,9 @@ export default async function ArticlePage({ params }: Props) {
           <div className="byline">
             <span>By {article.author}</span>
             <time dateTime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
+            {article.updatedAt && article.updatedAt.slice(0, 10) !== article.publishedAt.slice(0, 10) && (
+              <span>Updated <time dateTime={article.updatedAt}>{formatDate(article.updatedAt)}</time></span>
+            )}
             <span>{article.readMinutes} minute read</span>
           </div>
           {member && (
@@ -106,11 +112,14 @@ export default async function ArticlePage({ params }: Props) {
           )}
         </header>
         <AdSlot name="article-top" />
-        <div className="prose">
-          {article.body.split("\n\n").map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
-          ))}
-        </div>
+        {headings.length > 0 && (
+          <nav className="article-contents" aria-label="In this story">
+            <p>In this story</p>
+            <ul>{headings.map((heading) => <li key={heading.id}><a href={"#" + heading.id}>{heading.title}</a></li>)}</ul>
+          </nav>
+        )}
+        <EditorialBody body={article.body} />
+        <div className="article-end"><Link className="text-link" href="/articles">← More stories and guides</Link></div>
         <AdSlot name="article-bottom" format="rectangle" />
       </article>
     </main>

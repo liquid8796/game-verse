@@ -19,10 +19,11 @@ export default async function WatchlistPage() {
     <main id="main" className="member-page member-watchlist-page">
       <section className="shell member-page-head">
         <div>
-          <p className="page-kicker">Tracked signals</p>
+          <p className="page-kicker">Games you follow</p>
           <h1 className="page-title">My <span>watchlist.</span></h1>
           <p className="member-page-deck">
-            Follow the games you care about now so releases, patches and stories can find you later.
+            Keep games you’re interested in together. Your watchlist helps shape your
+            personal reading feed and puts upcoming games in your release calendar.
           </p>
         </div>
         <div className="member-library-total">
@@ -50,8 +51,8 @@ export default async function WatchlistPage() {
         ) : (
           <div className="member-library-empty">
             <span>00 / QUIET</span>
-            <h2>No signals tracked yet.</h2>
-            <p>Open a game page and hit Watch game to start building your personal radar.</p>
+            <h2>No games followed yet.</h2>
+            <p>Choose Watch game on a game page to add it here. You can follow a game before deciding to put it in your library.</p>
             <Link className="button-primary" href="/games">Find games</Link>
           </div>
         )}

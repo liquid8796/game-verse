@@ -9,13 +9,14 @@ async function seed() {
     await db
       .insert(games)
       .values(game)
-      .onConflictDoUpdate({ target: games.id, set: game });
+      .onConflictDoUpdate({ target: games.id, set: { ...game, updatedAt: new Date() } });
   }
 
   for (const article of seedArticles) {
     const row = {
       ...article,
       publishedAt: new Date(article.publishedAt),
+      updatedAt: new Date(article.updatedAt ?? Date.now()),
     };
     await db
       .insert(articles)

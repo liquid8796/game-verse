@@ -5,6 +5,7 @@ export interface Game {
   slug: string;
   title: string;
   deck: string;
+  overview?: string;
   genre: string;
   developer: string;
   publisher: string;

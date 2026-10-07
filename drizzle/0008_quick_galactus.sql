@@ -1,0 +1,1 @@
+ALTER TABLE "games" ADD COLUMN "overview" text DEFAULT '' NOT NULL;

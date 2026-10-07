@@ -17,7 +17,7 @@ export default async function AccountPage() {
       <section className="shell member-page-head">
         <div>
           <p className="page-kicker">Member profile</p>
-          <h1 className="page-title">Your <span>identity.</span></h1>
+          <h1 className="page-title">Your <span>account.</span></h1>
         </div>
         <div className="member-identity-card">
           <div className="member-avatar" aria-hidden="true">{member.displayName.slice(0, 2).toUpperCase()}</div>
@@ -33,7 +33,7 @@ export default async function AccountPage() {
         <div className="member-settings-panel">
           <div className="member-panel-index">PROFILE / 01</div>
           <h2>Profile settings</h2>
-          <p className="member-panel-intro">This identity will follow you into ratings, reviews and future community features.</p>
+          <p className="member-panel-intro">Choose the name other readers see beside your reviews. Your username and display name appear publicly when you post.</p>
           <ProfileForm member={member} />
         </div>
         <aside className="member-status-panel">
@@ -43,7 +43,7 @@ export default async function AccountPage() {
             <div><dt>Session</dt><dd>Secure · 30 days</dd></div>
             <div><dt>Profile</dt><dd>Private member data</dd></div>
           </dl>
-          <p>Your private member layer is live: library, watchlist, saved stories, notifications, release calendar and a personalized feed.</p>
+          <p>Use the tabs above to manage your library, watchlist and saved stories, or find articles related to the games you follow.</p>
         </aside>
       </section>
     </main>

@@ -71,6 +71,12 @@ Deploy only from a clean `master` that exactly matches `origin/master`:
 .\scripts\deploy-oci.ps1
 ```
 
-The script archives the committed revision, uploads it over SSH, creates the isolated database/user on first deploy, migrates and seeds PostgreSQL, builds on the VM, validates Caddy, restarts systemd, and verifies the health endpoint.
+The script archives the committed revision, uploads it over SSH, creates the isolated database/user on first deploy, and builds in staging while the current site stays live. After validating Caddy, it stops the app briefly, migrates and seeds PostgreSQL, promotes the release, restarts systemd, and verifies the health endpoint. Publishing content after the build keeps the old article renderer from displaying the new editorial format during compilation.
+
+## Editorial content
+
+Article bodies and game overviews live in `src/server/db/editorial`. The database seed upserts stable article/game IDs, so revising a story preserves saved-story and library references. Article reading times are calculated from the body; publication dates remain intact and revision dates are updated when seeded.
+
+Bodies support paragraphs, `##` section headings, `-` bullet lists and Markdown links to sources. The shared `EditorialBody` component renders these as semantic text elements without accepting authored HTML. Each game hub has a distinct overview; the directory uses a shorter deck.
 
 Display ads are intentionally disabled until an ad network ID/configuration is supplied. The layout already reserves ad integration through the `AdSlot` abstraction.

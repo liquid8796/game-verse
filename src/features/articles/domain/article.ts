@@ -10,6 +10,7 @@ export interface Article {
   gameId: string | null;
   author: string;
   publishedAt: string;
+  updatedAt?: string;
   readMinutes: number;
   featured: boolean;
 }

@@ -18,6 +18,7 @@ export const games = pgTable("games", {
   slug: text("slug").notNull().unique(),
   title: text("title").notNull(),
   deck: text("deck").notNull(),
+  overview: text("overview").notNull().default(""),
   genre: text("genre").notNull(),
   developer: text("developer").notNull(),
   publisher: text("publisher").notNull(),

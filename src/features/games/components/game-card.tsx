@@ -22,7 +22,7 @@ export function GameCard({ game, index }: { game: Game; index?: number }) {
         <span>{index === undefined ? "GV" : String(index + 1).padStart(2, "0")}</span>
       </div>
       <div className="game-card-body">
-        <div className="game-card-meta"><span>{game.genre}</span><span>Heat {game.heat}</span></div>
+        <div className="game-card-meta"><span>{game.genre}</span><span>{game.status}</span></div>
         <h3>{game.title}</h3><p>{game.deck}</p>
         <div className="game-card-platforms">{game.platforms.slice(0, 3).map((platform) => <span key={platform}>{platform}</span>)}</div>
       </div>

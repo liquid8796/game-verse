@@ -24,11 +24,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: {
-    default: "GameVerse — Play the signal | Mainstream Game News & Guides",
+    default: "GameVerse — Game Guides, Features & Releases",
     template: "%s | GameVerse",
   },
   description:
-    "Mainstream game news, useful guides, release radar and the stories worth opening. Real editorial signal without feed-shaped filler.",
+    "Find your next game and get more out of the ones you play. Practical guides, game features, platform details and upcoming releases.",
   keywords: [
     "game news",
     "gaming guides",
@@ -53,16 +53,16 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: getSiteUrl(),
     siteName: "GameVerse",
-    title: "GameVerse — Play the signal | Mainstream Game News & Guides",
+    title: "GameVerse — Game Guides, Features & Releases",
     description:
-      "Mainstream game news, useful guides, release radar and the stories worth opening.",
+      "Practical guides, game features and release information for your next session.",
     images: [{ url: "/game-media/gta-vi-official-cover-v3.webp", alt: "Grand Theft Auto VI promotional artwork" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "GameVerse — Play the signal | Mainstream Game News & Guides",
+    title: "GameVerse — Game Guides, Features & Releases",
     description:
-      "Mainstream game news, useful guides, release radar and the stories worth opening.",
+      "Practical guides, game features and release information for your next session.",
     images: ["/game-media/gta-vi-official-cover-v3.webp"],
   },
   robots: {

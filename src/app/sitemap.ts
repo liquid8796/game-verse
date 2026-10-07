@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
     ...articles.map((article) => ({
       url: base + "/articles/" + article.slug,
-      lastModified: new Date(article.publishedAt),
+      lastModified: new Date(article.updatedAt ?? article.publishedAt),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),

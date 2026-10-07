@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 const sourceLabels: Record<FeedSignalSource, string> = {
   watchlist: "Watchlist",
   library: "Library",
-  saved: "Saved signal",
+  saved: "Saved stories",
 };
 
 export default async function PersonalizedFeedPage() {
@@ -59,14 +59,15 @@ export default async function PersonalizedFeedPage() {
     <main id="main" className="member-page member-feed-page">
       <section className="shell member-page-head">
         <div>
-          <p className="page-kicker">Personal signal</p>
+          <p className="page-kicker">Your reading list</p>
           <h1 className="page-title">For <span>you.</span></h1>
           <p className="member-page-deck">
-            Coverage ranked from the games you watch, play and save — not a generic engagement feed.
+            Stories related to the games you follow, keep in your library or read about.
+            Start here when you want something relevant to your next session.
           </p>
         </div>
         <div className="member-library-total">
-          <span>Signal games</span>
+          <span>Games followed</span>
           <strong>{signalGameCount}</strong>
         </div>
       </section>
@@ -78,7 +79,7 @@ export default async function PersonalizedFeedPage() {
           <>
             <div className="member-feed-summary">
               <span>{feed.length} matched stories</span>
-              <p>Watchlist carries the strongest weight, followed by active library games and related saved coverage.</p>
+              <p>We’ve gathered stories about games in your watchlist and library, along with topics from your saved articles.</p>
             </div>
             <div className="member-feed-grid">
               {feed.map((item, index) => {
@@ -86,7 +87,7 @@ export default async function PersonalizedFeedPage() {
                 return (
                   <article className="member-feed-item" key={item.article.id}>
                     <div className="member-feed-reason">
-                      <span>{gameTitle ?? "Your signal"}</span>
+                      <span>{gameTitle ?? "Recommended reading"}</span>
                       <div>
                         {item.sources.map((source) => <b key={source}>{sourceLabels[source]}</b>)}
                       </div>
@@ -99,9 +100,9 @@ export default async function PersonalizedFeedPage() {
           </>
         ) : (
           <div className="member-library-empty">
-            <span>00 / SIGNALS</span>
-            <h2>Teach GameVerse what matters.</h2>
-            <p>Add games to your Watchlist or Library, or save a story. Your private feed will assemble itself from those signals.</p>
+            <span>00 / STORIES</span>
+            <h2>Start with a game you like.</h2>
+            <p>Add a game to your watchlist or library, or save an article about it. We’ll collect related stories here when they’re available.</p>
             <div className="member-feed-empty-actions">
               <Link className="button-primary" href="/games">Choose games</Link>
               <Link className="button-ghost" href="/articles">Browse stories</Link>

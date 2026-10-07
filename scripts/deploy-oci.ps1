@@ -18,6 +18,7 @@ try {
     }
 
     git fetch origin master | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw "Could not fetch origin/master." }
     $LocalHead = (git rev-parse HEAD).Trim()
     $RemoteHead = (git rev-parse origin/master).Trim()
     if ($LocalHead -ne $RemoteHead) {
@@ -29,7 +30,9 @@ try {
     }
 
     git archive --format=tar.gz --output=$Archive HEAD
+    if ($LASTEXITCODE -ne 0) { throw "Could not archive the release." }
     scp -i $IdentityFile -o BatchMode=yes $Archive "${Remote}:$RemoteArchive"
+    if ($LASTEXITCODE -ne 0) { throw "Could not upload the release." }
 
     $bootstrap = @'
 set -euo pipefail
@@ -89,7 +92,7 @@ sudo chown -R gameverse:gameverse "$STAGING"
 sudo install -o root -g root -m 0644 "$STAGING/deploy/gameverse.service" /etc/systemd/system/gameverse.service
 sudo install -o root -g root -m 0644 "$STAGING/deploy/gameverse.caddy" /etc/caddy/conf.d/gameverse.caddy
 
-sudo -u gameverse bash -lc "cd '$STAGING' && set -a && source '$SHARED/.env' && set +a && npm ci --include=dev && npm run db:migrate && npm run db:seed && npm run build && npm prune --omit=dev"
+sudo -u gameverse bash -lc "cd '$STAGING' && set -a && source '$SHARED/.env' && set +a && npm ci --include=dev && npm run build"
 
 sudo systemctl daemon-reload
 sudo caddy validate --config /etc/caddy/Caddyfile
@@ -97,6 +100,10 @@ sudo systemctl reload caddy
 
 if sudo systemctl is-active --quiet gameverse.service; then
   sudo systemctl stop gameverse.service
+fi
+if ! sudo -u gameverse bash -lc "cd '$STAGING' && set -a && source '$SHARED/.env' && set +a && npm run db:migrate && npm run db:seed && npm prune --omit=dev"; then
+  sudo systemctl start gameverse.service
+  exit 1
 fi
 sudo rm -rf "$CURRENT"
 sudo mv "$STAGING" "$CURRENT"
@@ -120,6 +127,7 @@ exit 1
 
     $bootstrap = $bootstrap.Replace("__SITE_URL__", $SiteUrl)
     $bootstrap | ssh -i $IdentityFile -o BatchMode=yes $Remote "bash -s"
+    if ($LASTEXITCODE -ne 0) { throw "Remote deployment failed." }
 
     Invoke-WebRequest -UseBasicParsing -Uri "$SiteUrl/api/health" -TimeoutSec 15 |
         Select-Object -ExpandProperty Content
