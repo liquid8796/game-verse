@@ -17,7 +17,7 @@ describe("game artwork", () => {
     }
   });
 
-  it("uses the cache-busted Rockstar official GTA VI cover-art asset", () => {
-    expect(getGameArtwork("gta-vi")?.src).toBe("/game-media/gta-vi-official-cover-v4.webp");
+  it("uses the content-hashed Rockstar official GTA VI cover-art asset", () => {
+    expect(getGameArtwork("gta-vi")?.src).toBe("/game-media/gta-vi-official-cover-925e8e0e.webp");
   });
 });

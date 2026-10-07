@@ -56,14 +56,14 @@ export const metadata: Metadata = {
     title: "GameVerse — Game Guides, Features & Releases",
     description:
       "Practical guides, game features and release information for your next session.",
-    images: [{ url: "/game-media/gta-vi-official-cover-v3.webp", alt: "Grand Theft Auto VI promotional artwork" }],
+    images: [{ url: "/game-media/gta-vi-official-cover-925e8e0e.webp", alt: "Grand Theft Auto VI promotional artwork" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "GameVerse — Game Guides, Features & Releases",
     description:
       "Practical guides, game features and release information for your next session.",
-    images: ["/game-media/gta-vi-official-cover-v3.webp"],
+    images: ["/game-media/gta-vi-official-cover-925e8e0e.webp"],
   },
   robots: {
     index: true,
