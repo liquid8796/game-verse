@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Four useful roles to consider in a Fortnite loadout</title>
+  <desc id="desc">Four illustrated roles are close pressure, damage at distance, recovery, and repositioning. They are planning questions rather than a fixed number of inventory slots. Check the live playlist's item pool, separate utility and cooldowns.</desc>
+  <rect width="1200" height="720" fill="#131e2c"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="48" y="61" fill="#bca7ff" font-size="36" font-weight="700" letter-spacing="2">FORTNITE / LOADOUT ROLES</text>
+    <text x="48" y="122" fill="#f4f3f8" font-size="56" font-weight="700">Choose the role first.</text>
+    <text x="48" y="175" fill="#b5bfcd" font-size="38">Four jobs, not four fixed slots</text>
+    <path d="M48 198h1104M600 198v384M48 394h1104M48 584h1104" stroke="#3a485c" stroke-width="2"/>
+    <g fill="none" stroke="#efb59c" stroke-width="5" stroke-linecap="round">
+      <circle cx="105" cy="281" r="27"/>
+      <path d="M105 240v18M105 304v18M64 281h18M128 281h18"/>
+    </g>
+    <text x="166" y="273" fill="#f4f3f8" font-size="44" font-weight="700">Close pressure</text>
+    <text x="166" y="321" fill="#b5bfcd" font-size="40">Hold close space.</text>
+    <g fill="none" stroke="#8ecbdf" stroke-width="5" stroke-linecap="round">
+      <path d="M652 279h83M719 264l16 15-16 15M654 256v46"/>
+      <circle cx="754" cy="279" r="9"/>
+    </g>
+    <text x="794" y="273" fill="#f4f3f8" font-size="44" font-weight="700">Distance</text>
+    <text x="794" y="321" fill="#b5bfcd" font-size="40">Reliable damage.</text>
+    <g fill="none" stroke="#9cd7b5" stroke-width="5" stroke-linecap="round">
+      <path d="M105 432v74M68 469h74"/>
+      <path d="M78 493v16h55v-16" stroke-width="3"/>
+    </g>
+    <text x="166" y="463" fill="#f4f3f8" font-size="44" font-weight="700">Recovery</text>
+    <text x="166" y="511" fill="#b5bfcd" font-size="40">Health and shield.</text>
+    <g fill="none" stroke="#bca7ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M655 501h31v-29h32v-29h32M736 429l14 14-14 14"/>
+    </g>
+    <text x="794" y="463" fill="#f4f3f8" font-size="44" font-weight="700">Reposition</text>
+    <text x="794" y="511" fill="#b5bfcd" font-size="40">Find safer cover.</text>
+    <text x="48" y="633" fill="#c8baff" font-size="40">Check the playlist and cooldowns.</text>
+    <text x="48" y="682" fill="#b5bfcd" font-size="36">Separate utility can change what you carry.</text>
+    <text x="1152" y="706" text-anchor="end" fill="#7e8da4" font-size="20">GAMEVERSE ILLUSTRATION</text>
+  </g>
+</svg>

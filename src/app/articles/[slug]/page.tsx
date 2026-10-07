@@ -4,6 +4,8 @@ import Link from "next/link";
 import { AdSlot } from "@/components/ad-slot";
 import { EditorialBody, getEditorialHeadings } from "@/components/editorial-body";
 import { getCurrentUser } from "@/features/auth/lib/session";
+import { ArticleFigure } from "@/features/articles/components/article-figure";
+import { getArticleMedia } from "@/features/articles/lib/article-media";
 import { SaveArticleControl } from "@/features/saved/components/save-article-control";
 import { isArticleSaved } from "@/features/saved/repository/saved-repository";
 import { formatDate } from "@/lib/format";
@@ -19,6 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!article) return { title: "Story not found" };
 
   const canonical = "/articles/" + article.slug;
+  const media = getArticleMedia(article.id);
   return {
     title: article.title,
     description: article.excerpt,
@@ -36,11 +39,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: article.excerpt,
       publishedTime: article.publishedAt,
       url: canonical,
+      images: media ? [{ url: media.cover.src, alt: media.cover.alt, width: media.cover.width, height: media.cover.height }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
       title: article.title,
       description: article.excerpt,
+      images: media ? [media.cover.src] : undefined,
     },
   };
 }
@@ -51,6 +56,7 @@ export default async function ArticlePage({ params }: Props) {
   if (!article) notFound();
   const member = await getCurrentUser();
   const saved = member ? await isArticleSaved(member.id, article.id) : false;
+  const media = getArticleMedia(article.id);
   const headings = getEditorialHeadings(article.body).filter((heading) => heading.title !== "Sources");
 
   const siteUrl = getSiteUrl();
@@ -59,6 +65,7 @@ export default async function ArticlePage({ params }: Props) {
     "@type": "Article",
     headline: article.title,
     description: article.excerpt,
+    image: media ? siteUrl + media.cover.src : undefined,
     datePublished: article.publishedAt,
     dateModified: article.updatedAt ?? article.publishedAt,
     author: { "@type": "Person", name: article.author },
@@ -111,6 +118,7 @@ export default async function ArticlePage({ params }: Props) {
             />
           )}
         </header>
+        {media && <ArticleFigure image={media.cover} cover />}
         <AdSlot name="article-top" />
         {headings.length > 0 && (
           <nav className="article-contents" aria-label="In this story">
@@ -118,7 +126,7 @@ export default async function ArticlePage({ params }: Props) {
             <ul>{headings.map((heading) => <li key={heading.id}><a href={"#" + heading.id}>{heading.title}</a></li>)}</ul>
           </nav>
         )}
-        <EditorialBody body={article.body} />
+        <EditorialBody body={article.body} illustrations={media?.illustrations} />
         <div className="article-end"><Link className="text-link" href="/articles">← More stories and guides</Link></div>
         <AdSlot name="article-bottom" format="rectangle" />
       </article>

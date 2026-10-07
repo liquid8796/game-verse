@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">A hypothetical Counter-Strike 2 saving-round budget</title>
+  <desc id="desc">A player with 3,200 dollars who wants 4,800 dollars next round and expects 2,400 dollars in income can spend at most 800 dollars now. That leaves 2,400 dollars to carry forward, which plus the expected income reaches the target. All amounts are hypothetical, with no kill or objective income assumed.</desc>
+  <rect width="1200" height="720" fill="#151b20"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="48" y="61" fill="#e5b65c" font-size="36" font-weight="700" letter-spacing="2">CS2 / HYPOTHETICAL BUDGET</text>
+    <text x="48" y="122" fill="#f5f2eb" font-size="54" font-weight="700">Spend now. Still afford next round.</text>
+    <text x="48" y="174" fill="#b6bdc3" font-size="38">Target $4,800 · Expected income $2,400</text>
+    <path d="M48 208h1104" stroke="#49525b" stroke-width="2"/>
+    <text x="48" y="262" fill="#b6bdc3" font-size="38">Current money</text>
+    <text x="438" y="262" fill="#e5b65c" font-size="38">Spend at most</text>
+    <text x="882" y="262" fill="#b6bdc3" font-size="38">Carry forward</text>
+    <text x="48" y="349" fill="#f5f2eb" font-size="70" font-weight="700">$3,200</text>
+    <text x="345" y="339" fill="#8c9aa4" font-size="54">−</text>
+    <text x="438" y="349" fill="#e5b65c" font-size="70" font-weight="700">$800</text>
+    <text x="756" y="339" fill="#8c9aa4" font-size="54">=</text>
+    <text x="882" y="349" fill="#f5f2eb" font-size="70" font-weight="700">$2,400</text>
+    <path d="M48 398h1104" stroke="#49525b" stroke-width="2"/>
+    <text x="48" y="458" fill="#b6bdc3" font-size="38">Check the next round</text>
+    <text x="48" y="532" fill="#f5f2eb" font-size="54" font-weight="700">$2,400 + $2,400 = $4,800</text>
+    <text x="48" y="580" fill="#99a8b3" font-size="38">Carry forward + expected income = target</text>
+    <text x="48" y="636" fill="#e5b65c" font-size="38">Use your match's actual figures.</text>
+    <text x="48" y="682" fill="#99a8b3" font-size="36">No kill or objective income assumed.</text>
+    <text x="1152" y="711" text-anchor="end" fill="#758695" font-size="20">GAMEVERSE ILLUSTRATION</text>
+  </g>
+</svg>

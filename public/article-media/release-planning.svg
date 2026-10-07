@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">A sample week that leaves room to enjoy games</title>
+  <desc id="desc">A sample timetable reserves Tuesday and Thursday evenings for multiplayer, Sunday for a story game, and leaves other evenings free. It illustrates personal time planning and contains no real release dates.</desc>
+  <rect width="1200" height="720" fill="#17211f"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="48" y="61" fill="#bbd5a0" font-size="36" font-weight="700" letter-spacing="2">THE GAME CALENDAR / SAMPLE WEEK</text>
+    <text x="48" y="122" fill="#f2f2e9" font-size="56" font-weight="700">Start with your own evenings.</text>
+    <text x="48" y="176" fill="#b8c3ba" font-size="38">A personal plan · No real release dates</text>
+    <path d="M48 210h1104M48 296h1104M48 382h1104M48 468h1104M48 554h1104" stroke="#43524a" stroke-width="2"/>
+    <text x="48" y="266" fill="#b8c3ba" font-size="40">Tuesday</text>
+    <rect x="291" y="225" width="8" height="57" fill="#bbd5a0"/>
+    <text x="326" y="266" fill="#f2f2e9" font-size="44" font-weight="700">Play with friends</text>
+    <text x="1152" y="266" text-anchor="end" fill="#bbd5a0" font-size="40">90 min</text>
+    <text x="48" y="352" fill="#b8c3ba" font-size="40">Thursday</text>
+    <rect x="291" y="311" width="8" height="57" fill="#bbd5a0"/>
+    <text x="326" y="352" fill="#f2f2e9" font-size="44" font-weight="700">Play with friends</text>
+    <text x="1152" y="352" text-anchor="end" fill="#bbd5a0" font-size="40">90 min</text>
+    <text x="48" y="438" fill="#b8c3ba" font-size="40">Sunday</text>
+    <rect x="291" y="397" width="8" height="57" fill="#e1b995"/>
+    <text x="326" y="438" fill="#f2f2e9" font-size="44" font-weight="700">One story game</text>
+    <text x="1152" y="438" text-anchor="end" fill="#e1b995" font-size="40">2 hours</text>
+    <text x="48" y="524" fill="#b8c3ba" font-size="40">Other nights</text>
+    <rect x="291" y="483" width="8" height="57" fill="#7d9688"/>
+    <text x="326" y="524" fill="#b8c3ba" font-size="44">Keep some space free.</text>
+    <text x="48" y="615" fill="#f2f2e9" font-size="44" font-weight="700">A release date is information.</text>
+    <text x="48" y="667" fill="#b8c3ba" font-size="40">It does not have to be another appointment.</text>
+    <text x="1152" y="700" text-anchor="end" fill="#819487" font-size="20">GAMEVERSE ILLUSTRATION</text>
+  </g>
+</svg>

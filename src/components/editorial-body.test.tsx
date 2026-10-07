@@ -21,4 +21,17 @@ describe("editorial reading", () => {
     expect(screen.getByText("<script>alert(1)</script>")).toBeVisible();
     expect(screen.getByRole("heading", { level: 3, name: "A heading" })).toBeVisible();
   });
+
+  it("places a supporting figure after its section without changing heading anchors", () => {
+    const body = "Opening.\n\n## Read the map\n\nFirst paragraph.\n\nLast paragraph.\n\n## Make a plan\n\nNext section.";
+    const { container } = render(<EditorialBody body={body} illustrations={[{
+      afterSection: "Read the map",
+      image: { src: "/diagram.svg", alt: "A map example", width: 1200, height: 720, caption: "Keep track of the route.", credit: "GameVerse" },
+    }]} />);
+    const figure = container.querySelector("figure")!;
+    expect(figure.previousElementSibling).toHaveTextContent("Last paragraph.");
+    expect(figure.nextElementSibling).toHaveTextContent("Make a plan");
+    expect(screen.getByRole("img", { name: "A map example" })).toBeVisible();
+    expect(screen.getByRole("heading", { name: "Read the map" }).id).toBe(getEditorialHeadings(body)[0].id);
+  });
 });
