@@ -1,4 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 
 vi.mock("@/server/queries/content", () => ({
   getAllGames: vi.fn().mockResolvedValue([
@@ -6,7 +8,8 @@ vi.mock("@/server/queries/content", () => ({
       id: "valorant",
       slug: "valorant",
       title: "VALORANT",
-      releaseDate: null,
+      releaseDate: "2020-06-02",
+      updatedAt: "2026-10-07T06:00:00.000Z",
     },
   ]),
   getAllArticles: vi.fn().mockResolvedValue([
@@ -55,11 +58,11 @@ describe("SEO and Metadata configuration", () => {
     for (const item of map) {
       expect(item.lastModified).toBeInstanceOf(Date);
     }
+    expect(map.find((entry) => entry.url.endsWith("/games/valorant"))?.lastModified).toEqual(new Date("2026-10-07T06:00:00.000Z"));
+    expect(map.find((entry) => entry.url.endsWith("/games/valorant"))?.images?.[0]).toContain("/game-media/valorant.webp");
   });
 
   it("provides Google AdSense verification in ads.txt", () => {
-    const { readFileSync, existsSync } = require("node:fs");
-    const { join } = require("node:path");
     const adsTxtPath = join(process.cwd(), "public/ads.txt");
     expect(existsSync(adsTxtPath)).toBe(true);
     const content = readFileSync(adsTxtPath, "utf8");

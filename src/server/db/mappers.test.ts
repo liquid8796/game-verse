@@ -29,6 +29,7 @@ describe("database mappers", () => {
       title: "Grand Theft Auto VI",
       deck: "Rockstar returns to Vice City.",
       overview: "## What is confirmed\n\nAn upcoming game set in Leonida.",
+      updatedAt: "2026-10-06T00:00:00.000Z",
       genre: "Open world",
       developer: "Rockstar Games",
       publisher: "Rockstar Games",

@@ -1,3 +1,5 @@
+import { expansionArtwork } from "./expansion-artwork";
+
 export interface GameArtwork {
   src: string;
   alt: string;
@@ -54,6 +56,7 @@ export const gameArtwork: Record<string, GameArtwork> = {
     credit: "HoYoverse / PlayStation",
     sourceUrl: "https://www.playstation.com/en-us/games/genshin-impact/",
   },
+  ...expansionArtwork,
 };
 
 export function getGameArtwork(slug: string) {

@@ -9,6 +9,7 @@ export function gameRowToDomain(row: GameRow): Game {
     title: row.title,
     deck: row.deck,
     overview: row.overview,
+    updatedAt: row.updatedAt.toISOString(),
     genre: row.genre,
     developer: row.developer,
     publisher: row.publisher,

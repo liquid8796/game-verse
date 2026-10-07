@@ -1,3 +1,5 @@
+import { expansionArtwork } from "@/features/games/lib/expansion-artwork";
+
 export interface ArticleImage {
   src: string;
   alt: string;
@@ -163,6 +165,9 @@ export const articleMedia: Partial<Record<string, ArticleMedia>> = {
   },
 };
 
-export function getArticleMedia(articleId: string): ArticleMedia | undefined {
-  return articleMedia[articleId];
+export function getArticleMedia(articleId: string, gameId?: string | null): ArticleMedia | undefined {
+  const selected = articleMedia[articleId];
+  if (selected) return selected;
+  const artwork = gameId ? expansionArtwork[gameId] : undefined;
+  return artwork ? { cover: artwork } : undefined;
 }

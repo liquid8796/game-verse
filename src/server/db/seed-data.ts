@@ -2,6 +2,9 @@ import type { Article } from "@/features/articles/domain/article";
 import { competitiveArticles } from "./editorial/competitive-articles";
 import { featureArticles } from "./editorial/feature-articles";
 import { gameOverviews } from "./editorial/game-overviews";
+import { rpgGames, rpgArticles } from "./editorial/expansion-rpg";
+import { socialGames, socialArticles } from "./editorial/expansion-social";
+import { estimateReadingMinutes } from "@/features/articles/lib/reading-time";
 import type { Game } from "@/features/games/domain/game";
 
 export const seedGames: Game[] = [
@@ -141,7 +144,10 @@ export const seedGames: Game[] = [
     accent: "#A8C5FF",
     heroVariant: "sky",
   },
+  ...rpgGames,
+  ...socialGames,
 ];
 
-export const seedArticles: Article[] = [...featureArticles, ...competitiveArticles]
+export const seedArticles: Article[] = [...featureArticles, ...competitiveArticles, ...rpgArticles, ...socialArticles]
+  .map((article) => ({ ...article, readMinutes: estimateReadingMinutes(article.body) }))
   .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));

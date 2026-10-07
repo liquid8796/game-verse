@@ -6,6 +6,7 @@ export interface Game {
   title: string;
   deck: string;
   overview?: string;
+  updatedAt?: string;
   genre: string;
   developer: string;
   publisher: string;

@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!article) return { title: "Story not found" };
 
   const canonical = "/articles/" + article.slug;
-  const media = getArticleMedia(article.id);
+  const media = getArticleMedia(article.id, article.gameId);
   return {
     title: article.title,
     description: article.excerpt,
@@ -56,7 +56,7 @@ export default async function ArticlePage({ params }: Props) {
   if (!article) notFound();
   const member = await getCurrentUser();
   const saved = member ? await isArticleSaved(member.id, article.id) : false;
-  const media = getArticleMedia(article.id);
+  const media = getArticleMedia(article.id, article.gameId);
   const headings = getEditorialHeadings(article.body).filter((heading) => heading.title !== "Sources");
 
   const siteUrl = getSiteUrl();
