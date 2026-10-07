@@ -3,7 +3,6 @@ import type { CSSProperties } from "react";
 export function HeroWorld({ accent, imageSrc }: { accent: string; imageSrc?: string }) {
   const style = {
     "--world-accent": accent,
-    ...(imageSrc ? { "--hero-image": `url("${imageSrc}")` } : {}),
   } as CSSProperties;
 
   return (
@@ -12,6 +11,12 @@ export function HeroWorld({ accent, imageSrc }: { accent: string; imageSrc?: str
       style={style}
       aria-hidden="true"
     >
+      {imageSrc && (
+        // Keep the hero on a dedicated image element instead of a CSS background.
+        // This avoids browser/compositor reuse of stale background-image textures.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img className="hero-world-image" src={imageSrc} alt="" />
+      )}
       {!imageSrc && (
         <>
           <div className="hero-sun" /><div className="hero-horizon" />
