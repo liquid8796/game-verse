@@ -8,8 +8,10 @@ param(
 $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 $Archive = Join-Path $env:TEMP "gameverse-release.tgz"
+$BootstrapFile = Join-Path $env:TEMP "gameverse-deploy.sh"
 $Remote = "$UserName@$HostName"
 $RemoteArchive = "/tmp/gameverse-release.tgz"
+$RemoteBootstrap = "/tmp/gameverse-deploy.sh"
 
 Push-Location $RepoRoot
 try {
@@ -115,7 +117,7 @@ sudo systemctl restart gameverse.service
 for attempt in $(seq 1 30); do
   if curl --fail --silent http://127.0.0.1:3003/api/health >/tmp/gameverse-health.json; then
     cat /tmp/gameverse-health.json
-    rm -f /tmp/gameverse-health.json /tmp/gameverse-release.tgz
+    rm -f /tmp/gameverse-health.json /tmp/gameverse-release.tgz /tmp/gameverse-deploy.sh
     exit 0
   fi
   sleep 1
@@ -125,8 +127,11 @@ sudo systemctl --no-pager --full status gameverse.service
 exit 1
 '@
 
-    $bootstrap = $bootstrap.Replace("__SITE_URL__", $SiteUrl)
-    $bootstrap | ssh -i $IdentityFile -o BatchMode=yes $Remote "bash -s"
+    $bootstrap = $bootstrap.Replace("__SITE_URL__", $SiteUrl).Replace("`r`n", "`n").Replace("`r", "`n")
+    [System.IO.File]::WriteAllText($BootstrapFile, $bootstrap + "`n", [System.Text.UTF8Encoding]::new($false))
+    scp -i $IdentityFile -o BatchMode=yes $BootstrapFile "${Remote}:$RemoteBootstrap"
+    if ($LASTEXITCODE -ne 0) { throw "Could not upload the deployment script." }
+    ssh -i $IdentityFile -o BatchMode=yes $Remote "bash '$RemoteBootstrap'"
     if ($LASTEXITCODE -ne 0) { throw "Remote deployment failed." }
 
     Invoke-WebRequest -UseBasicParsing -Uri "$SiteUrl/api/health" -TimeoutSec 15 |
@@ -136,5 +141,8 @@ finally {
     Pop-Location
     if (Test-Path $Archive) {
         Remove-Item $Archive -Force
+    }
+    if (Test-Path $BootstrapFile) {
+        Remove-Item -LiteralPath $BootstrapFile -Force
     }
 }
