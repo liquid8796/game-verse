@@ -55,14 +55,14 @@ export const metadata: Metadata = {
     title: "GameVerse — Play the signal | Mainstream Game News & Guides",
     description:
       "Mainstream game news, useful guides, release radar and the stories worth opening.",
-    images: [{ url: "/game-media/gta-vi-official-poster-v3.webp", alt: "Grand Theft Auto VI promotional artwork" }],
+    images: [{ url: "/game-media/gta-vi-official-cover-v3.webp", alt: "Grand Theft Auto VI promotional artwork" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "GameVerse — Play the signal | Mainstream Game News & Guides",
     description:
       "Mainstream game news, useful guides, release radar and the stories worth opening.",
-    images: ["/game-media/gta-vi-official-poster-v3.webp"],
+    images: ["/game-media/gta-vi-official-cover-v3.webp"],
   },
   robots: {
     index: true,

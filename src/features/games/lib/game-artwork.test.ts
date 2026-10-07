@@ -17,7 +17,7 @@ describe("game artwork", () => {
     }
   });
 
-  it("uses the hydration-safe GTA VI hero asset", () => {
-    expect(getGameArtwork("gta-vi")?.src).toBe("/game-media/gta-vi-official-poster-v3.webp");
+  it("uses the Rockstar official GTA VI cover-art asset", () => {
+    expect(getGameArtwork("gta-vi")?.src).toBe("/game-media/gta-vi-official-cover-v3.webp");
   });
 });
