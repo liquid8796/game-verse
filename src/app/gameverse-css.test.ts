@@ -12,3 +12,13 @@ describe("article prose accessibility styles", () => {
     expect(rule).not.toMatch(/float\s*:\s*left/);
   });
 });
+
+describe("release card artwork containment", () => {
+  it("keeps Next Image fill artwork inside each release card", () => {
+    const rule = css.match(/\.release-card\{([^}]*)\}/)?.[1];
+
+    expect(rule).toBeDefined();
+    expect(rule).toMatch(/position\s*:\s*relative/);
+    expect(rule).toMatch(/overflow\s*:\s*hidden/);
+  });
+});
