@@ -126,5 +126,28 @@ describe("AdViewer runner integrity", () => {
     expect(adViewerContent).toContain("isInPagePush");
     expect(adViewerContent).toContain("ADCASH_CONTAINER_SELECTOR");
   });
+
+  it("verifies Zero-Mismatch Triad (Timezone Offset, Locale, Languages) in adViewer", () => {
+    const { execSync } = require("node:child_process");
+    const testSnippet = `
+      import { getTimezoneOffsetFor, buildGeoProfile, COUNTRY_TO_LOCALE } from './scripts/adViewer.mjs';
+      const jpOffset = getTimezoneOffsetFor('Asia/Tokyo', new Date('2026-01-01T00:00:00Z'));
+      const vnOffset = getTimezoneOffsetFor('Asia/Ho_Chi_Minh', new Date('2026-01-01T00:00:00Z'));
+      const jpProfile = buildGeoProfile('JP', 'Japan', 'Tokyo', 'Tokyo', 35.6895, 139.6917, 'Asia/Tokyo', '1.2.3.4');
+      const vnProfile = buildGeoProfile('VN', 'Vietnam', 'Hanoi', 'Hanoi', 21.0285, 105.8542, 'Asia/Ho_Chi_Minh', '5.6.7.8');
+      console.log(JSON.stringify({ jpOffset, vnOffset, jpProfile, vnProfile, jpLocale: COUNTRY_TO_LOCALE.JP }));
+    `;
+    const stdout = execSync(`node --input-type=module -e "${testSnippet.replace(/\n/g, ' ')}"`, { cwd: root, encoding: "utf8" });
+    const parsed = JSON.parse(stdout.trim());
+    expect(parsed.jpOffset).toBe(-540);
+    expect(parsed.vnOffset).toBe(-420);
+    expect(parsed.jpProfile.locale).toBe("ja-JP");
+    expect(parsed.jpProfile.languages).toContain("ja-JP");
+    expect(parsed.jpProfile.acceptLanguage).toContain("ja-JP");
+    expect(parsed.jpProfile.timezoneOffset).toBe(-540);
+    expect(parsed.vnProfile.locale).toBe("vi-VN");
+    expect(parsed.vnProfile.timezoneOffset).toBe(-420);
+    expect(parsed.jpLocale).toBe("ja-JP");
+  });
 });
 
