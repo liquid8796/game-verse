@@ -69,5 +69,7 @@ describe("SEO and Metadata configuration", () => {
     const layoutContent = readFileSync(layoutPath, "utf8");
     expect(layoutContent).toContain("ca-pub-7851683096379872");
     expect(layoutContent).toContain("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js");
+    expect(layoutContent).toContain("G-PQES332NL4");
+    expect(layoutContent).toContain("https://www.googletagmanager.com/gtag/js?id=G-PQES332NL4");
   });
 });

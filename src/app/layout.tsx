@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/next-script-for-ga -- Raw Google tag snippet in <head> for instant crawler verification */
 import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, Manrope } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
@@ -81,6 +82,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={display.variable + " " + body.variable}>
       <head>
+        {/* Google tag (gtag.js) */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-PQES332NL4"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-PQES332NL4');`,
+          }}
+        />
         <meta name="google-adsense-account" content="ca-pub-7851683096379872" />
         <script
           async
