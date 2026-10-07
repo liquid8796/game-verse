@@ -1,21 +1,18 @@
 import type { CSSProperties } from "react";
 
 export function HeroWorld({ accent, imageSrc }: { accent: string; imageSrc?: string }) {
+  const style = {
+    "--world-accent": accent,
+    ...(imageSrc ? { "--hero-image": `url("${imageSrc}")` } : {}),
+  } as CSSProperties;
+
   return (
     <div
       className={imageSrc ? "hero-world hero-world-has-image" : "hero-world"}
-      style={{ "--world-accent": accent } as CSSProperties}
+      style={style}
       aria-hidden="true"
     >
-      {imageSrc ? (
-        <img
-          className="hero-world-image"
-          src={imageSrc}
-          alt=""
-          decoding="async"
-          fetchPriority="high"
-        />
-      ) : (
+      {!imageSrc && (
         <>
           <div className="hero-sun" /><div className="hero-horizon" />
           <div className="hero-city hero-city-back" /><div className="hero-city hero-city-front" />
