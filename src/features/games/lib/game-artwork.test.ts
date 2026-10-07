@@ -17,7 +17,7 @@ describe("game artwork", () => {
     }
   });
 
-  it("uses the cache-busted official GTA VI hero asset", () => {
-    expect(getGameArtwork("gta-vi")?.src).toBe("/game-media/gta-vi-official-poster-v2.webp");
+  it("uses the hydration-safe GTA VI hero asset", () => {
+    expect(getGameArtwork("gta-vi")?.src).toBe("/game-media/gta-vi-official-poster-v3.webp");
   });
 });
