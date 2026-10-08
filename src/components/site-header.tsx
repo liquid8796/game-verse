@@ -18,11 +18,11 @@ export async function SiteHeader() {
           {links.map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}
         </nav>
         <div className="header-actions">
-          <Link className="header-search" href="/discover"><span aria-hidden="true">âŒ•</span>Search</Link>
+          <Link className="header-search" href="/discover"><span aria-hidden="true">⌕</span>Search</Link>
           {member ? (
             <>
             <Link className="header-bell" href="/me/notifications" aria-label={"Notifications" + (unreadNotifications ? ` (${unreadNotifications} unread)` : "")}>
-              <span aria-hidden="true">â—‰</span>
+              <span aria-hidden="true">◉</span>
               {unreadNotifications > 0 && <b>{unreadNotifications > 99 ? "99+" : unreadNotifications}</b>}
             </Link>
             <details className="member-menu">
