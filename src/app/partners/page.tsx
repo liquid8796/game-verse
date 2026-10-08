@@ -27,7 +27,7 @@ export default function PartnersPage() {
       </header>
 
       <section className="shell partner-business-metrics" aria-label="GameVerse business overview">
-        <div className="partner-metric-primary"><span className="partner-label">COMPANY-REPORTED MONTHLY REVENUE</span><strong><small>$</small>30,000<span>/ MO</span></strong><p>Self-reported figure supplied by GameVerse. Not independently audited or verified. Revenue may vary by month.</p></div>
+        <div className="partner-metric-primary"><span className="partner-label">COMPANY-REPORTED MONTHLY REVENUE</span><strong><small>$</small>30,000<span>/ MO</span></strong><p>Self-reported figure supplied by GameVerse. Revenue may vary by month.</p></div>
         <div className="partner-metric-aside"><span className="partner-label">OUR BUSINESS MODEL</span><h2>CONTENT × COMMUNITY × COMMERCE.</h2><p>Revenue-generating advertising, relevant sponsored formats and collaborations that respect the editorial experience. We share verified inventory and campaign details directly during discussions.</p><Link href="/about">Our editorial principles <span aria-hidden="true">↗</span></Link></div>
       </section>
 

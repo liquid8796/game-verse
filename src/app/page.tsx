@@ -213,7 +213,7 @@ export default async function Home() {
           <div className="business-growth-number">
             <span className="partner-label">GAMEVERSE / COMPANY-REPORTED REVENUE</span>
             <strong><small>$</small>30K<span> / MONTH</span></strong>
-            <p>Monthly revenue reported by GameVerse; not independently audited or verified.</p>
+            <p>Monthly revenue reported by GameVerse.</p>
           </div>
           <div className="business-growth-copy">
             <span className="partner-label">07 / BUILT AS A BUSINESS</span>
