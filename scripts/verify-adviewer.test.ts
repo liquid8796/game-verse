@@ -118,12 +118,14 @@ describe("AdViewer runner integrity", () => {
     expect(parsed.vpnEnv1).toBe(true);
   });
 
-  it("verifies Adcash In-Page Push and Popunder overlay detection and targeting", () => {
+  it("verifies Adcash In-Page Push, Interstitial and Popunder overlay detection and targeting", () => {
     const adViewerContent = readFileSync(join(root, "scripts/adViewer.mjs"), "utf8");
     expect(adViewerContent).toContain("in-page-message");
     expect(adViewerContent).toContain("div[znid]");
     expect(adViewerContent).toContain("div[donto]");
     expect(adViewerContent).toContain("isInPagePush");
+    expect(adViewerContent).toContain("isInterstitial");
+    expect(adViewerContent).toContain("#goToButton");
     expect(adViewerContent).toContain("ADCASH_CONTAINER_SELECTOR");
   });
 
