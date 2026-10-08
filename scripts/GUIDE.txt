@@ -1,0 +1,13 @@
+TBRZffVeNZzF:SCvlAsIaph5B
+
+
+--scroll-speed=max (Mặc định - nhanh tối đa)
+--scroll-speed=turbo (Siêu tốc)
+--scroll-speed=normal (Quay về chế độ cuộn chậm đọc lướt nếu muốn kiểm tra giao diện)
+--scroll-bottom-delay=400ms (Thời gian dừng ở đáy trang, có thể giảm xuống 200ms hoặc tùy ý)
+
+Bổ sung Active Cycle Watchdog (--cycle-timeout=180s): Mặc định sau 180 giây (3 phút) (hoặc tùy chỉnh qua cờ --cycle-timeout=120s / --cycle-timeout-ms=...), nếu một instance bị kẹt do proxy chết ngầm hoặc trang web đơ, Watchdog sẽ:
+Tự động ngắt cưỡng bức chu kỳ bị treo.
+Đánh dấu proxy lỗi là "chết" (markDead) và loại bỏ ngay khỏi pool.
+Dọn dẹp sạch tiến trình và chuyển sang chu kỳ mới sau 5 giây thay vì để instance bị chết hẳn.
+
