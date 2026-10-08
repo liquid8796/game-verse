@@ -208,22 +208,6 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="business-growth-spotlight" aria-label="GameVerse business partnerships">
-        <div className="shell business-growth-layout">
-          <div className="business-growth-number">
-            <span className="partner-label">GAMEVERSE / COMPANY-REPORTED REVENUE</span>
-            <strong><small>$</small>30K<span> / MONTH</span></strong>
-            <p>Monthly revenue reported by GameVerse.</p>
-          </div>
-          <div className="business-growth-copy">
-            <span className="partner-label">07 / BUILT AS A BUSINESS</span>
-            <h2>GAMING MEDIA.<br /><em>REAL OPPORTUNITIES.</em></h2>
-            <p>Our model connects editorial content, contextual advertising and relevant brand partnerships — without compromising independent coverage or community ratings.</p>
-            <Link href="/partners" className="button-primary">PARTNER WITH GAMEVERSE <span aria-hidden="true">↗</span></Link>
-          </div>
-        </div>
-      </section>
-
       <section className="biz-closing">
         <div className="shell biz-closing-grid">
           <div>

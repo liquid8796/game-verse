@@ -4,7 +4,7 @@ import { BusinessInquiryForm } from "@/features/business-inquiries/business-inqu
 
 export const metadata: Metadata = {
   title: "Business & Partnerships — GameVerse",
-  description: "Explore GameVerse commercial opportunities, revenue model, partnership formats and send a business enquiry.",
+  description: "Explore GameVerse commercial opportunities, advertising formats and send a business enquiry.",
   alternates: { canonical: "/partners" },
 };
 
@@ -19,16 +19,15 @@ export default function PartnersPage() {
     <main id="main" className="biz-interior">
       <header className="biz-interior-hero partner-hero">
         <div className="shell">
-          <p className="biz-section-label">GAMEVERSE / BUSINESS PARTNERSHIPS <span>REVENUE-DRIVEN GAMING MEDIA</span></p>
+          <p className="biz-section-label">GAMEVERSE / BUSINESS PARTNERSHIPS <span>PLAYER-FIRST GAMING MEDIA</span></p>
           <h1>PLAYERS FIRST. <em>GROWTH BUILT IN.</em></h1>
           <p>GameVerse brings together game discovery, editorial coverage and account-based player tools. Partner with a gaming media business built around useful experiences and long-term trust.</p>
           <a href="#contact" className="button-primary">DISCUSS A PARTNERSHIP <span aria-hidden="true">↗</span></a>
         </div>
       </header>
 
-      <section className="shell partner-business-metrics" aria-label="GameVerse business overview">
-        <div className="partner-metric-primary"><span className="partner-label">COMPANY-REPORTED MONTHLY REVENUE</span><strong><small>$</small>30,000<span>/ MO</span></strong><p>Self-reported figure supplied by GameVerse. Revenue may vary by month.</p></div>
-        <div className="partner-metric-aside"><span className="partner-label">OUR BUSINESS MODEL</span><h2>CONTENT × COMMUNITY × COMMERCE.</h2><p>Revenue-generating advertising, relevant sponsored formats and collaborations that respect the editorial experience. We share verified inventory and campaign details directly during discussions.</p><Link href="/about">Our editorial principles <span aria-hidden="true">↗</span></Link></div>
+      <section className="shell partner-business-overview" aria-label="GameVerse business overview">
+        <div className="partner-metric-aside"><span className="partner-label">OUR BUSINESS MODEL</span><h2>CONTENT × COMMUNITY × COMMERCE.</h2><p>Contextual advertising, relevant sponsored formats and collaborations that respect the editorial experience. We share verified inventory and campaign details directly during discussions.</p><Link href="/about">Our editorial principles <span aria-hidden="true">↗</span></Link></div>
       </section>
 
       <section className="shell biz-interior-content" aria-label="Partnership opportunities">
@@ -38,7 +37,7 @@ export default function PartnersPage() {
             <span>{service.number} / GAMEVERSE</span><h2>{service.name}</h2><p>{service.detail}</p>
           </article>)}
         </div>
-        <div className="biz-partner-note"><strong>Commercial transparency matters.</strong> Paid placements must be clearly disclosed. Revenue does not influence user ratings, community review scores or independent editorial judgment. We never present unverified reach, growth, or partner logos as confirmed performance.</div>
+        <div className="biz-partner-note"><strong>Commercial transparency matters.</strong> Paid placements must be clearly disclosed. Sponsorships do not influence user ratings, community review scores or independent editorial judgment. We never present unverified reach, growth, or partner logos as confirmed performance.</div>
       </section>
 
       <section id="contact" className="partner-contact-section" aria-labelledby="partner-form-heading">
