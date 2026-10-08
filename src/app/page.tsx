@@ -35,11 +35,11 @@ export default async function Home() {
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "GameVerse",
+    "@type": "WebPage",
+    name: "GameVerse — Game Guides, Features & Releases",
     url: getSiteUrl(),
     description: "Gaming coverage, game intelligence and a personal hub for the games you play.",
-};
+  };
 
   return (
     <main id="main" className="site-main business-home">

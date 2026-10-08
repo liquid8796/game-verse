@@ -21,8 +21,35 @@ export const viewport: Viewport = {
   themeColor: "#0b0e14",
 };
 
+const siteUrl = getSiteUrl();
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "GameVerse",
+  url: siteUrl,
+  logo: `${siteUrl}/favicon.ico`,
+  description:
+    "Find your next game and get more out of the ones you play. Practical guides, game features, platform details and upcoming releases.",
+};
+
+const webSiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "GameVerse",
+  url: siteUrl,
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${siteUrl}/discover?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
+
 export const metadata: Metadata = {
-  metadataBase: new URL(getSiteUrl()),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "GameVerse — Game Guides, Features & Releases",
     template: "%s | GameVerse",
@@ -47,11 +74,14 @@ export const metadata: Metadata = {
   applicationName: "GameVerse",
   alternates: {
     canonical: "/",
+    types: {
+      "application/rss+xml": `${siteUrl}/feed.xml`,
+    },
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: getSiteUrl(),
+    url: siteUrl,
     siteName: "GameVerse",
     title: "GameVerse — Game Guides, Features & Releases",
     description:
@@ -76,12 +106,41 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  verification: {
+    google:
+      process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
+      process.env.GOOGLE_SITE_VERIFICATION ||
+      undefined,
+    other: process.env.NEXT_PUBLIC_BING_VERIFICATION
+      ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION }
+      : undefined,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={display.variable + " " + body.variable}>
       <head>
+        {/* Search Engine & Feed discovery */}
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="GameVerse Stories & Guides"
+          href="/feed.xml"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(webSiteJsonLd),
+          }}
+        />
+
         {/* Google tag (gtag.js) */}
         <script
           async

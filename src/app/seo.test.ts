@@ -24,13 +24,23 @@ vi.mock("@/server/queries/content", () => ({
 
 import robots from "./robots";
 import sitemap from "./sitemap";
+import manifest from "./manifest";
+import { GET as getFeed } from "./feed.xml/route";
 import { metadata as layoutMetadata } from "./layout";
+import { getSiteUrl } from "@/lib/site-url";
 
 describe("SEO and Metadata configuration", () => {
-  it("defines comprehensive openGraph and twitter cards in layout metadata", () => {
+  it("defaults site URL safely to production https://gameverse.online", () => {
+    const current = getSiteUrl();
+    expect(current).toMatch(/^https:\/\//);
+    expect(current).not.toContain("localhost");
+  });
+
+  it("defines comprehensive openGraph, twitter cards and alternate feed in layout metadata", () => {
     expect(layoutMetadata.title).toBeDefined();
     expect(layoutMetadata.description).toBeDefined();
     expect(layoutMetadata.keywords).toBeDefined();
+    expect(layoutMetadata.alternates?.types?.["application/rss+xml"]).toContain("/feed.xml");
     expect(layoutMetadata.openGraph).toMatchObject({
       siteName: "GameVerse",
       type: "website",
@@ -40,11 +50,36 @@ describe("SEO and Metadata configuration", () => {
     });
   });
 
-  it("produces valid robots.txt with host and sitemap url", () => {
+  it("produces valid robots.txt with host, sitemap url, and disallows private/api paths", () => {
     const robotsConfig = robots();
     expect(robotsConfig.rules).toBeDefined();
     expect(robotsConfig.sitemap).toContain("/sitemap.xml");
     expect(robotsConfig.host).toBeDefined();
+    const rules = robotsConfig.rules;
+    if (Array.isArray(rules)) {
+      expect(rules.some((r) => r.disallow?.includes("/api/"))).toBe(true);
+    } else {
+      expect(rules?.disallow).toContain("/api/");
+      expect(rules?.disallow).toContain("/me/");
+    }
+  });
+
+  it("provides valid web app manifest for search and mobile presence", () => {
+    const manifestConfig = manifest();
+    expect(manifestConfig.name).toBe("GameVerse — Game Guides, Features & Releases");
+    expect(manifestConfig.short_name).toBe("GameVerse");
+    expect(manifestConfig.theme_color).toBe("#0b0e14");
+    expect(manifestConfig.icons?.length).toBeGreaterThan(0);
+  });
+
+  it("generates an RSS 2.0 feed with stories for search discovery", async () => {
+    const res = await getFeed();
+    expect(res.status).toBe(200);
+    expect(res.headers.get("content-type")).toContain("application/xml");
+    const xml = await res.text();
+    expect(xml).toContain("<rss version=\"2.0\"");
+    expect(xml).toContain("<title>Build a clean crosshair</title>");
+    expect(xml).toContain("/articles/valorant-crosshair</link>");
   });
 
   it("generates sitemap with core index routes and lastModified timestamps", async () => {
@@ -62,7 +97,7 @@ describe("SEO and Metadata configuration", () => {
     expect(map.find((entry) => entry.url.endsWith("/games/valorant"))?.images?.[0]).toContain("/game-media/valorant.webp");
   });
 
-  it("provides Google AdSense verification in ads.txt", () => {
+  it("provides Google AdSense verification in ads.txt and schemas in layout", () => {
     const adsTxtPath = join(process.cwd(), "public/ads.txt");
     expect(existsSync(adsTxtPath)).toBe(true);
     const content = readFileSync(adsTxtPath, "utf8");
@@ -74,5 +109,7 @@ describe("SEO and Metadata configuration", () => {
     expect(layoutContent).toContain("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js");
     expect(layoutContent).toContain("G-PQES332NL4");
     expect(layoutContent).toContain("https://www.googletagmanager.com/gtag/js?id=G-PQES332NL4");
+    expect(layoutContent).toContain("Organization");
+    expect(layoutContent).toContain("SearchAction");
   });
 });
