@@ -1,63 +1,59 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BusinessInquiryForm } from "@/features/business-inquiries/business-inquiry-form";
 
 export const metadata: Metadata = {
-  title: "GameVerse Partnerships",
-  description: "Explore possible advertising and brand collaborations with GameVerse and our editorial boundaries.",
+  title: "Business & Partnerships — GameVerse",
+  description: "Explore GameVerse commercial opportunities, revenue model, partnership formats and send a business enquiry.",
   alternates: { canonical: "/partners" },
 };
 
-const options = [
-  { index: "01 / DISPLAY", title: "Advertising space", copy: "Contextual placements alongside game directories and editorial coverage. Placement details and suitability depend on the actual campaign and available inventory." },
-  { index: "02 / EDITORIAL", title: "Clearly marked sponsorships", copy: "Relevant sponsored stories or campaigns may be considered with explicit disclosure, review of fit, and clear separation from independent editorial judgments." },
-  { index: "03 / EXPERIENCE", title: "Useful collaborations", copy: "Audience-first formats are welcome when they deliver genuine utility, such as practical player resources rather than intrusive interruptions." },
+const services = [
+  { number: "01", name: "Display advertising", detail: "Contextual placements across high-intent game hubs and editorial pages, with clear separation from the content." },
+  { number: "02", name: "Sponsored stories", detail: "Brand collaborations that are transparently labeled and reviewed for relevance to the player audience." },
+  { number: "03", name: "Campaign activations", detail: "Bespoke initiatives around releases, game discovery and useful player resources — designed to complement the experience." },
 ];
 
 export default function PartnersPage() {
-  const email = process.env.GAMEVERSE_PARTNERS_EMAIL?.trim();
-  const contactHref = email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-    ? "mailto:" + email + "?subject=" + encodeURIComponent("GameVerse partnership enquiry")
-    : undefined;
-
   return (
     <main id="main" className="biz-interior">
-      <header className="biz-interior-hero">
+      <header className="biz-interior-hero partner-hero">
         <div className="shell">
-          <p className="biz-section-label">GAMEVERSE / BUSINESS</p>
-          <h1>BUILT FOR PLAYERS. <em>OPEN TO IDEAS.</em></h1>
-          <p>GameVerse is building a home for gaming discovery, useful coverage and personal game tracking. We welcome relevant commercial opportunities that respect the player experience.</p>
+          <p className="biz-section-label">GAMEVERSE / BUSINESS PARTNERSHIPS <span>REVENUE-DRIVEN GAMING MEDIA</span></p>
+          <h1>PLAYERS FIRST. <em>GROWTH BUILT IN.</em></h1>
+          <p>GameVerse brings together game discovery, editorial coverage and account-based player tools. Partner with a gaming media business built around useful experiences and long-term trust.</p>
+          <a href="#contact" className="button-primary">DISCUSS A PARTNERSHIP <span aria-hidden="true">↗</span></a>
         </div>
       </header>
-      <section className="shell biz-interior-content" aria-label="Collaboration possibilities">
-        <div className="biz-section-label" style={{ marginBottom: 30 }}>
-          <span>WAYS TO COLLABORATE</span><span>SUBJECT TO EDITORIAL FIT AND AVAILABILITY</span>
+
+      <section className="shell partner-business-metrics" aria-label="GameVerse business overview">
+        <div className="partner-metric-primary"><span className="partner-label">COMPANY-REPORTED MONTHLY REVENUE</span><strong><small>$</small>30,000<span>/ MO</span></strong><p>Self-reported figure supplied by GameVerse. Not independently audited or verified. Revenue may vary by month.</p></div>
+        <div className="partner-metric-aside"><span className="partner-label">OUR BUSINESS MODEL</span><h2>CONTENT × COMMUNITY × COMMERCE.</h2><p>Revenue-generating advertising, relevant sponsored formats and collaborations that respect the editorial experience. We share verified inventory and campaign details directly during discussions.</p><Link href="/about">Our editorial principles <span aria-hidden="true">↗</span></Link></div>
+      </section>
+
+      <section className="shell biz-interior-content" aria-label="Partnership opportunities">
+        <div className="biz-section-label"><span>01 / COMMERCIAL FORMATS</span><span>BUILT AROUND THE PLAYER</span></div>
+        <div className="biz-partner-offers partner-offers">
+          {services.map((service) => <article className="biz-partner-offer" key={service.number}>
+            <span>{service.number} / GAMEVERSE</span><h2>{service.name}</h2><p>{service.detail}</p>
+          </article>)}
         </div>
-        <div className="biz-partner-offers">
-          {options.map((item) => (
-            <article className="biz-partner-offer" key={item.index}>
-              <span>{item.index}</span>
-              <h2>{item.title}</h2>
-              <p>{item.copy}</p>
-            </article>
-          ))}
-        </div>
-        <div className="biz-partner-note">
-          <strong>Trust is part of the product.</strong> We do not sell community ratings, manipulate game rankings for sponsors, or present commercial material as independent reporting. Reach and audience figures should be shared only when verified; no estimated impressions or partnership logos are published here.
-        </div>
-        <div className="biz-statement" style={{ marginTop: 70 }}>
-          <span>GET IN TOUCH /</span>
-          <div>
-            <h2>Let’s build something relevant.</h2>
-            <p>Tell us which games and players your proposal is for, the intended format, and your timeline. Commercial enquiries are handled separately from public community ratings and reviews.</p>
-            <div className="biz-interior-action">
-              {contactHref ? (
-                <a href={contactHref} className="button-primary">Send a partnership enquiry <span aria-hidden="true">↗</span></a>
-              ) : (
-                <p>Our business enquiry inbox is being configured. Contact details will appear here when it is ready.</p>
-              )}
-              <Link href="/about" className="button-ghost">Read editorial standards <span aria-hidden="true">→</span></Link>
+        <div className="biz-partner-note"><strong>Commercial transparency matters.</strong> Paid placements must be clearly disclosed. Revenue does not influence user ratings, community review scores or independent editorial judgment. We never present unverified reach, growth, or partner logos as confirmed performance.</div>
+      </section>
+
+      <section id="contact" className="partner-contact-section" aria-labelledby="partner-form-heading">
+        <div className="shell partner-contact-layout">
+          <div className="partner-contact-copy">
+            <span className="biz-section-label">02 / START A CONVERSATION</span>
+            <h2 id="partner-form-heading">LET&apos;S MAKE <em>AN IMPACT.</em></h2>
+            <p>Tell us who you represent, what you want to achieve and when. Your enquiry will go to our private business inbox — no signup needed.</p>
+            <div className="partner-contact-steps">
+              <div><span>01 /</span><strong>Tell us about the opportunity.</strong></div>
+              <div><span>02 /</span><strong>We review fit and feasibility.</strong></div>
+              <div><span>03 /</span><strong>We discuss the right next step.</strong></div>
             </div>
           </div>
+          <BusinessInquiryForm />
         </div>
       </section>
     </main>

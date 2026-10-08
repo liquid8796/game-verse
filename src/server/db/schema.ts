@@ -3,6 +3,7 @@ import {
   check,
   date,
   integer,
+  index,
   primaryKey,
   pgTable,
   text,
@@ -174,3 +175,22 @@ export const gameReviews = pgTable(
 export type GameRow = typeof games.$inferSelect;
 export type ArticleRow = typeof articles.$inferSelect;
 export type UserRow = typeof users.$inferSelect;
+
+
+// Private contact requests for the GameVerse commercial team.
+export const businessInquiries = pgTable("business_inquiries", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  company: text("company").notNull(),
+  email: text("email").notNull(),
+  website: text("website").notNull().default(""),
+  kind: text("kind").notNull(),
+  budget: text("budget").notNull(),
+  message: text("message").notNull(),
+  fingerprint: text("fingerprint").notNull(),
+  status: text("status").notNull().default("new"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  index("business_inquiries_email_idx").on(table.email),
+  index("business_inquiries_created_at_idx").on(table.createdAt),
+]);

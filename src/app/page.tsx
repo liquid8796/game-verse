@@ -58,15 +58,15 @@ export default async function Home() {
               <h1 id="biz-hero-title">PLAY <em>BEYOND</em> THE HYPE.</h1>
               <p className="biz-hero-description">
                 Discover what is worth playing. Follow the releases that matter. Get guides
-                that make your next session better — all in one place.
+                that make your next session better â€” all in one place.
               </p>
               <div className="biz-hero-actions">
-                <Link className="button-primary" href="/games">Explore game hubs <span aria-hidden="true">↗</span></Link>
-                <Link className="button-ghost" href="/signup">Make it yours <span aria-hidden="true">→</span></Link>
+                <Link className="button-primary" href="/games">Explore game hubs <span aria-hidden="true">â†—</span></Link>
+                <Link className="button-ghost" href="/signup">Make it yours <span aria-hidden="true">â†’</span></Link>
               </div>
             </div>
             <Link className="biz-spotlight" href={"/games/" + spotlight.slug}>
-              <div className="biz-spotlight-index"><span>In focus / 001</span><span aria-hidden="true">↗</span></div>
+              <div className="biz-spotlight-index"><span>In focus / 001</span><span aria-hidden="true">â†—</span></div>
               <span className="biz-spotlight-label">Featured game briefing</span>
               <strong>{spotlight.title}</strong>
               <span className="biz-spotlight-description">{spotlight.deck}</span>
@@ -75,7 +75,7 @@ export default async function Home() {
           </div>
           <div className="biz-hero-bottom">
             <span>ONE PLACE FOR WHAT YOU PLAY.</span>
-            <span className="biz-scroll-hint">Scroll to explore <span aria-hidden="true">↓</span></span>
+            <span className="biz-scroll-hint">Scroll to explore <span aria-hidden="true">â†“</span></span>
           </div>
         </div>
       </section>
@@ -100,10 +100,10 @@ export default async function Home() {
             {channels.map((channel) => (
               <Link className="biz-channel" key={channel.index} href={channel.href}>
                 <span className="biz-channel-number">{channel.index} /</span>
-                <span className="biz-channel-arrow" aria-hidden="true">↗</span>
+                <span className="biz-channel-arrow" aria-hidden="true">â†—</span>
                 <strong>{channel.title}</strong>
                 <p>{channel.copy}</p>
-                <span className="biz-channel-action">{channel.action} <span aria-hidden="true">→</span></span>
+                <span className="biz-channel-action">{channel.action} <span aria-hidden="true">â†’</span></span>
               </Link>
             ))}
           </div>
@@ -127,9 +127,9 @@ export default async function Home() {
                   <div className="biz-radar-info">
                     <small>{game.genre} / {game.status}</small>
                     <strong>{game.title}</strong>
-                    <span>{game.platforms.slice(0, 2).join(" · ")}</span>
+                    <span>{game.platforms.slice(0, 2).join(" Â· ")}</span>
                   </div>
-                  <span className="biz-radar-arrow" aria-hidden="true">↗</span>
+                  <span className="biz-radar-arrow" aria-hidden="true">â†—</span>
                 </Link>
               );
             })}
@@ -151,7 +151,7 @@ export default async function Home() {
                 <span>{feature.type} / {feature.readMinutes} min read</span>
                 <h3>{feature.title}</h3>
                 <p>{feature.excerpt}</p>
-                <Link className="text-link" href={"/articles/" + feature.slug}>Read the story <span aria-hidden="true">↗</span></Link>
+                <Link className="text-link" href={"/articles/" + feature.slug}>Read the story <span aria-hidden="true">â†—</span></Link>
               </div>
             </div>
           </div>
@@ -178,7 +178,7 @@ export default async function Home() {
                   {artwork && <Image className="release-card-image" src={artwork.src} alt="" fill sizes="(max-width: 620px) 100vw, (max-width: 920px) 50vw, 25vw" />}
                   <time>{game.releaseDate ? formatDate(game.releaseDate) : "Available now"}</time>
                   <h3>{game.title}</h3>
-                  <p>{game.platforms.slice(0, 3).join(" · ")}</p>
+                  <p>{game.platforms.slice(0, 3).join(" Â· ")}</p>
                 </Link>
               );
             })}
@@ -192,18 +192,34 @@ export default async function Home() {
             <span className="biz-section-label">06 / YOUR ACCOUNT</span>
             <h2>YOUR GAMES.<br /><em>YOUR UNIVERSE.</em></h2>
             <p>Keep the games you love in one place. Build a watchlist, save useful stories, follow your release calendar, and unlock a feed that is actually about you.</p>
-            <Link href="/signup" className="button-primary">Create your free account <span aria-hidden="true">↗</span></Link>
-            <Link href="/login" className="biz-member-secondary">Already a member? Sign in <span aria-hidden="true">→</span></Link>
+            <Link href="/signup" className="button-primary">Create your free account <span aria-hidden="true">â†—</span></Link>
+            <Link href="/login" className="biz-member-secondary">Already a member? Sign in <span aria-hidden="true">â†’</span></Link>
           </div>
           <div className="biz-member-preview" aria-label="Your member tools">
-            <div className="biz-preview-top"><span>GAMEVERSE / PLAYER SPACE</span><span aria-hidden="true">↗</span></div>
+            <div className="biz-preview-top"><span>GAMEVERSE / PLAYER SPACE</span><span aria-hidden="true">â†—</span></div>
             <div className="biz-preview-header"><span>PERSONAL HQ</span><strong>MAKE EVERY<br />SESSION COUNT.</strong></div>
             <div className="biz-preview-rows">
               {[["01", "My game library", "Track what you play", "/me/library"], ["02", "Watchlist", "Never lose a release", "/me/watchlist"], ["03", "For You feed", "Coverage based on your games", "/me/feed"], ["04", "Release calendar", "Your upcoming games, one view", "/me/calendar"]].map(([index, title, copy, href]) => (
-                <Link href={href} key={index} className="biz-preview-row"><span>{index}</span><div><strong>{title}</strong><small>{copy}</small></div><b aria-hidden="true">↗</b></Link>
+                <Link href={href} key={index} className="biz-preview-row"><span>{index}</span><div><strong>{title}</strong><small>{copy}</small></div><b aria-hidden="true">â†—</b></Link>
               ))}
             </div>
             <div className="biz-preview-foot">Your account. Your signal. No invented recommendations.</div>
+          </div>
+        </div>
+      </section>
+
+      <section className="business-growth-spotlight" aria-label="GameVerse business partnerships">
+        <div className="shell business-growth-layout">
+          <div className="business-growth-number">
+            <span className="partner-label">GAMEVERSE / COMPANY-REPORTED REVENUE</span>
+            <strong><small>$</small>30K<span> / MONTH</span></strong>
+            <p>Monthly revenue reported by GameVerse; not independently audited or verified.</p>
+          </div>
+          <div className="business-growth-copy">
+            <span className="partner-label">07 / BUILT AS A BUSINESS</span>
+            <h2>GAMING MEDIA.<br /><em>REAL OPPORTUNITIES.</em></h2>
+            <p>Our model connects editorial content, contextual advertising and relevant brand partnerships — without compromising independent coverage or community ratings.</p>
+            <Link href="/partners" className="button-primary">PARTNER WITH GAMEVERSE <span aria-hidden="true">↗</span></Link>
           </div>
         </div>
       </section>
@@ -217,8 +233,8 @@ export default async function Home() {
           <div>
             <p>Clear sources. Useful guides. Honest distinction between editorial coverage and paid placements. We are building a gaming destination that players can return to for the right reasons.</p>
             <div className="biz-closing-links">
-              <Link href="/about">About & editorial standards <span aria-hidden="true">↗</span></Link>
-              <Link href="/partners">Brand partnerships <span aria-hidden="true">↗</span></Link>
+              <Link href="/about">About & editorial standards <span aria-hidden="true">â†—</span></Link>
+              <Link href="/partners">Brand partnerships <span aria-hidden="true">â†—</span></Link>
             </div>
           </div>
         </div>
