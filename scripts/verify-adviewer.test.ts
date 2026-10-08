@@ -149,5 +149,31 @@ describe("AdViewer runner integrity", () => {
     expect(parsed.vnProfile.timezoneOffset).toBe(-420);
     expect(parsed.jpLocale).toBe("ja-JP");
   });
+
+  it("verifies scroll speed and bottom delay configuration in adViewer", () => {
+    const { execSync } = require("node:child_process");
+    const testSnippet = `
+      import { parseScrollSpeed, parseScrollBottomDelay } from './scripts/adViewer.mjs';
+      const results = {
+        speedDefault: parseScrollSpeed(['node', 'adViewer.mjs'], {}),
+        speedTurbo: parseScrollSpeed(['node', 'adViewer.mjs', '--scroll-speed=turbo'], {}),
+        speedNormal: parseScrollSpeed(['node', 'adViewer.mjs', '--scroll-speed=normal'], {}),
+        speedEnv: parseScrollSpeed(['node', 'adViewer.mjs'], { AD_VIEWER_SCROLL_SPEED: 'normal' }),
+        delayDefault: parseScrollBottomDelay(['node', 'adViewer.mjs'], {}),
+        delayCustom: parseScrollBottomDelay(['node', 'adViewer.mjs', '--scroll-bottom-delay=600ms'], {}),
+        delayEnv: parseScrollBottomDelay(['node', 'adViewer.mjs'], { AD_VIEWER_SCROLL_BOTTOM_DELAY: '500' }),
+      };
+      console.log(JSON.stringify(results));
+    `;
+    const stdout = execSync(`node --input-type=module -e "${testSnippet.replace(/\n/g, ' ')}"`, { cwd: root, encoding: "utf8" });
+    const parsed = JSON.parse(stdout.trim());
+    expect(parsed.speedDefault).toBe("max");
+    expect(parsed.speedTurbo).toBe("turbo");
+    expect(parsed.speedNormal).toBe("normal");
+    expect(parsed.speedEnv).toBe("normal");
+    expect(parsed.delayDefault).toBe(400);
+    expect(parsed.delayCustom).toBe(600);
+    expect(parsed.delayEnv).toBe(500);
+  });
 });
 
