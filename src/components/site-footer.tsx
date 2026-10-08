@@ -7,14 +7,25 @@ export function SiteFooter() {
       <div className="shell footer-grid">
         <div>
           <BrandMark />
-          <p className="footer-copy">GameVerse covers the games we keep coming back to, with practical guides, features and a clear account of what’s been announced. Pick a game, find a useful story, and take it into your next session.</p>
+          <span className="footer-business-label">Gaming, decoded.</span>
+          <p className="footer-copy">GameVerse is a place to discover games, read useful coverage and keep track of what matters to your next session. Built for players, with a clear separation between editorial and commercial content.</p>
+          <Link className="footer-social-cta" href="/about">How we work <span aria-hidden="true">↗</span></Link>
         </div>
         <div className="footer-links">
-          <Link href="/games">Games</Link>
-          <Link href="/articles">Stories</Link>
+          <span>THE PLATFORM</span>
+          <Link href="/games">Game database</Link>
+          <Link href="/articles">Stories & guides</Link>
           <Link href="/discover">Discover</Link>
+          <Link href="/signup">Player account</Link>
         </div>
-        <p className="footer-meta">© {new Date().getUTCFullYear()} GameVerse<br />Guides, features and game releases.</p>
+        <div className="footer-links">
+          <span>GAMEVERSE</span>
+          <Link href="/about">About & standards</Link>
+          <Link href="/partners">Partnerships</Link>
+          <Link href="/me/calendar">Release calendar</Link>
+          <Link href="/me/feed">For You feed</Link>
+        </div>
+        <p className="footer-meta">© {new Date().getUTCFullYear()} GameVerse<br />Gaming intelligence & player tools.</p>
       </div>
     </footer>
   );

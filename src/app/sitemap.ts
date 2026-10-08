@@ -16,6 +16,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: base + "/games", lastModified: now, changeFrequency: "daily", priority: 0.9 },
     { url: base + "/articles", lastModified: now, changeFrequency: "daily", priority: 0.9 },
     { url: base + "/discover", lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    { url: base + "/about", lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+    { url: base + "/partners", lastModified: now, changeFrequency: "monthly", priority: 0.4 },
     ...games.map((game) => ({
       url: base + "/games/" + game.slug,
       lastModified: game.updatedAt ? new Date(game.updatedAt) : now,
