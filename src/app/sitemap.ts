@@ -25,12 +25,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly" as const,
       priority: 0.8,
     })),
-    ...articles.map((article) => ({
-      url: base + "/articles/" + article.slug,
-      lastModified: new Date(article.updatedAt ?? article.publishedAt),
-      images: getArticleMedia(article.id, article.gameId) ? [base + getArticleMedia(article.id, article.gameId)!.cover.src] : undefined,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    })),
+    ...articles.map((article) => {
+      const media = getArticleMedia(article.id, article.gameId);
+      return {
+        url: base + "/articles/" + article.slug,
+        lastModified: new Date(article.updatedAt ?? article.publishedAt),
+        images: media ? [
+          base + media.cover.src,
+          ...(media.illustrations ?? []).map((item) => base + item.image.src),
+        ] : undefined,
+        changeFrequency: "monthly" as const,
+        priority: 0.7,
+      };
+    }),
   ];
 }

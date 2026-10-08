@@ -2,7 +2,7 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { seedArticles } from "@/server/db/seed-data";
-import { getEditorialHeadings } from "@/components/editorial-body";
+import { getEditorialHeadings, getIllustrationAnchor } from "@/components/editorial-body";
 import { getArticleMedia } from "./article-media";
 
 describe("published article media", () => {
@@ -10,6 +10,7 @@ describe("published article media", () => {
     for (const article of seedArticles) {
       const media = getArticleMedia(article.id, article.gameId);
       expect(media, article.slug).toBeDefined();
+      expect(media!.illustrations?.length ?? 0, article.slug + " must include contextual body media").toBeGreaterThan(0);
       for (const image of [media!.cover, ...(media!.illustrations ?? []).map((item) => item.image)]) {
         expect(existsSync(join(process.cwd(), "public", image.src)), image.src).toBe(true);
         expect(image.width).toBeGreaterThan(0);
@@ -23,8 +24,14 @@ describe("published article media", () => {
   it("places each inline illustration in a section that exists in its article", () => {
     for (const article of seedArticles) {
       const headings = getEditorialHeadings(article.body).map((item) => item.title);
-      for (const illustration of getArticleMedia(article.id, article.gameId)?.illustrations ?? []) {
+      const media = getArticleMedia(article.id, article.gameId)!;
+      const illustrations = media.illustrations ?? [];
+      expect(new Set(illustrations.map((item) => item.image.src)).size, article.slug).toBe(illustrations.length);
+      for (const illustration of illustrations) {
         expect(headings, article.slug).toContain(illustration.afterSection);
+        expect(illustration.afterSection).not.toBe("Sources");
+        expect(getIllustrationAnchor(article.body, illustration), article.slug).toBeDefined();
+        expect(illustration.image.src, article.slug + " must not repeat its cover in the body").not.toBe(media.cover.src);
       }
     }
   });

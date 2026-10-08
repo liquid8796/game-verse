@@ -1,6 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { EditorialBody, getEditorialHeadings } from "./editorial-body";
+import { EditorialBody, getEditorialHeadings, getIllustrationAnchor } from "./editorial-body";
+import { seedArticles } from "@/server/db/seed-data";
+import { getArticleMedia } from "@/features/articles/lib/article-media";
 
 describe("editorial reading", () => {
   it("renders sections, lists and linked sources as accessible content", () => {
@@ -33,5 +35,33 @@ describe("editorial reading", () => {
     expect(figure.nextElementSibling).toHaveTextContent("Make a plan");
     expect(screen.getByRole("img", { name: "A map example" })).toBeVisible();
     expect(screen.getByRole("heading", { name: "Read the map" }).id).toBe(getEditorialHeadings(body)[0].id);
+  });
+
+  it("inserts an image beside the relevant paragraph instead of waiting until the section ends", () => {
+    const body = "## Read the map\n\nA route to the bridge.\n\n- Pack supplies.\n\nA different route.\n\n## Next section\n\nContinue.";
+    const illustration = {
+      afterSection: "Read the map",
+      afterParagraph: 1,
+      image: { src: "/bridge.webp", alt: "The bridge route", width: 1600, height: 900, caption: "The route discussed above.", credit: "GameVerse" },
+    };
+    const { container } = render(<EditorialBody body={body} illustrations={[illustration]} />);
+    const figure = container.querySelector("figure")!;
+    expect(figure.previousElementSibling).toHaveTextContent("A route to the bridge.");
+    expect(figure.nextElementSibling?.tagName).toBe("UL");
+    expect(screen.getByText("A different route.")).toBeVisible();
+    expect(getIllustrationAnchor(body, { ...illustration, afterParagraph: 2 })).toBe(3);
+    expect(getIllustrationAnchor(body, { ...illustration, afterParagraph: 3 })).toBeUndefined();
+  });
+
+  it("renders every published story's illustrations inside the prose rather than as covers", () => {
+    for (const article of seedArticles) {
+      const illustrations = getArticleMedia(article.id, article.gameId)!.illustrations!;
+      const { container, unmount } = render(<EditorialBody body={article.body} illustrations={illustrations} />);
+      expect(container.querySelectorAll(".prose > .article-figure"), article.slug).toHaveLength(illustrations.length);
+      expect(container.querySelector(".article-figure-cover"), article.slug).toBeNull();
+      const images = [...container.querySelectorAll(".prose > .article-figure img")];
+      expect(images.map((image) => image.getAttribute("alt")), article.slug).toEqual(illustrations.map((item) => item.image.alt));
+      unmount();
+    }
   });
 });

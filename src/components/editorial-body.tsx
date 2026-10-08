@@ -24,16 +24,40 @@ function inlineLinks(text: string): ReactNode[] {
   return parts;
 }
 
-/** Small, text-only editorial format: headings, bullet lists and source links. */
+function editorialBlocks(body: string) {
+  return body.trim().split(/\n\s*\n/).filter(Boolean);
+}
+
+function isBulletBlock(block: string) {
+  return block.split("\n").every((line) => line.startsWith("- "));
+}
+
+export function getIllustrationAnchor(body: string, illustration: ArticleIllustration): number | undefined {
+  const blocks = editorialBlocks(body);
+  const headings = getEditorialHeadings(body);
+  const matches = headings.filter((heading) => heading.title === illustration.afterSection);
+  if (matches.length !== 1) return undefined;
+  const heading = matches[0];
+  const nextHeading = headings.find((item) => item.index > heading.index);
+  const end = nextHeading?.index ?? blocks.length;
+  if (illustration.afterParagraph === undefined) return end - 1;
+  if (!Number.isInteger(illustration.afterParagraph) || illustration.afterParagraph < 1) return undefined;
+  const paragraphs = blocks.slice(heading.index + 1, end).flatMap((block, offset) =>
+    isBulletBlock(block) ? [] : [heading.index + 1 + offset],
+  );
+  return paragraphs[illustration.afterParagraph - 1];
+}
+
+/** Editorial text and contextual figures, with stable section anchors. */
 export function EditorialBody({ body, headingLevel = 2, illustrations = [] }: { body: string; headingLevel?: 2 | 3; illustrations?: ArticleIllustration[] }) {
   const headingList = getEditorialHeadings(body);
   const headings = new Map(headingList.map((heading) => [heading.index, heading]));
   const Heading = headingLevel === 3 ? "h3" : "h2";
-  const blocks = body.trim().split(/\n\s*\n/).filter(Boolean);
-  const sectionEnds = new Map(headingList.map((heading, index) => [
-    (headingList[index + 1]?.index ?? blocks.length) - 1,
-    heading.title,
-  ]));
+  const blocks = editorialBlocks(body);
+  const positionedImages = illustrations.map((illustration) => ({
+    illustration,
+    anchor: getIllustrationAnchor(body, illustration),
+  }));
 
   return (
     <div className="prose">
@@ -42,11 +66,11 @@ export function EditorialBody({ body, headingLevel = 2, illustrations = [] }: { 
         const lines = block.split("\n");
         const content = heading
           ? <Heading id={heading.id}>{heading.title}</Heading>
-          : lines.every((line) => line.startsWith("- "))
+          : isBulletBlock(block)
             ? <ul>{lines.map((line, item) => <li key={item}>{inlineLinks(line.slice(2))}</li>)}</ul>
             : <p>{lines.map((line, item) => <Fragment key={item}>{item > 0 && " "}{inlineLinks(line)}</Fragment>)}</p>;
-        const sectionImages = illustrations.filter((item) => item.afterSection === sectionEnds.get(index));
-        return <Fragment key={index}>{content}{sectionImages.map((item) => <ArticleFigure key={item.image.src} image={item.image} />)}</Fragment>;
+        const sectionImages = positionedImages.filter((item) => item.anchor === index);
+        return <Fragment key={index}>{content}{sectionImages.map(({ illustration }) => <ArticleFigure key={illustration.image.src} image={illustration.image} />)}</Fragment>;
       })}
     </div>
   );

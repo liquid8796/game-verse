@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Wait for a finishing attack when farming minions</title>
+  <desc id="desc">Two conceptual minions show a last-hit exercise. In the first scene the minion has too much remaining health for one attack. In the second, its remaining health is low enough for the player's hit to finish it. These bars are illustrations, not fixed thresholds or a live League of Legends HUD.</desc>
+  <defs>
+    <g id="minion">
+      <path d="M-64 90-52 13 0-11 52 13 64 90Z" fill="#9b4054" stroke="#e6b3ba" stroke-width="4"/>
+      <path d="M-42 22Q-46-68 0-85Q46-68 42 22Z" fill="#c16e7b" stroke="#e6b3ba" stroke-width="4"/>
+      <path d="M-34 5H34L21 41H-21Z" fill="#24343d"/>
+      <path d="M-13 17H13" stroke="#f6d091" stroke-width="5"/>
+      <path d="M-44 85-48 108M44 85 48 108" stroke="#e6b3ba" stroke-width="12"/>
+    </g>
+  </defs>
+  <rect width="1200" height="720" fill="#10181d"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="48" y="61" fill="#60f0e2" font-size="32" font-weight="700" letter-spacing="2">LEAGUE / FARMING PRACTICE</text>
+    <text x="48" y="128" fill="#f3f5f4" font-size="56" font-weight="700">Wait for the finishing attack.</text>
+    <text x="48" y="176" fill="#b8c5c8" font-size="34">Concept drawing · No fixed health threshold</text>
+    <rect x="48" y="209" width="534" height="337" rx="8" fill="#1c2a31"/>
+    <rect x="618" y="209" width="534" height="337" rx="8" fill="#1c2a31"/>
+    <text x="82" y="270" fill="#eecb92" font-size="46" font-weight="700">01  Wait</text>
+    <text x="652" y="270" fill="#60f0e2" font-size="46" font-weight="700">02  Finish</text>
+    <use href="#minion" transform="translate(315 410) scale(.75)"/>
+    <use href="#minion" transform="translate(885 410) scale(.75)"/>
+    <rect x="221" y="295" width="188" height="22" rx="3" fill="#0a1115" stroke="#73858d" stroke-width="2"/>
+    <rect x="225" y="299" width="144" height="14" fill="#eecb92"/>
+    <rect x="791" y="295" width="188" height="22" rx="3" fill="#0a1115" stroke="#73858d" stroke-width="2"/>
+    <rect x="795" y="299" width="30" height="14" fill="#60f0e2"/>
+    <path d="M1041 357 963 384" fill="none" stroke="#60f0e2" stroke-width="7"/>
+    <path d="m970 366-13 20 25 4" fill="none" stroke="#60f0e2" stroke-width="7"/>
+    <text x="315" y="523" text-anchor="middle" fill="#b8c5c8" font-size="32">More health than your hit removes</text>
+    <text x="885" y="523" text-anchor="middle" fill="#b8c5c8" font-size="32">Your hit can remove what remains</text>
+    <path d="M48 579H1152" stroke="#3e5058" stroke-width="2"/>
+    <text x="48" y="632" fill="#f3f5f4" font-size="40" font-weight="700">Stay in range. Let your attack land the last damage.</text>
+    <text x="48" y="676" fill="#b8c5c8" font-size="34">Support has different income responsibilities.</text>
+    <text x="1152" y="704" text-anchor="end" fill="#7d939c" font-size="20">GAMEVERSE ILLUSTRATION</text>
+  </g>
+</svg>

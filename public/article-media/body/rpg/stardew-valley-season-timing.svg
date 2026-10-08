@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="900" viewBox="0 0 1000 900" role="img" aria-labelledby="title desc">
+  <title id="title">Count forward to the Stardew Valley harvest</title>
+  <desc id="desc">Outdoor parsnips take four growth nights without bonuses. Planting and watering on Spring 22 gives a Spring 26 harvest. Planting on Spring 25 would need Summer 1, when this spring crop withers instead.</desc>
+  <rect width="1000" height="900" fill="#f2eddf"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="60" y="69" font-size="26" letter-spacing="3" fill="#426a43">STARDEW VALLEY / SEASON TIMING</text>
+    <text x="60" y="137" font-size="48" font-weight="700" fill="#253929">Count forward to the harvest</text>
+    <text x="60" y="190" font-size="34" fill="#4d6651">Parsnips · 4 growth nights · Spring only</text>
+    <rect x="60" y="226" width="880" height="237" rx="12" fill="#e0e8d5"/>
+    <text x="85" y="277" font-size="34" font-weight="700" fill="#335d37">SPRING 22: ROOM TO HARVEST</text>
+    <path d="M140 344H860" fill="none" stroke="#759263" stroke-width="5"/>
+    <g fill="#f2f5eb" stroke="#759263" stroke-width="3">
+      <circle cx="140" cy="344" r="40"/>
+      <circle cx="320" cy="344" r="40"/>
+      <circle cx="500" cy="344" r="40"/>
+      <circle cx="680" cy="344" r="40"/>
+      <circle cx="860" cy="344" r="40" fill="#335d37"/>
+    </g>
+    <g text-anchor="middle" font-size="41" font-weight="700" fill="#253929">
+      <text x="140" y="358">22</text><text x="320" y="358">23</text><text x="500" y="358">24</text><text x="680" y="358">25</text>
+      <text x="860" y="358" fill="#ffffff">26</text>
+    </g>
+    <g text-anchor="middle" font-size="28" fill="#335d37">
+      <text x="140" y="424">PLANT</text><text x="500" y="424">GROW</text><text x="860" y="424">HARVEST</text>
+    </g>
+    <rect x="60" y="490" width="880" height="248" rx="12" fill="#eee0d1"/>
+    <text x="85" y="542" font-size="34" font-weight="700" fill="#875136">SPRING 25: TOO LATE FOR THIS CROP</text>
+    <path d="M140 610H860" fill="none" stroke="#ba8b6a" stroke-width="5"/>
+    <g fill="#f7f1e8" stroke="#ba8b6a" stroke-width="3">
+      <circle cx="140" cy="610" r="40"/><circle cx="320" cy="610" r="40"/><circle cx="500" cy="610" r="40"/><circle cx="680" cy="610" r="40"/>
+      <circle cx="860" cy="610" r="40" fill="#875136"/>
+    </g>
+    <g text-anchor="middle" font-size="41" font-weight="700" fill="#533827">
+      <text x="140" y="624">25</text><text x="320" y="624">26</text><text x="500" y="624">27</text><text x="680" y="624">28</text>
+      <text x="860" y="624" fill="#ffffff">1</text>
+    </g>
+    <g text-anchor="middle" font-size="27" fill="#875136">
+      <text x="140" y="692">PLANT</text><text x="500" y="692">GROW</text>
+      <text x="860" y="680">SUMMER</text><text x="860" y="716">WITHERS</text>
+    </g>
+    <path d="M60 775H940" stroke="#aeb8a4" stroke-width="2"/>
+    <text x="60" y="824" font-size="30" fill="#4d6651">Water daily. No growth bonuses. Outdoors.</text>
+    <text x="60" y="867" font-size="30" fill="#4d6651">Planting day is not counted in the growth time.</text>
+  </g>
+</svg>

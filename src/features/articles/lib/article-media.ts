@@ -1,4 +1,7 @@
 import { expansionArtwork } from "@/features/games/lib/expansion-artwork";
+import { originalInline } from "./inline-original";
+import { rpgInline } from "./inline-rpg";
+import { socialInline } from "./inline-social";
 
 export interface ArticleImage {
   src: string;
@@ -12,6 +15,8 @@ export interface ArticleImage {
 
 export interface ArticleIllustration {
   afterSection: string;
+  /** One-based ordinary paragraph within the section; omitted means section end. */
+  afterParagraph?: number;
   image: ArticleImage;
 }
 
@@ -165,9 +170,16 @@ export const articleMedia: Partial<Record<string, ArticleMedia>> = {
   },
 };
 
+const bodyIllustrations: Partial<Record<string, ArticleIllustration[]>> = {
+  ...originalInline,
+  ...rpgInline,
+  ...socialInline,
+};
+
 export function getArticleMedia(articleId: string, gameId?: string | null): ArticleMedia | undefined {
   const selected = articleMedia[articleId];
-  if (selected) return selected;
+  const additional = bodyIllustrations[articleId] ?? [];
+  if (selected) return { ...selected, illustrations: [...(selected.illustrations ?? []), ...additional] };
   const artwork = gameId ? expansionArtwork[gameId] : undefined;
-  return artwork ? { cover: artwork } : undefined;
+  return artwork ? { cover: artwork, illustrations: additional } : undefined;
 }

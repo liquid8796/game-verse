@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="980" viewBox="0 0 1000 980" role="img" aria-labelledby="title desc">
+  <title id="title">Match a Hades II boon to the run you have</title>
+  <desc id="desc">Identify which action is named, check its conditions and resource use, then picture using the benefit in the next room. This is an explanatory decision aid, not an in-game screen.</desc>
+  <rect width="1000" height="980" fill="#111d21"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="64" y="67" font-size="27" letter-spacing="3" fill="#77d1b4">HADES II / READING A BOON</text>
+    <text x="64" y="137" font-size="50" font-weight="700" fill="#f0f2df">Match the boon to your run</text>
+    <path d="M64 169H936" stroke="#3f5e60" stroke-width="2"/>
+    <g fill="#182a2e" stroke="#355653" stroke-width="2">
+      <rect x="64" y="200" width="872" height="185" rx="12"/>
+      <rect x="64" y="407" width="872" height="185" rx="12"/>
+      <rect x="64" y="614" width="872" height="185" rx="12"/>
+    </g>
+    <g fill="#77d1b4" font-size="46" font-weight="700">
+      <text x="97" y="261">1</text>
+      <text x="97" y="468">2</text>
+      <text x="97" y="675">3</text>
+    </g>
+    <g fill="#f0f2df" font-size="44" font-weight="700">
+      <text x="157" y="261">Name the action</text>
+      <text x="157" y="468">Check the condition</text>
+      <text x="157" y="675">Picture the next room</text>
+    </g>
+    <g fill="#e0e6da" font-size="37">
+      <text x="157" y="313">Attack · Special · Cast</text>
+      <text x="157" y="520">Read the trigger, cost and recovery.</text>
+      <text x="157" y="727">When will you use the benefit?</text>
+    </g>
+    <g fill="#acc8bf" font-size="33">
+      <text x="157" y="355">Omega versions are specific actions.</text>
+      <text x="157" y="562">Does your routine activate the effect?</text>
+      <text x="157" y="769">Choose for a problem you actually have.</text>
+    </g>
+    <path d="M64 839H936" stroke="#3f5e60" stroke-width="2"/>
+    <text x="64" y="889" font-size="33" fill="#e0e6da">A decision aid, not a boon menu.</text>
+    <text x="64" y="935" font-size="31" fill="#acc8bf">Read the exact description in your version.</text>
+  </g>
+</svg>
