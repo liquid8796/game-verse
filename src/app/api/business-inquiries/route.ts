@@ -1,11 +1,12 @@
 import { fingerprintRequest, saveBusinessInquiry } from "@/features/business-inquiries/repository";
 import { validateBusinessInquiry } from "@/features/business-inquiries/validation";
+import { getSiteUrl } from "@/lib/site-url";
 
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
   const origin = request.headers.get("origin");
-  if (!origin || origin !== new URL(request.url).origin) {
+  if (!origin || origin !== new URL(getSiteUrl()).origin) {
     return Response.json({ error: "Cross-site submission is not allowed." }, { status: 403 });
   }
   if (!(request.headers.get("content-type") ?? "").includes("application/json")) {
