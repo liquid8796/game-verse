@@ -16,7 +16,7 @@
  */
 
 import { AsyncLocalStorage } from "node:async_hooks";
-import { execSync, spawn } from "node:child_process";
+import { execFileSync, execSync, spawn } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import net from "node:net";
 import { tmpdir } from "node:os";
@@ -205,6 +205,40 @@ function parseRenderTimeoutConfig() {
 
 const RENDER_TIMEOUT_CONFIG = parseRenderTimeoutConfig();
 const AD_READY_TIMEOUT_MS = RENDER_TIMEOUT_CONFIG.timeoutMs;
+
+function parseCycleTimeoutConfig(argv = process.argv, env = process.env) {
+  const cli =
+    getCliArg("--cycle-timeout") ||
+    getCliArg("--cycle-timeout-ms") ||
+    getCliArg("--max-cycle-time") ||
+    argv.find((a) => a.startsWith("--cycle-timeout="))?.split("=")[1] ||
+    argv.find((a) => a.startsWith("--cycle-timeout-ms="))?.split("=")[1] ||
+    "";
+  const envVal =
+    env.AD_VIEWER_CYCLE_TIMEOUT_MS ||
+    env.AD_VIEWER_CYCLE_TIMEOUT ||
+    "";
+  const raw = (cli || envVal || "").trim().toLowerCase();
+  if (!raw) {
+    return 180_000; // 3 phút mặc định
+  }
+  let ms = 180_000;
+  if (raw.endsWith("ms")) {
+    ms = Number(raw.replace("ms", "").trim());
+  } else if (raw.endsWith("s")) {
+    ms = Number(raw.replace("s", "").trim()) * 1000;
+  } else if (raw.endsWith("m")) {
+    ms = Number(raw.replace("m", "").trim()) * 60_000;
+  } else {
+    const val = Number(raw);
+    if (!Number.isNaN(val)) {
+      ms = val < 30 ? val * 1000 : val;
+    }
+  }
+  return Math.max(30_000, Number.isNaN(ms) ? 180_000 : Math.round(ms));
+}
+
+const CYCLE_TIMEOUT_MS = parseCycleTimeoutConfig();
 
 const rawDelayMin = process.argv.find((a) => a.startsWith("--delay-min="))?.split("=")[1];
 const rawDelayMinMs = process.argv.find((a) => a.startsWith("--delay-min-ms="))?.split("=")[1];
@@ -1769,29 +1803,39 @@ class ProxyManager {
       let resolved = false;
       let remaining = candidates.length;
 
+      const safetyTimer = setTimeout(() => {
+        if (!resolved) {
+          resolved = true;
+          resolve(null);
+        }
+      }, timeoutMs + 2000);
+
+      const finish = (result) => {
+        if (!resolved) {
+          resolved = true;
+          clearTimeout(safetyTimer);
+          resolve(result);
+        }
+      };
+
       for (const candidate of candidates) {
         this.probe(candidate, timeoutMs)
           .then((alive) => {
             if (alive) {
-              if (!resolved) {
-                resolved = true;
-                resolve(candidate);
-              }
+              finish(candidate);
             } else {
               this.markDead(candidate);
               remaining--;
-              if (remaining <= 0 && !resolved) {
-                resolved = true;
-                resolve(null);
+              if (remaining <= 0) {
+                finish(null);
               }
             }
           })
           .catch(() => {
             this.markDead(candidate);
             remaining--;
-            if (remaining <= 0 && !resolved) {
-              resolved = true;
-              resolve(null);
+            if (remaining <= 0) {
+              finish(null);
             }
           });
       }
@@ -3480,6 +3524,27 @@ function killChromeProcesses(force = false) {
   } catch {}
 }
 
+/**
+ * Diệt chính xác và triệt để các tiến trình Chrome zombie thuộc về instance cụ thể,
+ * tránh làm ảnh hưởng tới các instance khác đang chạy song song.
+ */
+function killInstanceProcesses(instanceId) {
+  if (!instanceId || instanceId <= 0) return;
+  try {
+    if (process.platform === "win32") {
+      const needle = `profile-inst${instanceId}`;
+      const psScript = `Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'chrome.exe' -and $_.CommandLine -like '*${needle}*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }`;
+      const encoded = Buffer.from(psScript, "utf16le").toString("base64");
+      execFileSync("powershell.exe", ["-NoProfile", "-NonInteractive", "-EncodedCommand", encoded], {
+        stdio: "ignore",
+        timeout: 6000,
+      });
+    } else {
+      execSync(`pkill -9 -f "profile-inst${instanceId}"`, { stdio: "ignore" });
+    }
+  } catch {}
+}
+
 async function cleanupAllBrowserData(context, page) {
   try {
     if (context) {
@@ -3985,7 +4050,7 @@ async function runOneCycle(
         isTempProfile = false;
         prepareExtensionProfile(profileDir);
       } else {
-        profileDir = mkdtempSync(path.join(tmpdir(), "ad-viewer-profile-"));
+        profileDir = mkdtempSync(path.join(tmpdir(), `ad-viewer-profile-inst${instanceId}-`));
         isTempProfile = true;
         prepareExtensionProfile(profileDir);
       }
@@ -4101,10 +4166,14 @@ async function runOneCycle(
       const guardLaunch = INSTANCE_COUNT > 1 && !isHeadless;
       await withForegroundSlot(instanceId, guardLaunch, async () => {
         try {
-          context = await chromium.launchPersistentContext(profileDir, {
-            ...launchOptions,
-            channel,
-          });
+          context = await withTimeout(
+            chromium.launchPersistentContext(profileDir, {
+              ...launchOptions,
+              channel,
+            }),
+            45000,
+            null
+          );
         } catch (err) {
           if (useMyChrome) {
             log("⚠ Không thể mở trực tiếp profile Chrome (có thể do Chrome đang mở sẵn trên máy).");
@@ -4112,10 +4181,17 @@ async function runOneCycle(
             log("  Sau đó chạy: npm run ad-viewer -- --cdp");
             throw err;
           }
-          context = await chromium.launchPersistentContext(profileDir, launchOptions);
+          context = await withTimeout(
+            chromium.launchPersistentContext(profileDir, launchOptions),
+            45000,
+            null
+          );
+        }
+        if (!context) {
+          throw new Error(`Khởi động Chromium thất bại hoặc quá thời gian chờ (45s) qua proxy ${currentProxy?.server || "Direct"}`);
         }
         if (ENABLE_DEV_MODE && context) {
-          await ensureDeveloperMode(context);
+          await withTimeout(ensureDeveloperMode(context), 8000).catch(() => {});
         }
       });
       if (context && currentProxy?.username && currentProxy?.password) {
@@ -5293,6 +5369,7 @@ async function runOneCycle(
           // bỏ qua lỗi dọn temp
         }
       }
+      killInstanceProcesses(instanceId);
     }
     try { releaseCycleTurn(instanceId); } catch {}
   }
@@ -5450,6 +5527,7 @@ async function runInstanceSupervisor(instanceId, proxyManager, extPath, startTim
       }
       log(`🔥 [Supervisor] Instance #${instanceId} gặp sự cố ngoài dự kiến (Lần #${restarts}): ${fatalErr?.message || fatalErr}. Tự động phục hồi và tiếp tục ca trực sau 6 giây...`);
       try { releaseCycleTurn(instanceId, { quiet: true }); } catch {}
+      killInstanceProcesses(instanceId);
       await sleep(6000);
     }
   }
@@ -5506,8 +5584,10 @@ async function runInstanceLoop(instanceId, proxyManager, extPath, startTime) {
             }
           }
 
+          let watchdogTimer = null;
+          let isWatchdogTimedOut = false;
           try {
-            await runOneCycle(
+            const cyclePromise = runOneCycle(
               extPath,
               currentProxy,
               proxyManager,
@@ -5516,7 +5596,30 @@ async function runInstanceLoop(instanceId, proxyManager, extPath, startTime) {
               fingerprintProfile,
               instanceId
             );
+
+            const watchdogPromise = new Promise((_, reject) => {
+              watchdogTimer = setTimeout(() => {
+                isWatchdogTimedOut = true;
+                reject(
+                  new Error(
+                    `[Cycle Watchdog] Chu kỳ ${cycle} vượt quá giới hạn an toàn ${Math.round(CYCLE_TIMEOUT_MS / 1000)}s (bị kẹt do proxy đứt kết nối hoặc trang web đơ)`
+                  )
+                );
+              }, CYCLE_TIMEOUT_MS);
+            });
+
+            await Promise.race([cyclePromise, watchdogPromise]);
           } finally {
+            if (watchdogTimer) clearTimeout(watchdogTimer);
+            if (isWatchdogTimedOut) {
+              try { releaseCycleTurn(instanceId, { quiet: true }); } catch {}
+              killInstanceProcesses(instanceId);
+              if (currentProxy && !proxyManager?.directProxy) {
+                log(`[Cycle Watchdog] ⚠ Proxy ${currentProxy.server} gây treo instance #${instanceId}; loại bỏ khỏi danh sách.`);
+                proxyManager?.markDead(currentProxy);
+                proxyManager?.flush();
+              }
+            }
             proxyManager.releaseProxy(currentProxy);
             currentProxy = null;
           }
@@ -5551,6 +5654,7 @@ async function runInstanceLoop(instanceId, proxyManager, extPath, startTime) {
         } catch (cycleErr) {
           log(`⚠ [Instance #${instanceId}] Sự cố chu kỳ ${cycle}: ${cycleErr?.message || cycleErr}. Đang tự động dọn dẹp và tiếp tục chu kỳ mới sau 5s...`);
           try { releaseCycleTurn(instanceId, { quiet: true }); } catch {}
+          killInstanceProcesses(instanceId);
           if (currentProxy) {
             try { proxyManager.releaseProxy(currentProxy); } catch {}
             currentProxy = null;
@@ -5634,6 +5738,9 @@ export {
   parseScrollSpeed,
   SCROLL_BOTTOM_DELAY,
   parseScrollBottomDelay,
+  CYCLE_TIMEOUT_MS,
+  parseCycleTimeoutConfig,
+  killInstanceProcesses,
   scrollPageToBottom,
   performDeepEngagement,
 };

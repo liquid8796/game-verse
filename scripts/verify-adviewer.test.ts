@@ -175,5 +175,27 @@ describe("AdViewer runner integrity", () => {
     expect(parsed.delayCustom).toBe(600);
     expect(parsed.delayEnv).toBe(500);
   });
+
+  it("verifies cycle watchdog timeout configuration in adViewer", () => {
+    const { execSync } = require("node:child_process");
+    const testSnippet = `
+      import { parseCycleTimeoutConfig } from './scripts/adViewer.mjs';
+      const results = {
+        cycleDefault: parseCycleTimeoutConfig(['node', 'adViewer.mjs'], {}),
+        cycleCustomMs: parseCycleTimeoutConfig(['node', 'adViewer.mjs', '--cycle-timeout=120000ms'], {}),
+        cycleCustomS: parseCycleTimeoutConfig(['node', 'adViewer.mjs', '--cycle-timeout=90s'], {}),
+        cycleCustomM: parseCycleTimeoutConfig(['node', 'adViewer.mjs', '--cycle-timeout=2m'], {}),
+        cycleEnv: parseCycleTimeoutConfig(['node', 'adViewer.mjs'], { AD_VIEWER_CYCLE_TIMEOUT_MS: '60000' }),
+      };
+      console.log(JSON.stringify(results));
+    `;
+    const stdout = execSync(`node --input-type=module -e "${testSnippet.replace(/\n/g, ' ')}"`, { cwd: root, encoding: "utf8" });
+    const parsed = JSON.parse(stdout.trim());
+    expect(parsed.cycleDefault).toBe(180000);
+    expect(parsed.cycleCustomMs).toBe(120000);
+    expect(parsed.cycleCustomS).toBe(90000);
+    expect(parsed.cycleCustomM).toBe(120000);
+    expect(parsed.cycleEnv).toBe(60000);
+  });
 });
 
