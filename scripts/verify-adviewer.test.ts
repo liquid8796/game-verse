@@ -199,5 +199,31 @@ describe("AdViewer runner integrity", () => {
     expect(parsed.cycleCustomM).toBe(120000);
     expect(parsed.cycleEnv).toBe(60000);
   });
+
+  it("verifies unlimited instance count configuration in adViewer", () => {
+    const { execSync } = require("node:child_process");
+    const testSnippet = `
+      import { parseInstanceCount } from './scripts/adViewer.mjs';
+      const results = {
+        instDefault: parseInstanceCount(['node', 'adViewer.mjs'], {}),
+        inst20: parseInstanceCount(['node', 'adViewer.mjs', '--instances=20'], {}),
+        inst50: parseInstanceCount(['node', 'adViewer.mjs', '--instances=50'], {}),
+        inst100: parseInstanceCount(['node', 'adViewer.mjs', '--instances', '100'], {}),
+        instThread30: parseInstanceCount(['node', 'adViewer.mjs', '--threads=30'], {}),
+        instEnv25: parseInstanceCount(['node', 'adViewer.mjs'], { AD_VIEWER_INSTANCES: '25' }),
+        instZero: parseInstanceCount(['node', 'adViewer.mjs', '--instances=0'], {}),
+      };
+      console.log(JSON.stringify(results));
+    `;
+    const stdout = execSync(`node --input-type=module -e "${testSnippet.replace(/\n/g, ' ')}"`, { cwd: root, encoding: "utf8" });
+    const parsed = JSON.parse(stdout.trim());
+    expect(parsed.instDefault).toBe(1);
+    expect(parsed.inst20).toBe(20);
+    expect(parsed.inst50).toBe(50);
+    expect(parsed.inst100).toBe(100);
+    expect(parsed.instThread30).toBe(30);
+    expect(parsed.instEnv25).toBe(25);
+    expect(parsed.instZero).toBe(1);
+  });
 });
 
