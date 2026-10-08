@@ -27,6 +27,10 @@ export function SiteFooter() {
         </div>
         <p className="footer-meta">© {new Date().getUTCFullYear()} GameVerse<br />Gaming intelligence & player tools.</p>
       </div>
+      <div className="shell footer-address-bar">
+        <span className="footer-address-label">Business address</span>
+        <address className="footer-address">2000 Strand Rd, Unit 2405, Cranberry Township, PA 16066</address>
+      </div>
     </footer>
   );
 }
