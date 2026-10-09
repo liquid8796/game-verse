@@ -42,7 +42,7 @@
 .lfg-hero-footer{display:flex;justify-content:space-between;gap:20px;padding-block:22px;border-top:1px solid var(--lfg-edge);color:#9297a0;font-size:9px;font-weight:900;letter-spacing:.13em}
 .lfg-workspace{padding-top:62px;padding-bottom:105px}
 .lfg-game-rail{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:85px}
-.lfg-game-chip{position:relative;display:flex;flex-direction:column;justify-content:flex-end;width:clamp(112px,10vw,145px);height:116px;padding:14px 10px;border:1px solid var(--lfg-edge);background:#15151b;text-align:left;overflow:hidden;isolation:isolate;transition:transform .2s,border-color .2s}
+.lfg-game-chip{position:relative;display:flex;flex-direction:column;justify-content:flex-end;width:clamp(108px,9vw,128px);height:116px;padding:14px 10px;border:1px solid var(--lfg-edge);background:#15151b;text-align:left;overflow:hidden;isolation:isolate;transition:transform .2s,border-color .2s}
 .lfg-game-chip:hover{transform:translateY(-4px);border-color:rgba(215,255,88,.6)}
 .lfg-game-chip.is-active{border-color:var(--lfg-accent);box-shadow:inset 0 0 0 1px var(--lfg-accent)}
 .lfg-chip-art{position:absolute;inset:0;z-index:-1;background:#15151b}.lfg-chip-art img{object-fit:cover;filter:brightness(.48) saturate(.8);transition:transform .3s}
