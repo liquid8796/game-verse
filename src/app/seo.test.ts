@@ -111,5 +111,7 @@ describe("SEO and Metadata configuration", () => {
     expect(layoutContent).toContain("https://www.googletagmanager.com/gtag/js?id=G-PQES332NL4");
     expect(layoutContent).toContain("Organization");
     expect(layoutContent).toContain("SearchAction");
+    expect(layoutContent).toContain('name="6a97888e-site-verification"');
+    expect(layoutContent).toContain("87c58674c7eabd0e162f44e609b0a49c");
   });
 });

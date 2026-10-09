@@ -110,9 +110,12 @@ export const metadata: Metadata = {
       process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
       process.env.GOOGLE_SITE_VERIFICATION ||
       undefined,
-    other: process.env.NEXT_PUBLIC_BING_VERIFICATION
-      ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION }
-      : undefined,
+    other: {
+      ...(process.env.NEXT_PUBLIC_BING_VERIFICATION
+        ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION }
+        : {}),
+      "6a97888e-site-verification": "87c58674c7eabd0e162f44e609b0a49c",
+    },
   },
 };
 
@@ -158,6 +161,12 @@ gtag('config', 'G-PQES332NL4');`,
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7851683096379872"
           crossOrigin="anonymous"
+        />
+
+        {/* ExoClick verification */}
+        <meta
+          name="6a97888e-site-verification"
+          content="87c58674c7eabd0e162f44e609b0a49c"
         />
       </head>
       <body>
