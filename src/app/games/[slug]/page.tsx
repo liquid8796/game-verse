@@ -9,6 +9,7 @@ import { getCurrentUser } from "@/features/auth/lib/session";
 import { getGameArtwork } from "@/features/games/lib/game-artwork";
 import { LibraryControl } from "@/features/library/components/library-control";
 import { getLibraryStatus } from "@/features/library/repository/library-repository";
+import { MATCHMAKING_GAME_IDS } from "@/features/matchmaking/validation";
 import { RatingControl } from "@/features/reviews/components/rating-control";
 import { ReviewForm } from "@/features/reviews/components/review-form";
 import {
@@ -175,6 +176,25 @@ export default async function GamePage({ params }: Props) {
         </div>
         {artwork && <span className="game-detail-media-credit">Media · {artwork.credit}</span>}
       </header>
+      {game.status !== "upcoming" && MATCHMAKING_GAME_IDS.some((id) => id === game.id) && (
+        <section className="game-lfg-callout" aria-label="Find teammates for this game">
+          <div className="shell game-lfg-callout-inner">
+            <div>
+              <span className="game-lfg-callout-eyebrow">GAMEVERSE / MULTIPLAYER NETWORK</span>
+              <h2>GREAT SQUADS. <em>BETTER GAMES.</em></h2>
+              <p>Find players for {game.title}. Filter by region, skill and playstyle, or recruit teammates for your own lobby.</p>
+            </div>
+            <div className="game-lfg-callout-actions">
+              <Link href={"/find-players?game=" + encodeURIComponent(game.id)} className="game-lfg-callout-primary">
+                FIND TEAMMATES <span aria-hidden="true">↗</span>
+              </Link>
+              <Link href={"/find-players/new?game=" + encodeURIComponent(game.id)} className="game-lfg-callout-secondary">
+                POST A SQUAD <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
       {game.overview && (
         <section className="content-section game-overview"><div className="shell">
           <div className="section-heading">
