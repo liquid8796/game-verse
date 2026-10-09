@@ -1,5 +1,5 @@
-TBRZffVeNZzF:SCvlAsIaph5B
-
+205.179.217.186:7139:TBRZffVeNZzF:SCvlAsIaph5B
+109.107.56.126:44385:ubuifbl7:p1n0oh52
 
 --scroll-speed=max (Mặc định - nhanh tối đa)
 --scroll-speed=turbo (Siêu tốc)

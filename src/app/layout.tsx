@@ -3,7 +3,6 @@ import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, Manrope } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { AdcashAds, AdcashHead } from "@/components/AdcashAds";
 import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
@@ -160,11 +159,9 @@ gtag('config', 'G-PQES332NL4');`,
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7851683096379872"
           crossOrigin="anonymous"
         />
-        <AdcashHead />
       </head>
       <body>
         <SiteHeader />
-        <AdcashAds />
         {children}
         <SiteFooter />
       </body>

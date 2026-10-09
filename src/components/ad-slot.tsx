@@ -3,7 +3,7 @@ export function AdSlot({ name, format = "leaderboard" }: { name: string; format?
   return (
     <aside className={"ad-slot ad-slot-" + format} aria-label="Advertisement" data-ad-slot={name}>
       <span>Advertisement</span>
-      <div data-ad-mount={name} id={`adcash-slot-${name}`} className="adcash-slot-wrapper" />
+      <div data-ad-mount={name} id={`ad-slot-${name}`} className="ad-slot-wrapper" />
     </aside>
   );
 }
