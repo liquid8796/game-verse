@@ -110,6 +110,10 @@ export default async function Home() {
         </div>
       </section>
 
+      <section className="shell lfg-spotlight-link" aria-label="Find players and matchmaking">
+        <div><span>NEW / PLAYER NETWORK</span><strong>GREAT GAMES START WITH GREAT TEAMMATES.</strong><p>Find a duo, build a squad or post your own LFG. Filter by game, region and playstyle.</p></div>
+        <Link href="/find-players">FIND YOUR SQUAD ↗</Link>
+      </section>
       <TrendTicker games={games} />
 
       <section className="content-section biz-radar">

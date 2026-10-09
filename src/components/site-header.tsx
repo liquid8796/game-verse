@@ -4,7 +4,7 @@ import { getCurrentUser } from "@/features/auth/lib/session";
 import { countUnreadNotifications } from "@/features/notifications/repository/notification-repository";
 import { BrandMark } from "./brand-mark";
 
-const links = [["Games", "/games"], ["Stories", "/articles"], ["Discover", "/discover"], ["About", "/about"]] as const;
+const links = [["Games", "/games"], ["Stories", "/articles"], ["Discover", "/discover"], ["Find players", "/find-players"], ["About", "/about"]] as const;
 
 export async function SiteHeader() {
   const member = await getCurrentUser();
@@ -32,6 +32,7 @@ export async function SiteHeader() {
               </summary>
               <div>
                 <Link href="/account">Account</Link>
+                <Link href="/find-players/manage">My squads</Link>
                 <Link href="/me/library">My library</Link>
                 <Link href="/me/watchlist">Watchlist</Link>
                 <Link href="/me/saved">Saved stories</Link>
@@ -56,6 +57,7 @@ export async function SiteHeader() {
             {member ? (
               <>
                 <Link href="/account">Account</Link>
+                <Link href="/find-players/manage">My squads</Link>
                 <Link href="/me/library">My library</Link>
                 <Link href="/me/watchlist">Watchlist</Link>
                 <Link href="/me/saved">Saved stories</Link>

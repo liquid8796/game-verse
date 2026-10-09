@@ -16,6 +16,7 @@ export function SiteFooter() {
           <Link href="/games">Game database</Link>
           <Link href="/articles">Stories & guides</Link>
           <Link href="/discover">Discover</Link>
+          <Link href="/find-players">Find players / LFG</Link>
           <Link href="/signup">Player account</Link>
         </div>
         <div className="footer-links">

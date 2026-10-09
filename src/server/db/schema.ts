@@ -4,6 +4,7 @@ import {
   date,
   integer,
   index,
+  uniqueIndex,
   primaryKey,
   pgTable,
   text,
@@ -193,4 +194,40 @@ export const businessInquiries = pgTable("business_inquiries", {
 }, (table) => [
   index("business_inquiries_email_idx").on(table.email),
   index("business_inquiries_created_at_idx").on(table.createdAt),
+]);
+
+
+export const lfgPosts = pgTable("lfg_posts", {
+ id: text("id").primaryKey(),
+ userId: text("user_id").notNull().references(()=>users.id,{onDelete:"cascade"}),
+ gameId: text("game_id").notNull().references(()=>games.id,{onDelete:"cascade"}),
+ title: text("title").notNull(),
+ description: text("description").notNull(),
+ region: text("region").notNull(),
+ platform: text("platform").notNull(),
+ mode: text("mode").notNull(),
+ skill: text("skill").notNull(),
+ vibe: text("vibe").notNull(),
+ mic: boolean("mic").notNull().default(false),
+ slots: integer("slots").notNull(),
+ gamerTag: text("gamer_tag").notNull(),
+ status: text("status").notNull().default("open"),
+ expiresAt: timestamp("expires_at",{withTimezone:true}).notNull(),
+ createdAt: timestamp("created_at",{withTimezone:true}).defaultNow().notNull(),
+}, (t)=>[
+ index("lfg_posts_browse_idx").on(t.status,t.expiresAt,t.createdAt),
+ index("lfg_posts_game_idx").on(t.gameId),
+ index("lfg_posts_owner_idx").on(t.userId),
+ check("lfg_posts_slots_check",sql`${t.slots} between 1 and 4`),
+]);
+export const lfgRequests = pgTable("lfg_requests", {
+ id: text("id").primaryKey(),
+ postId: text("post_id").notNull().references(()=>lfgPosts.id,{onDelete:"cascade"}),
+ userId: text("user_id").notNull().references(()=>users.id,{onDelete:"cascade"}),
+ gamerTag: text("gamer_tag").notNull(),
+ status: text("status").notNull().default("pending"),
+ createdAt: timestamp("created_at",{withTimezone:true}).defaultNow().notNull(),
+},(t)=>[
+ uniqueIndex("lfg_requests_post_user_unique").on(t.postId,t.userId),
+ index("lfg_requests_owner_idx").on(t.userId),
 ]);
