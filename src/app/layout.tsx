@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, Manrope } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { ExoClickHead, ExoClickInterstitial } from "@/components/exoclick";
 import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
@@ -163,13 +164,15 @@ gtag('config', 'G-PQES332NL4');`,
           crossOrigin="anonymous"
         />
 
-        {/* ExoClick verification */}
+        {/* ExoClick verification & client hints */}
         <meta
           name="6a97888e-site-verification"
           content="87c58674c7eabd0e162f44e609b0a49c"
         />
+        <ExoClickHead />
       </head>
       <body>
+        <ExoClickInterstitial />
         <SiteHeader />
         {children}
         <SiteFooter />

@@ -703,11 +703,12 @@ function parseAdNetwork(cliArgs = process.argv, env = process.env) {
     "";
   const envVal = env.AD_VIEWER_AD_NETWORK || env.AD_VIEWER_AD_PROVIDER || env.AD_PROVIDER || "";
   const raw = (cli || envVal || "").trim().toLowerCase();
+  if (raw === "exoclick") return "exoclick";
   if (raw === "adcash") return "adcash";
   if (raw === "clickadu") return "clickadu";
   if (raw === "adsterra") return "adsterra";
   if (raw === "all" || raw === "both") return "all";
-  return "adcash";
+  return "exoclick";
 }
 
 const AD_NETWORK = parseAdNetwork();
@@ -2835,6 +2836,25 @@ async function resolvePopunderTarget(page) {
   try {
     const vp = page.viewportSize() || { width: 1280, height: 720 };
 
+    // 0. Kiểm tra ExoClick Interstitial Modal / video container
+    if (AD_NETWORK === "exoclick" || AD_NETWORK === "all") {
+      try {
+        const exoInterstitials = page.locator("#exoclick-interstitial-container a, ins.eas6a97888e35 a, iframe[src*='pemsrv'], iframe[src*='exoclick'], div.msg_wrapper a, [id*='_video_container']");
+        const count = await exoInterstitials.count().catch(() => 0);
+        for (let idx = 0; idx < count; idx++) {
+          const loc = exoInterstitials.nth(idx);
+          const box = await loc.boundingBox().catch(() => null);
+          if (box && box.width >= 10 && box.height >= 10) {
+            const cx = Math.floor(box.x + box.width * 0.5);
+            const cy = Math.floor(box.y + box.height * 0.5);
+            if (cx > 10 && cx < vp.width - 10 && cy > 10 && cy < vp.height - 10) {
+              return { x: cx, y: cy };
+            }
+          }
+        }
+      } catch {}
+    }
+
     // 1. Kiểm tra Adcash Interstitial Modal hoặc lớp phủ Popunder Interceptor (div[donto], div[znid])
     if (AD_NETWORK === "adcash" || AD_NETWORK === "all") {
       try {
@@ -3284,6 +3304,50 @@ async function inspectAdsterraPlacements(page, startedAt = Date.now()) {
     bannerIframe,
     socialBarFound,
     socialBarIframe,
+  };
+}
+
+async function inspectExoClickPlacements(page, startedAt = Date.now()) {
+  const waitMs = Math.min(3000, Math.max(0, AD_READY_TIMEOUT_MS - (Date.now() - startedAt)));
+  let ready = false;
+  let scriptCount = 0;
+  try {
+    if (waitMs > 0) {
+      await page
+        .waitForFunction(
+          () => {
+            const adProviderReady = typeof window.AdProvider !== "undefined";
+            const containerReady = document.getElementById("exoclick-interstitial-container") !== null;
+            const insReady = document.querySelector("ins.eas6a97888e35, ins[data-zoneid='6051238']") !== null;
+            const creativeDisplayed = Boolean(document.body?.getAttribute("data-exoclick-creative-displayed"));
+            const scriptReady = document.querySelector("script[src*='pemsrv'], script[src*='exoclick']") !== null;
+            return adProviderReady || containerReady || insReady || creativeDisplayed || scriptReady;
+          },
+          { timeout: waitMs },
+        )
+        .catch(() => {});
+    }
+    const info = await page
+      .evaluate(() => {
+        const adProviderReady = typeof window.AdProvider !== "undefined";
+        const scripts = Array.from(document.querySelectorAll("script"))
+          .map((s) => s.src)
+          .filter((src) => src.includes("pemsrv") || src.includes("exoclick"));
+        const hasExoElements = Boolean(
+          document.querySelector(
+            "#exoclick-interstitial-container, ins.eas6a97888e35, ins[data-zoneid='6051238'], iframe[src*='pemsrv'], iframe[src*='exoclick']",
+          ),
+        );
+        return { adProviderReady, scriptCount: scripts.length, hasExoElements };
+      })
+      .catch(() => ({ adProviderReady: false, scriptCount: 0, hasExoElements: false }));
+    ready = info.adProviderReady || info.hasExoElements || info.scriptCount > 0;
+    scriptCount = info.scriptCount;
+  } catch {}
+  return {
+    status: ready ? "ready" : "no-fill",
+    scriptCount,
+    renderMs: Math.max(0, Date.now() - startedAt),
   };
 }
 
@@ -4032,7 +4096,9 @@ async function runOneCycle(
         : "[AntiDetect] Chạy với Playwright Core mặc định."
     );
     const adNetworkDesc =
-      AD_NETWORK === "adcash"
+      AD_NETWORK === "exoclick"
+        ? "⚡ ExoClick (Zone 6051238 Desktop Interstitial)"
+        : AD_NETWORK === "adcash"
         ? "🚀 Adcash (AutoTag 1zmakzh6c)"
         : AD_NETWORK === "clickadu"
         ? "Clickadu"
@@ -4040,7 +4106,9 @@ async function runOneCycle(
         ? "Adsterra"
         : "Tất cả nhà mạng";
     log(`[Nhà Mạng Quảng Cáo] Mục tiêu: ${AD_NETWORK.toUpperCase()} (${adNetworkDesc})`);
-    if (AD_NETWORK === "adcash") {
+    if (AD_NETWORK === "exoclick") {
+      log(`[Trọng Tâm Định Dạng] Chế độ quảng cáo: ⚡ ExoClick Desktop Interstitial (Zone 6051238 / pemsrv)`);
+    } else if (AD_NETWORK === "adcash") {
       log(`[Trọng Tâm Định Dạng] Chế độ quảng cáo: 🚀 AutoTag tự động tối ưu hoá định dạng Adcash (Không phân biệt Popunder/Native)`);
     } else {
       log(`[Trọng Tâm Định Dạng] Chế độ quảng cáo: ${FOCUS_POPUNDER_SOCIAL ? "🎯 ƯU TIÊN POPUNDER + SOCIALBAR (Triệt tiêu impression & click NativeBanner)" : "Cân bằng mọi định dạng (Popunder + SocialBar + Banner + Native)"}`);
@@ -4639,7 +4707,17 @@ async function runOneCycle(
     let isForceClick = false;
     let diagnostic = null;
 
-    if (AD_NETWORK === "adcash") {
+    if (AD_NETWORK === "exoclick") {
+      const exoDiagnostic = await inspectExoClickPlacements(page, renderStartedAt);
+      log(`ExoClick: ${exoDiagnostic.status} (scripts pemsrv=${exoDiagnostic.scriptCount}, render=${exoDiagnostic.renderMs}ms).`);
+      isRenderFinished = exoDiagnostic.status === "ready";
+      isForceClick = !isRenderFinished;
+      if (isForceClick) {
+        log(
+          `[ForceClick] ⚡ Quá thời gian chờ render ExoClick (${exoDiagnostic.renderMs}ms / tối đa ${AD_READY_TIMEOUT_MS}ms) — KÍCH HOẠT CƯỠNG CHẾ (Force Click) ngay!`,
+        );
+      }
+    } else if (AD_NETWORK === "adcash") {
       const adcDiagnostic = await inspectAdcashPlacements(page, renderStartedAt);
       log(`Adcash: ${adcDiagnostic.status} (scripts acscdn=${adcDiagnostic.scriptCount}, render=${adcDiagnostic.renderMs}ms).`);
       isRenderFinished = adcDiagnostic.status === "ready";
@@ -4780,6 +4858,26 @@ async function runOneCycle(
         }
       } catch (err) {
         log(`Lỗi khi quét Adcash ads: ${err instanceof Error ? err.message : String(err)}`);
+      }
+    }
+
+    // 0. ExoClick Ads (Desktop Interstitial 6051238 / eas6a97888e35 / pemsrv / exoclick)
+    if (AD_NETWORK === "exoclick" || AD_NETWORK === "all") {
+      try {
+        const exoSelector = isForceClick
+          ? '#exoclick-interstitial-container a[href], #exoclick-interstitial-container iframe, ins.eas6a97888e35 a[href], ins.eas6a97888e35 iframe, [data-zoneid="6051238"] a, [data-zoneid="6051238"] iframe, iframe[src*="pemsrv"], iframe[src*="exoclick"], a[href*="pemsrv"], a[href*="exoclick"], div.msg_wrapper a, [id*="_video_container"] a'
+          : '#exoclick-interstitial-container a[href], #exoclick-interstitial-container iframe, ins.eas6a97888e35 a[href], ins.eas6a97888e35 iframe, [data-zoneid="6051238"] a, [data-zoneid="6051238"] iframe, iframe[src*="pemsrv"], iframe[src*="exoclick"], a[href*="pemsrv"], a[href*="exoclick"]';
+        const exoLocators = page.locator(exoSelector);
+        const exoCount = await exoLocators.count().catch(() => 0);
+        for (let i = 0; i < exoCount; i++) {
+          adCandidates.push({
+            name: `${isForceClick ? "[Force] " : ""}ExoClick Interstitial #${i + 1}/${exoCount}`,
+            locator: exoLocators.nth(i),
+            isExoclick: true,
+          });
+        }
+      } catch (err) {
+        log(`Lỗi khi quét ExoClick ads: ${err instanceof Error ? err.message : String(err)}`);
       }
     }
 
