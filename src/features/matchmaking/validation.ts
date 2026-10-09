@@ -28,3 +28,8 @@ export function validateLfgPost(raw: Record<string,unknown>, allowedGames: reado
  return {ok:true,value:{gameId,title,description,region,platform,mode,skill,vibe,slots,mic,gamerTag}};
 }
 export function validateGamerTag(tag:string) {return tag.trim().length>=3&&tag.trim().length<=64;}
+
+// Withdrawn squad requests can be retried, with a 24-hour anti-spam cooldown.
+export function canRetryWithdrawnRequest(status:string,createdAt:Date,now=new Date()){
+ return status==="withdrawn" && now.getTime()-createdAt.getTime()>=24*60*60*1000;
+}

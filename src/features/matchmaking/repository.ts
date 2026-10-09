@@ -3,7 +3,7 @@ import { and, count, desc, eq, gt, gte, inArray, ne } from "drizzle-orm";
 import { getDb } from "@/server/db/client";
 import { games, lfgPosts, lfgRequests, users } from "@/server/db/schema";
 import { createNotification } from "@/features/notifications/repository/notification-repository";
-import type { validateLfgPost } from "./validation";
+import { canRetryWithdrawnRequest, type validateLfgPost } from "./validation";
 
 type ValidPost = Extract<ReturnType<typeof validateLfgPost>,{ok:true}>["value"];
 
@@ -48,13 +48,24 @@ export async function requestToJoin(userId:string,postId:string,gamerTag:string)
  if(post.userId===userId) return "You cannot join your own group.";
  const [tally]=await db.select({n:count()}).from(lfgRequests).where(and(eq(lfgRequests.postId,postId),eq(lfgRequests.status,"accepted")));
  if(Number(tally?.n??0)>=post.slots) return "This team is already full.";
- const [existing]=await db.select({id:lfgRequests.id}).from(lfgRequests).where(and(eq(lfgRequests.userId,userId),eq(lfgRequests.postId,postId))).limit(1);
- if(existing) return "You already sent a request to this group.";
+ const [existing]=await db.select({id:lfgRequests.id,status:lfgRequests.status,createdAt:lfgRequests.createdAt})
+ .from(lfgRequests).where(and(eq(lfgRequests.userId,userId),eq(lfgRequests.postId,postId))).limit(1);
+ if(existing && !canRetryWithdrawnRequest(existing.status,existing.createdAt))
+  return existing.status==="withdrawn"
+   ? "You can request this group again 24 hours after withdrawing."
+   : "You have already applied to this group.";
  const since=new Date(Date.now()-24*60*60*1000);
  const [limits]=await db.select({n:count()}).from(lfgRequests).where(and(eq(lfgRequests.userId,userId),gte(lfgRequests.createdAt,since)));
  if(Number(limits?.n??0)>=15) return "Daily request limit reached. Try again tomorrow.";
  try {
- await db.insert(lfgRequests).values({id:randomUUID(),postId,userId,gamerTag,status:"pending"});
+  if(existing){
+   const changed=await db.update(lfgRequests).set({gamerTag,status:"pending",createdAt:new Date()})
+    .where(and(eq(lfgRequests.id,existing.id),eq(lfgRequests.userId,userId),eq(lfgRequests.status,"withdrawn")))
+    .returning({id:lfgRequests.id});
+   if(changed.length===0) return "This request has already been updated. Refresh and try again.";
+  } else {
+   await db.insert(lfgRequests).values({id:randomUUID(),postId,userId,gamerTag,status:"pending"});
+  }
  } catch {return "Could not send the request. You may have already applied.";}
  await createNotification({userId:post.userId,type:"lfg",title:"New teammate request",body:"Someone wants to join your "+post.title+" group.",href:"/find-players/manage"}).catch(()=>undefined);
  return null;
@@ -63,16 +74,22 @@ export async function requestToJoin(userId:string,postId:string,gamerTag:string)
 export async function decideLfgRequest(ownerId:string,requestId:string,decision:"accepted"|"declined") {
  const db=getDb();
  const result=await db.transaction(async tx=>{
-  const [request]=await tx.select().from(lfgRequests).where(eq(lfgRequests.id,requestId)).limit(1);
-  if(!request || request.status!=="pending") return {error:"This request is no longer pending."};
-  const [post]=await tx.select().from(lfgPosts).where(and(eq(lfgPosts.id,request.postId),eq(lfgPosts.userId,ownerId))).for("update").limit(1);
+  const [candidate]=await tx.select({postId:lfgRequests.postId}).from(lfgRequests).where(eq(lfgRequests.id,requestId)).limit(1);
+  if(!candidate) return {error:"This request is no longer pending."};
+  const [post]=await tx.select().from(lfgPosts).where(and(eq(lfgPosts.id,candidate.postId),eq(lfgPosts.userId,ownerId))).for("update").limit(1);
   if(!post) return {error:"Only the group owner can decide."};
+  // Re-read after locking the post: the applicant may withdraw concurrently.
+  const [request]=await tx.select().from(lfgRequests).where(eq(lfgRequests.id,requestId)).for("update").limit(1);
+  if(!request || request.status!=="pending") return {error:"This request is no longer pending."};
   if(post.status!=="open"||post.expiresAt<=new Date()) return {error:"This group has closed."};
   if(decision==="accepted"){
    const [used]=await tx.select({n:count()}).from(lfgRequests).where(and(eq(lfgRequests.postId,post.id),eq(lfgRequests.status,"accepted")));
    if(Number(used?.n??0)>=post.slots) return {error:"No spots left."};
   }
-  await tx.update(lfgRequests).set({status:decision}).where(and(eq(lfgRequests.id,requestId),eq(lfgRequests.status,"pending")));
+  const updated=await tx.update(lfgRequests).set({status:decision})
+   .where(and(eq(lfgRequests.id,requestId),eq(lfgRequests.status,"pending")))
+   .returning({id:lfgRequests.id});
+  if(updated.length===0) return {error:"This request was already updated."};
   return {notifyUserId:request.userId,title:post.title};
  });
  if("error" in result) return result.error;
@@ -95,5 +112,8 @@ export async function getLfgMemberDashboard(userId:string){
 }
 
 export async function withdrawLfgRequest(userId:string,requestId:string){
- await getDb().update(lfgRequests).set({status:"withdrawn"}).where(and(eq(lfgRequests.id,requestId),eq(lfgRequests.userId,userId),eq(lfgRequests.status,"pending")));
+ const changed=await getDb().update(lfgRequests).set({status:"withdrawn"})
+  .where(and(eq(lfgRequests.id,requestId),eq(lfgRequests.userId,userId),eq(lfgRequests.status,"pending")))
+  .returning({id:lfgRequests.id});
+ return changed.length>0;
 }

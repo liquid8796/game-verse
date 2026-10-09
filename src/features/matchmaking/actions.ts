@@ -58,7 +58,8 @@ export async function closeLfgPostAction(data:FormData){
 
 export async function withdrawLfgRequestAction(data:FormData){
  const member=await requireCurrentUser("/find-players/manage");
- await withdrawLfgRequest(member.id,value(data,"requestId"));
+ const withdrawn=await withdrawLfgRequest(member.id,value(data,"requestId"));
+ if(!withdrawn) back("/find-players/manage","This request was already updated. Refresh to see the latest status.");
  revalidatePath("/find-players/manage");
  back("/find-players/manage","Request withdrawn.");
 }
