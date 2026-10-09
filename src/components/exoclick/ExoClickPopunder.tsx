@@ -17,7 +17,7 @@ const EXOCLICK_POPUNDER_SNIPPET = `(function() {
     "chrome_enabled": true,
     "new_tab": true,
     "frequency_period": 1,
-    "frequency_count": 1,
+    "frequency_count": 3,
     "trigger_method": 1,
     "trigger_class": "",
     "trigger_delay": 0,
