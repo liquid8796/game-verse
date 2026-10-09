@@ -347,24 +347,28 @@ echo.
 
 REM 14. Nha mang quang cao muc tieu (Ad Network)
 echo [14] Nha mang quang cao muc tieu [Ad Network]:
-echo      1. Adcash [Mac dinh - chay AutoTag 1zmakzh6c tu dong]
-echo      2. Clickadu [Mang quang cao Clickadu]
-echo      3. Adsterra [Mang quang cao Adsterra]
-echo      4. Tat ca nha mang [All networks - Adcash + Clickadu + Adsterra]
+echo      1. ExoClick [Mac dinh - Popunder + Interstitial + Slider + In-Page Push]
+echo      2. Adcash [Chay AutoTag 1zmakzh6c tu dong]
+echo      3. Clickadu [Mang quang cao Clickadu]
+echo      4. Adsterra [Mang quang cao Adsterra]
+echo      5. Tat ca nha mang [All networks - ExoClick + Adcash + Clickadu + Adsterra]
 set "INPUT_AD_NETWORK="
-set /p "INPUT_AD_NETWORK=    Chon [1-4, Enter = 1]: "
-set "ARG_AD_NETWORK=--ad-network=adcash"
+set /p "INPUT_AD_NETWORK=    Chon [1-5, Enter = 1]: "
+set "ARG_AD_NETWORK=--ad-network=exoclick"
 if "%INPUT_AD_NETWORK%"=="2" (
+    set "ARG_AD_NETWORK=--ad-network=adcash"
+    echo     -^> Nha mang: Adcash [AutoTag 1zmakzh6c]
+) else if "%INPUT_AD_NETWORK%"=="3" (
     set "ARG_AD_NETWORK=--ad-network=clickadu"
     echo     -^> Nha mang: Clickadu
-) else if "%INPUT_AD_NETWORK%"=="3" (
+) else if "%INPUT_AD_NETWORK%"=="4" (
     set "ARG_AD_NETWORK=--ad-network=adsterra"
     echo     -^> Nha mang: Adsterra
-) else if "%INPUT_AD_NETWORK%"=="4" (
+) else if "%INPUT_AD_NETWORK%"=="5" (
     set "ARG_AD_NETWORK=--ad-network=all"
-    echo     -^> Nha mang: Tat ca [Adcash + Clickadu + Adsterra]
+    echo     -^> Nha mang: Tat ca [ExoClick + Adcash + Clickadu + Adsterra]
 ) else (
-    echo     -^> Nha mang: Adcash [AutoTag 1zmakzh6c - Mac dinh]
+    echo     -^> Nha mang: ExoClick [Popunder + Interstitial + Video Slider + In-Page Push - Mac dinh]
 )
 echo.
 

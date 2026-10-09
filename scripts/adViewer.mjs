@@ -3307,16 +3307,83 @@ async function inspectAdsterraPlacements(page, startedAt = Date.now()) {
   };
 }
 
+/**
+ * Đặt lại (reset) hoàn toàn trạng thái capping và storage của ExoClick trên trình duyệt:
+ * - Xoá các cookies: zone-cap-* (capping tần suất theo zone), __suvt, __nuvt (visitor tracking)
+ * - Xoá các key localStorage: BetterJsPop_* (popunder cooldown), atg_* (interstitial state), vast-client-* (video slider state)
+ * Đảm bảo mỗi chu kỳ duyệt, các máy chủ ExoClick (s.pemsrv.com / s.magsrv.com) luôn nhận diện
+ * là lượt truy cập mới tinh (fresh visitor) để phục vụ quảng cáo đầy đủ 100%.
+ */
+async function resetExoClickCapping(page, context) {
+  try {
+    if (context) {
+      const cookies = await context.cookies().catch(() => []);
+      for (const cookie of cookies) {
+        if (
+          cookie.name.startsWith("zone-cap-") ||
+          cookie.name === "__suvt" ||
+          cookie.name === "__nuvt" ||
+          cookie.name.toLowerCase().includes("exoclick")
+        ) {
+          await context.clearCookies({ name: cookie.name, domain: cookie.domain }).catch(() => {});
+        }
+      }
+    }
+    if (page && !page.isClosed()) {
+      await page
+        .evaluate(() => {
+          try {
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+              const k = localStorage.key(i);
+              if (
+                k &&
+                (k.startsWith("atg_") ||
+                  k.startsWith("BetterJsPop") ||
+                  k.startsWith("vast-client-") ||
+                  k.toLowerCase().includes("exo") ||
+                  k.toLowerCase().includes("popmagic"))
+              ) {
+                keysToRemove.push(k);
+              }
+            }
+            keysToRemove.forEach((k) => localStorage.removeItem(k));
+          } catch {}
+          try {
+            document.cookie.split(";").forEach((cookie) => {
+              const eqPos = cookie.indexOf("=");
+              const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
+              if (name.startsWith("zone-cap-") || name === "__suvt" || name === "__nuvt") {
+                document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;`;
+                document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.gameverse.online;`;
+              }
+            });
+          } catch {}
+        })
+        .catch(() => {});
+    }
+  } catch {}
+}
+
 async function inspectExoClickPlacements(page, startedAt = Date.now()) {
   const waitMs = Math.min(3000, Math.max(0, AD_READY_TIMEOUT_MS - (Date.now() - startedAt)));
   let ready = false;
   let scriptCount = 0;
+  let popunderReady = false;
+  let inPagePushReady = false;
+  let videoSliderReady = false;
+  let interstitialReady = false;
   try {
     if (waitMs > 0) {
       await page
         .waitForFunction(
           () => {
-            const adProviderReady = typeof window.AdProvider !== "undefined" || typeof window.popMagic !== "undefined";
+            const adProviderReady =
+              typeof window.AdProvider !== "undefined" ||
+              typeof window.popMagic !== "undefined" ||
+              typeof window.msgJsPop101 !== "undefined" ||
+              typeof window.exoJsPop101 !== "undefined" ||
+              typeof window.ExoLoader !== "undefined";
             const containerReady =
               document.getElementById("exoclick-interstitial-container") !== null ||
               document.getElementById("exoclick-popunder-container") !== null ||
@@ -3324,41 +3391,100 @@ async function inspectExoClickPlacements(page, startedAt = Date.now()) {
               document.getElementById("exoclick-push-notifications-container") !== null ||
               document.getElementById("exoclick-in-page-push-container") !== null ||
               document.getElementById("popmagicldr") !== null;
-            const insReady = document.querySelector("ins.eas6a97888e35, ins.eas6a97888e33, ins.eas6a97888e31, ins.eas6a97888e29, ins.eas6a97888e42, ins[data-zoneid='6051238'], ins[data-zoneid='6051310'], ins[data-zoneid='6051312'], ins[data-zoneid='6051314'], ins[data-zoneid='6051316'], [data-zoneid='6051294'], [data-zoneid='6051308']") !== null;
+            const insReady =
+              document.querySelector(
+                "ins.eas6a97888e35, ins.eas6a97888e33, ins.eas6a97888e31, ins.eas6a97888e29, ins.eas6a97888e42, ins[data-zoneid='6051238'], ins[data-zoneid='6051310'], ins[data-zoneid='6051312'], ins[data-zoneid='6051314'], ins[data-zoneid='6051316'], [data-zoneid='6051294'], [data-zoneid='6051308']"
+              ) !== null;
             const creativeDisplayed = Boolean(
               document.body?.getAttribute("data-exoclick-creative-displayed") ||
-              document.body?.getAttribute("data-exoclick-popunder-displayed") ||
-              document.body?.getAttribute("data-exoclick-video-slider-displayed") ||
-              document.body?.getAttribute("data-exoclick-push-displayed") ||
-              document.body?.getAttribute("data-exoclick-in-page-push-displayed"),
+                document.body?.getAttribute("data-exoclick-popunder-displayed") ||
+                document.body?.getAttribute("data-exoclick-video-slider-displayed") ||
+                document.body?.getAttribute("data-exoclick-push-displayed") ||
+                document.body?.getAttribute("data-exoclick-in-page-push-displayed")
             );
-            const scriptReady = document.querySelector("script[src*='pemsrv'], script[src*='magsrv'], script[src*='wpnsrv'], script[src*='exoclick'], script[src*='popunder1000']") !== null;
-            return adProviderReady || containerReady || insReady || creativeDisplayed || scriptReady;
+            const scriptReady =
+              document.querySelector(
+                "script[src*='pemsrv'], script[src*='magsrv'], script[src*='wpnsrv'], script[src*='exoclick'], script[src*='popunder1000']"
+              ) !== null;
+            const popStackReady = Boolean(
+              window.msgJsPop101?.getStack?.()?.length > 0 || window.exoJsPop101?.getStack?.()?.length > 0
+            );
+            return adProviderReady || containerReady || insReady || creativeDisplayed || scriptReady || popStackReady;
           },
-          { timeout: waitMs },
+          { timeout: waitMs }
         )
         .catch(() => {});
     }
     const info = await page
       .evaluate(() => {
-        const adProviderReady = typeof window.AdProvider !== "undefined" || typeof window.popMagic !== "undefined";
+        const adProviderReady =
+          typeof window.AdProvider !== "undefined" ||
+          typeof window.popMagic !== "undefined" ||
+          typeof window.msgJsPop101 !== "undefined" ||
+          typeof window.exoJsPop101 !== "undefined" ||
+          typeof window.ExoLoader !== "undefined";
         const scripts = Array.from(document.querySelectorAll("script"))
           .map((s) => s.src)
-          .filter((src) => src.includes("pemsrv") || src.includes("magsrv") || src.includes("wpnsrv") || src.includes("exoclick") || src.includes("popunder1000"));
+          .filter(
+            (src) =>
+              src.includes("pemsrv") ||
+              src.includes("magsrv") ||
+              src.includes("wpnsrv") ||
+              src.includes("exoclick") ||
+              src.includes("popunder1000")
+          );
         const hasExoElements = Boolean(
           document.querySelector(
-            "#exoclick-interstitial-container, #exoclick-popunder-container, #exoclick-video-slider-container, #exoclick-push-notifications-container, #exoclick-in-page-push-container, #popmagicldr, ins.eas6a97888e35, ins.eas6a97888e33, ins.eas6a97888e31, ins.eas6a97888e29, ins.eas6a97888e42, ins[data-zoneid='6051238'], ins[data-zoneid='6051310'], ins[data-zoneid='6051312'], ins[data-zoneid='6051314'], ins[data-zoneid='6051316'], [data-zoneid='6051294'], [data-zoneid='6051308'], iframe[src*='pemsrv'], iframe[src*='magsrv'], iframe[src*='wpnsrv'], iframe[src*='exoclick']",
-          ),
+            "#exoclick-interstitial-container, #exoclick-popunder-container, #exoclick-video-slider-container, #exoclick-push-notifications-container, #exoclick-in-page-push-container, #popmagicldr, ins.eas6a97888e35, ins.eas6a97888e33, ins.eas6a97888e31, ins.eas6a97888e29, ins.eas6a97888e42, ins[data-zoneid='6051238'], ins[data-zoneid='6051310'], ins[data-zoneid='6051312'], ins[data-zoneid='6051314'], ins[data-zoneid='6051316'], [data-zoneid='6051294'], [data-zoneid='6051308'], iframe[src*='pemsrv'], iframe[src*='magsrv'], iframe[src*='wpnsrv'], iframe[src*='exoclick']"
+          )
         );
-        return { adProviderReady, scriptCount: scripts.length, hasExoElements };
+        const popStackCount = (window.msgJsPop101?.getStack?.() || window.exoJsPop101?.getStack?.() || []).length;
+        const popunderReady =
+          popStackCount > 0 ||
+          Boolean(document.body?.getAttribute("data-exoclick-popunder-displayed")) ||
+          Boolean(document.querySelector("#popmagicldr, script[src*='popunder1000']"));
+        const inPagePushReady =
+          Boolean(document.body?.getAttribute("data-exoclick-in-page-push-displayed")) ||
+          Boolean(document.querySelector("#exoclick-in-page-push-container, .msg-inpage-push, ins.eas6a97888e42"));
+        const videoSliderReady =
+          Boolean(document.body?.getAttribute("data-exoclick-video-slider-displayed")) ||
+          Boolean(document.querySelector("#exoclick-video-slider-container, ins.eas6a97888e31, [id*='_video_container']"));
+        const interstitialReady =
+          Boolean(document.body?.getAttribute("data-exoclick-creative-displayed")) ||
+          Boolean(document.querySelector("#exoclick-interstitial-container, ins.eas6a97888e35, ins.eas6a97888e33"));
+        return {
+          adProviderReady,
+          scriptCount: scripts.length,
+          hasExoElements,
+          popunderReady,
+          inPagePushReady,
+          videoSliderReady,
+          interstitialReady,
+        };
       })
-      .catch(() => ({ adProviderReady: false, scriptCount: 0, hasExoElements: false }));
-    ready = info.adProviderReady || info.hasExoElements || info.scriptCount > 0;
+      .catch(() => ({
+        adProviderReady: false,
+        scriptCount: 0,
+        hasExoElements: false,
+        popunderReady: false,
+        inPagePushReady: false,
+        videoSliderReady: false,
+        interstitialReady: false,
+      }));
+    ready = info.adProviderReady || info.hasExoElements || info.scriptCount > 0 || info.popunderReady;
     scriptCount = info.scriptCount;
+    popunderReady = info.popunderReady;
+    inPagePushReady = info.inPagePushReady;
+    videoSliderReady = info.videoSliderReady;
+    interstitialReady = info.interstitialReady;
   } catch {}
   return {
     status: ready ? "ready" : "no-fill",
     scriptCount,
+    popunderReady,
+    inPagePushReady,
+    videoSliderReady,
+    interstitialReady,
     renderMs: Math.max(0, Date.now() - startedAt),
   };
 }
@@ -4109,7 +4235,7 @@ async function runOneCycle(
     );
     const adNetworkDesc =
       AD_NETWORK === "exoclick"
-        ? "⚡ ExoClick (Zone 6051238 Desktop Interstitial)"
+        ? "⚡ ExoClick (Zone 6051238 Interstitial, 6051294/6051308 Popunder, 6051312 Video Slider, 6051316 In-Page Push)"
         : AD_NETWORK === "adcash"
         ? "🚀 Adcash (AutoTag 1zmakzh6c)"
         : AD_NETWORK === "clickadu"
@@ -4119,7 +4245,7 @@ async function runOneCycle(
         : "Tất cả nhà mạng";
     log(`[Nhà Mạng Quảng Cáo] Mục tiêu: ${AD_NETWORK.toUpperCase()} (${adNetworkDesc})`);
     if (AD_NETWORK === "exoclick") {
-      log(`[Trọng Tâm Định Dạng] Chế độ quảng cáo: ⚡ ExoClick Desktop Interstitial (Zone 6051238 / pemsrv)`);
+      log(`[Trọng Tâm Định Dạng] Chế độ quảng cáo: ⚡ ExoClick Đa Định Dạng (Popunder 6051294/6051308, Interstitial 6051238/6051310, Video Slider 6051312, In-Page Push 6051316)`);
     } else if (AD_NETWORK === "adcash") {
       log(`[Trọng Tâm Định Dạng] Chế độ quảng cáo: 🚀 AutoTag tự động tối ưu hoá định dạng Adcash (Không phân biệt Popunder/Native)`);
     } else {
@@ -4685,6 +4811,11 @@ async function runOneCycle(
       log(`[Traffic Source] 🌐 Truy cập trực tiếp (Direct Traffic)`);
     }
 
+    if (AD_NETWORK === "exoclick" || AD_NETWORK === "all") {
+      log("[ExoClick] 🔄 Đặt lại bộ nhớ capping & visitor cookies để đảm bảo 100% tỷ lệ phân phối quảng cáo...");
+      await resetExoClickCapping(page, context);
+    }
+
     const renderStartedAt = Date.now();
     log(`Mở trang chủ ${WEB_URL}...`);
     await page.goto(WEB_URL, {
@@ -4721,7 +4852,13 @@ async function runOneCycle(
 
     if (AD_NETWORK === "exoclick") {
       const exoDiagnostic = await inspectExoClickPlacements(page, renderStartedAt);
-      log(`ExoClick: ${exoDiagnostic.status} (scripts pemsrv=${exoDiagnostic.scriptCount}, render=${exoDiagnostic.renderMs}ms).`);
+      const readyDetails = [];
+      if (exoDiagnostic.popunderReady) readyDetails.push("Popunder");
+      if (exoDiagnostic.inPagePushReady) readyDetails.push("In-Page Push");
+      if (exoDiagnostic.videoSliderReady) readyDetails.push("Video Slider");
+      if (exoDiagnostic.interstitialReady) readyDetails.push("Interstitial");
+      const detailsStr = readyDetails.length > 0 ? ` [Sẵn sàng: ${readyDetails.join(", ")}]` : "";
+      log(`ExoClick: ${exoDiagnostic.status}${detailsStr} (scripts=${exoDiagnostic.scriptCount}, render=${exoDiagnostic.renderMs}ms).`);
       isRenderFinished = exoDiagnostic.status === "ready";
       isForceClick = !isRenderFinished;
       if (isForceClick) {
@@ -4873,18 +5010,60 @@ async function runOneCycle(
       }
     }
 
-    // 0. ExoClick Ads (Desktop Interstitial 6051238 / eas6a97888e35 / pemsrv / exoclick)
+    // 0. ExoClick Ads (In-Page Push, Video Slider, Interstitial, General)
     if (AD_NETWORK === "exoclick" || AD_NETWORK === "all") {
       try {
-        const exoSelector = isForceClick
-          ? '#exoclick-interstitial-container a[href], #exoclick-interstitial-container iframe, #exoclick-popunder-container a[href], #exoclick-video-slider-container a[href], #exoclick-video-slider-container iframe, #exoclick-push-notifications-container a[href], #exoclick-push-notifications-container iframe, #exoclick-in-page-push-container a[href], #exoclick-in-page-push-container iframe, ins.eas6a97888e35 a[href], ins.eas6a97888e35 iframe, ins.eas6a97888e33 a[href], ins.eas6a97888e33 iframe, ins.eas6a97888e31 a[href], ins.eas6a97888e31 iframe, ins.eas6a97888e29 a[href], ins.eas6a97888e29 iframe, ins.eas6a97888e42 a[href], ins.eas6a97888e42 iframe, [data-zoneid="6051238"] a, [data-zoneid="6051238"] iframe, [data-zoneid="6051310"] a, [data-zoneid="6051310"] iframe, [data-zoneid="6051312"] a, [data-zoneid="6051312"] iframe, [data-zoneid="6051314"] a, [data-zoneid="6051314"] iframe, [data-zoneid="6051316"] a, [data-zoneid="6051316"] iframe, [data-zoneid="6051294"] a, [data-zoneid="6051308"] a, iframe[src*="pemsrv"], iframe[src*="magsrv"], iframe[src*="wpnsrv"], iframe[src*="exoclick"], a[href*="pemsrv"], a[href*="magsrv"], a[href*="wpnsrv"], a[href*="exoclick"], div.msg_wrapper a, [id*="_video_container"] a'
-          : '#exoclick-interstitial-container a[href], #exoclick-interstitial-container iframe, #exoclick-popunder-container a[href], #exoclick-video-slider-container a[href], #exoclick-video-slider-container iframe, #exoclick-push-notifications-container a[href], #exoclick-push-notifications-container iframe, #exoclick-in-page-push-container a[href], #exoclick-in-page-push-container iframe, ins.eas6a97888e35 a[href], ins.eas6a97888e35 iframe, ins.eas6a97888e33 a[href], ins.eas6a97888e33 iframe, ins.eas6a97888e31 a[href], ins.eas6a97888e31 iframe, ins.eas6a97888e29 a[href], ins.eas6a97888e29 iframe, ins.eas6a97888e42 a[href], ins.eas6a97888e42 iframe, [data-zoneid="6051238"] a, [data-zoneid="6051238"] iframe, [data-zoneid="6051310"] a, [data-zoneid="6051310"] iframe, [data-zoneid="6051312"] a, [data-zoneid="6051312"] iframe, [data-zoneid="6051314"] a, [data-zoneid="6051314"] iframe, [data-zoneid="6051316"] a, [data-zoneid="6051316"] iframe, [data-zoneid="6051294"] a, [data-zoneid="6051308"] a, iframe[src*="pemsrv"], iframe[src*="magsrv"], iframe[src*="wpnsrv"], iframe[src*="exoclick"], a[href*="pemsrv"], a[href*="magsrv"], a[href*="wpnsrv"], a[href*="exoclick"]';
-        const exoLocators = page.locator(exoSelector);
-        const exoCount = await exoLocators.count().catch(() => 0);
-        for (let i = 0; i < exoCount; i++) {
+        // 0a. In-Page Push (Zone 6051316 / eas6a97888e42)
+        const inPagePushLocators = page.locator(
+          '#exoclick-in-page-push-container a[href], .msg-inpage-push a, ins.eas6a97888e42 a, div.msg_wrapper a, .msg-native-widget-item a, #exoclick-in-page-push-container iframe, ins.eas6a97888e42 iframe, [data-zoneid="6051316"] a'
+        );
+        const pushCount = await inPagePushLocators.count().catch(() => 0);
+        for (let i = 0; i < pushCount; i++) {
           adCandidates.push({
-            name: `${isForceClick ? "[Force] " : ""}ExoClick Ad unit #${i + 1}/${exoCount}`,
-            locator: exoLocators.nth(i),
+            name: `${isForceClick ? "[Force] " : ""}ExoClick In-Page Push #${i + 1}/${pushCount}`,
+            locator: inPagePushLocators.nth(i),
+            isInPagePush: true,
+            isExoclick: true,
+          });
+        }
+
+        // 0b. Video Slider (Zone 6051312 / eas6a97888e31)
+        const videoSliderLocators = page.locator(
+          '#exoclick-video-slider-container a[href], ins.eas6a97888e31 a, [id*="_video_container"] a, div[class*="video-slider"] a, #exoclick-video-slider-container iframe, ins.eas6a97888e31 iframe, [data-zoneid="6051312"] a'
+        );
+        const sliderCount = await videoSliderLocators.count().catch(() => 0);
+        for (let i = 0; i < sliderCount; i++) {
+          adCandidates.push({
+            name: `${isForceClick ? "[Force] " : ""}ExoClick Video Slider #${i + 1}/${sliderCount}`,
+            locator: videoSliderLocators.nth(i),
+            isInterstitial: true,
+            isExoclick: true,
+          });
+        }
+
+        // 0c. Desktop / Mobile Interstitial (Zone 6051238 / 6051310)
+        const interstitialLocators = page.locator(
+          '#exoclick-interstitial-container a[href], ins.eas6a97888e35 a, ins.eas6a97888e33 a, [data-zoneid="6051238"] a, [data-zoneid="6051310"] a, #exoclick-interstitial-container iframe, ins.eas6a97888e35 iframe, ins.eas6a97888e33 iframe'
+        );
+        const interstitialCount = await interstitialLocators.count().catch(() => 0);
+        for (let i = 0; i < interstitialCount; i++) {
+          adCandidates.push({
+            name: `${isForceClick ? "[Force] " : ""}ExoClick Interstitial #${i + 1}/${interstitialCount}`,
+            locator: interstitialLocators.nth(i),
+            isInterstitial: true,
+            isExoclick: true,
+          });
+        }
+
+        // 0d. Các thành phần ExoClick mở rộng khác (CDN links, bkcdn, pemsrv, magsrv)
+        const generalExoLocators = page.locator(
+          'a[href*="pemsrv"], a[href*="magsrv"], a[href*="wpnsrv"], a[href*="exoclick"], a[href*="bkcdn.net"], iframe[src*="pemsrv"], iframe[src*="magsrv"], iframe[src*="wpnsrv"], iframe[src*="exoclick"]'
+        );
+        const genCount = await generalExoLocators.count().catch(() => 0);
+        for (let i = 0; i < genCount; i++) {
+          adCandidates.push({
+            name: `${isForceClick ? "[Force] " : ""}ExoClick General #${i + 1}/${genCount}`,
+            locator: generalExoLocators.nth(i),
             isExoclick: true,
           });
         }
@@ -5028,6 +5207,13 @@ async function runOneCycle(
     // 4. Dự phòng cưỡng chế nếu trang tải quá chậm chưa có link nào
     if (isForceClick && adCandidates.length === 0) {
       const fallbackLocators = [
+        ...(AD_NETWORK === "exoclick" || AD_NETWORK === "all"
+          ? [
+              { name: "[Force] ExoClick In-Page Push Container", sel: "#exoclick-in-page-push-container, .msg-inpage-push" },
+              { name: "[Force] ExoClick Video Slider Container", sel: "#exoclick-video-slider-container, ins.eas6a97888e31" },
+              { name: "[Force] ExoClick Interstitial Container", sel: "#exoclick-interstitial-container, ins.eas6a97888e35" },
+            ]
+          : []),
         ...(AD_NETWORK === "adcash" || AD_NETWORK === "all"
           ? [{ name: "[Force] Adcash Container", sel: ADCASH_CONTAINER_SELECTOR }]
           : []),
@@ -5117,11 +5303,12 @@ async function runOneCycle(
       }
     } else {
       // 3. Chế độ tự động: Ưu tiên click Popunder hoặc tương tác tự nhiên theo mạng quảng cáo
+      const isExoclick = AD_NETWORK === "exoclick" || AD_NETWORK === "all";
       const isAdcash = AD_NETWORK === "adcash" || AD_NETWORK === "all";
-      const allowPopunderAttempt = FOCUS_POPUNDER_SOCIAL || POPUNDER_RATIO > 0;
-      if (allowPopunderAttempt && preferPopunder) {
+      const allowPopunderAttempt = FOCUS_POPUNDER_SOCIAL || POPUNDER_RATIO > 0 || isExoclick;
+      if (allowPopunderAttempt && (preferPopunder || isExoclick)) {
         log(
-          `🎯 [Popunder Ưu Tiên ${Math.round(POPUNDER_RATIO * 100)}%] Kích hoạt click tự nhiên trên trang web để ưu tiên nổ Popunder (${cycleClickMode} mode)...`,
+          `🎯 [${isExoclick ? "ExoClick Popunder" : "Popunder Ưu Tiên"}${POPUNDER_RATIO > 0 ? ` ${Math.round(POPUNDER_RATIO * 100)}%` : ""}] Kích hoạt click tự nhiên trên trang web để kích hoạt Popunder (${cycleClickMode} mode)...`,
         );
         const popTarget = await resolvePopunderTarget(page);
         log(`-> Click tự nhiên tại (${Math.round(popTarget.x)}, ${Math.round(popTarget.y)}) để kích hoạt Popunder...`);
@@ -5139,7 +5326,7 @@ async function runOneCycle(
             adClicked = true;
             log("✓ Đã bắt được trang Popunder từ tab phụ.");
           } else {
-            log("Popunder chưa mở tab mới (có thể do cooldown mạng quảng cáo); chuyển sang click banner dự phòng...");
+            log("Popunder chưa mở tab mới (có thể do cooldown mạng quảng cáo); chuyển sang click ad unit dự phòng...");
           }
         }
       } else if (isAdcash) {
@@ -5242,22 +5429,22 @@ async function runOneCycle(
       }
     }
 
-    // 4. Nếu Popunder/SocialBar/AutoTag vẫn chưa mở được tab: Thử lại 1 lần click tự nhiên
-    if (!adClicked && cycleClickMode !== "manual" && (shouldScanAdsterra || isAdcash)) {
-      log(`🎯 [${isAdcash ? "Adcash AutoTag" : "Popunder"} Thử Lại] Kích hoạt click mô phỏng tự nhiên trên trang để thử lại...`);
+    // 4. Nếu Popunder/SocialBar/AutoTag/ExoClick vẫn chưa mở được tab: Thử lại 1 lần click tự nhiên
+    if (!adClicked && cycleClickMode !== "manual" && (shouldScanAdsterra || isAdcash || isExoclick)) {
+      log(`🎯 [${isExoclick ? "ExoClick Popunder" : isAdcash ? "Adcash AutoTag" : "Popunder"} Thử Lại] Kích hoạt click mô phỏng tự nhiên trên trang để thử lại...`);
       const popTarget = await resolvePopunderTarget(page);
       const popup = await performEngageAndClick(page, context, popTarget.x, popTarget.y, instanceId, cycleClickMode);
       if (popup) {
         openedPage = popup;
         adClicked = true;
-        log(`✓ ${isAdcash ? "AutoTag Adcash" : "Popunder"} đã được kích hoạt thành công!`);
+        log(`✓ ${isExoclick ? "ExoClick Popunder" : isAdcash ? "AutoTag Adcash" : "Popunder"} đã được kích hoạt thành công!`);
       } else {
         await sleep(2000);
         const allPages = context.pages();
         if (allPages.length > 1) {
           openedPage = allPages[allPages.length - 1];
           adClicked = true;
-          log(`✓ Đã bắt được trang ${isAdcash ? "Adcash" : "Popunder"} từ tab phụ.`);
+          log(`✓ Đã bắt được trang ${isExoclick ? "ExoClick" : isAdcash ? "Adcash" : "Popunder"} từ tab phụ.`);
         }
       }
     }
@@ -5265,6 +5452,24 @@ async function runOneCycle(
     // 5. Dự phòng selector cuối cùng (giới hạn tối đa 2 lần thử, TUYỆT ĐỐI không click Native khi bật FOCUS_POPUNDER_SOCIAL)
     if (!adClicked && cycleClickMode !== "manual") {
       const candidateSelectors = [
+        ...(AD_NETWORK === "exoclick" || AD_NETWORK === "all"
+          ? [
+              '#exoclick-interstitial-container a[href]',
+              '#exoclick-in-page-push-container a[href]',
+              '#exoclick-video-slider-container a[href]',
+              'ins.eas6a97888e35 a[href]',
+              'ins.eas6a97888e42 a[href]',
+              'ins.eas6a97888e31 a[href]',
+              '.msg-inpage-push a[href]',
+              'div.msg_wrapper a[href]',
+              '.msg-native-widget-item a[href]',
+              'a[href*="pemsrv"]',
+              'a[href*="magsrv"]',
+              'a[href*="bkcdn.net"]',
+              'iframe[src*="pemsrv"]',
+              'iframe[src*="magsrv"]',
+            ]
+          : []),
         ...(AD_NETWORK === "adcash" || AD_NETWORK === "all"
           ? [
               'div >>> #goToButton',
@@ -5913,6 +6118,8 @@ export {
   FOCUS_POPUNDER_SOCIAL,
   parseAdNetwork,
   AD_NETWORK,
+  resetExoClickCapping,
+  inspectExoClickPlacements,
   ADCASH_CONTAINER_SELECTOR,
   CLICKADU_CONTAINER_SELECTOR,
   SOCIAL_BAR_KEY,

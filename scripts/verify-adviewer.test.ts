@@ -225,5 +225,37 @@ describe("AdViewer runner integrity", () => {
     expect(parsed.instEnv25).toBe(25);
     expect(parsed.instZero).toBe(1);
   });
+
+  it("verifies ExoClick ad network configuration, capping reset and diagnostic functions", () => {
+    const batContent = readFileSync(join(root, "run-ad-viewer.bat"), "utf8");
+    expect(batContent).toContain("1. ExoClick [Mac dinh - Popunder + Interstitial + Slider + In-Page Push]");
+    expect(batContent).toContain('set "ARG_AD_NETWORK=--ad-network=exoclick"');
+
+    const adViewerContent = readFileSync(join(root, "scripts/adViewer.mjs"), "utf8");
+    expect(adViewerContent).toContain("resetExoClickCapping");
+    expect(adViewerContent).toContain("inspectExoClickPlacements");
+    expect(adViewerContent).toContain("zone-cap-");
+    expect(adViewerContent).toContain("BetterJsPop");
+
+    const { execSync } = require("node:child_process");
+    const testSnippet = `
+      import { parseAdNetwork, resetExoClickCapping, inspectExoClickPlacements } from './scripts/adViewer.mjs';
+      const results = {
+        adNetDefault: parseAdNetwork(['node', 'adViewer.mjs'], {}),
+        adNetExo: parseAdNetwork(['node', 'adViewer.mjs', '--ad-network=exoclick'], {}),
+        adNetAdcash: parseAdNetwork(['node', 'adViewer.mjs', '--ad-network=adcash'], {}),
+        hasResetFn: typeof resetExoClickCapping === 'function',
+        hasInspectFn: typeof inspectExoClickPlacements === 'function',
+      };
+      console.log(JSON.stringify(results));
+    `;
+    const stdout = execSync(`node --input-type=module -e "${testSnippet.replace(/\n/g, ' ')}"`, { cwd: root, encoding: "utf8" });
+    const parsed = JSON.parse(stdout.trim());
+    expect(parsed.adNetDefault).toBe("exoclick");
+    expect(parsed.adNetExo).toBe("exoclick");
+    expect(parsed.adNetAdcash).toBe("adcash");
+    expect(parsed.hasResetFn).toBe(true);
+    expect(parsed.hasInspectFn).toBe(true);
+  });
 });
 
