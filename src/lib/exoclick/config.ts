@@ -14,6 +14,7 @@
  */
 export const EXOCLICK_ZONE_INTERSTITIAL = "6051238" as const;
 export const EXOCLICK_ZONE_POPUNDER = "6051294" as const;
+export const EXOCLICK_ZONE_POPUNDER_SECONDARY = "6051308" as const;
 export const EXOCLICK_CLASS = "eas6a97888e35" as const;
 export const EXOCLICK_PROVIDER_SRC = "https://a.pemsrv.com/ad-provider.js" as const;
 export const EXOCLICK_SERVING_DOMAIN = "https://s.pemsrv.com" as const;

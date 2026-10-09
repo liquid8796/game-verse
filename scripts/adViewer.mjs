@@ -3321,7 +3321,7 @@ async function inspectExoClickPlacements(page, startedAt = Date.now()) {
               document.getElementById("exoclick-interstitial-container") !== null ||
               document.getElementById("exoclick-popunder-container") !== null ||
               document.getElementById("popmagicldr") !== null;
-            const insReady = document.querySelector("ins.eas6a97888e35, ins[data-zoneid='6051238'], [data-zoneid='6051294']") !== null;
+            const insReady = document.querySelector("ins.eas6a97888e35, ins[data-zoneid='6051238'], [data-zoneid='6051294'], [data-zoneid='6051308']") !== null;
             const creativeDisplayed = Boolean(
               document.body?.getAttribute("data-exoclick-creative-displayed") ||
               document.body?.getAttribute("data-exoclick-popunder-displayed"),
@@ -3341,7 +3341,7 @@ async function inspectExoClickPlacements(page, startedAt = Date.now()) {
           .filter((src) => src.includes("pemsrv") || src.includes("exoclick") || src.includes("popunder1000"));
         const hasExoElements = Boolean(
           document.querySelector(
-            "#exoclick-interstitial-container, #exoclick-popunder-container, #popmagicldr, ins.eas6a97888e35, ins[data-zoneid='6051238'], [data-zoneid='6051294'], iframe[src*='pemsrv'], iframe[src*='exoclick']",
+            "#exoclick-interstitial-container, #exoclick-popunder-container, #popmagicldr, ins.eas6a97888e35, ins[data-zoneid='6051238'], [data-zoneid='6051294'], [data-zoneid='6051308'], iframe[src*='pemsrv'], iframe[src*='exoclick']",
           ),
         );
         return { adProviderReady, scriptCount: scripts.length, hasExoElements };
@@ -4871,8 +4871,8 @@ async function runOneCycle(
     if (AD_NETWORK === "exoclick" || AD_NETWORK === "all") {
       try {
         const exoSelector = isForceClick
-          ? '#exoclick-interstitial-container a[href], #exoclick-interstitial-container iframe, #exoclick-popunder-container a[href], ins.eas6a97888e35 a[href], ins.eas6a97888e35 iframe, [data-zoneid="6051238"] a, [data-zoneid="6051238"] iframe, [data-zoneid="6051294"] a, iframe[src*="pemsrv"], iframe[src*="exoclick"], a[href*="pemsrv"], a[href*="exoclick"], div.msg_wrapper a, [id*="_video_container"] a'
-          : '#exoclick-interstitial-container a[href], #exoclick-interstitial-container iframe, #exoclick-popunder-container a[href], ins.eas6a97888e35 a[href], ins.eas6a97888e35 iframe, [data-zoneid="6051238"] a, [data-zoneid="6051238"] iframe, [data-zoneid="6051294"] a, iframe[src*="pemsrv"], iframe[src*="exoclick"], a[href*="pemsrv"], a[href*="exoclick"]';
+          ? '#exoclick-interstitial-container a[href], #exoclick-interstitial-container iframe, #exoclick-popunder-container a[href], ins.eas6a97888e35 a[href], ins.eas6a97888e35 iframe, [data-zoneid="6051238"] a, [data-zoneid="6051238"] iframe, [data-zoneid="6051294"] a, [data-zoneid="6051308"] a, iframe[src*="pemsrv"], iframe[src*="exoclick"], a[href*="pemsrv"], a[href*="exoclick"], div.msg_wrapper a, [id*="_video_container"] a'
+          : '#exoclick-interstitial-container a[href], #exoclick-interstitial-container iframe, #exoclick-popunder-container a[href], ins.eas6a97888e35 a[href], ins.eas6a97888e35 iframe, [data-zoneid="6051238"] a, [data-zoneid="6051238"] iframe, [data-zoneid="6051294"] a, [data-zoneid="6051308"] a, iframe[src*="pemsrv"], iframe[src*="exoclick"], a[href*="pemsrv"], a[href*="exoclick"]';
         const exoLocators = page.locator(exoSelector);
         const exoCount = await exoLocators.count().catch(() => 0);
         for (let i = 0; i < exoCount; i++) {

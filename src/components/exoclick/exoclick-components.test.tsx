@@ -58,18 +58,31 @@ describe("ExoClick Components", () => {
     expect(inlineScript?.textContent).toContain("creativeDisplayed-6051238");
   });
 
-  it("renders popunder container and anti-adblock inline script when enabled", () => {
+  it("renders popunder containers and anti-adblock inline scripts when enabled", () => {
     process.env.NEXT_PUBLIC_ADS_ENABLED = "true";
     const { container } = render(<ExoClickPopunder />);
-    const wrapper = container.querySelector("#exoclick-popunder-container");
-    expect(wrapper).not.toBeNull();
-    expect(wrapper?.getAttribute("data-zoneid")).toBe("6051294");
+    const outerWrapper = container.querySelector("#exoclick-popunder-container");
+    expect(outerWrapper).not.toBeNull();
 
-    const script = container.querySelector("script");
-    expect(script).not.toBeNull();
-    expect(script?.textContent).toContain("6051294");
-    expect(script?.textContent).toContain("popMagic");
-    expect(script?.textContent).toContain("popunder1000.js");
-    expect(script?.textContent).toContain("creativeDisplayed-6051294");
+    const wrapper1 = container.querySelector("#exoclick-popunder-container-6051294");
+    expect(wrapper1).not.toBeNull();
+    expect(wrapper1?.getAttribute("data-zoneid")).toBe("6051294");
+
+    const wrapper2 = container.querySelector("#exoclick-popunder-container-6051308");
+    expect(wrapper2).not.toBeNull();
+    expect(wrapper2?.getAttribute("data-zoneid")).toBe("6051308");
+
+    const scripts = container.querySelectorAll("script");
+    expect(scripts.length).toBe(2);
+
+    expect(scripts[0]?.textContent).toContain("6051294");
+    expect(scripts[0]?.textContent).toContain("popMagic");
+    expect(scripts[0]?.textContent).toContain("popunder1000.js");
+    expect(scripts[0]?.textContent).toContain("creativeDisplayed-6051294");
+
+    expect(scripts[1]?.textContent).toContain("6051308");
+    expect(scripts[1]?.textContent).toContain("popMagic");
+    expect(scripts[1]?.textContent).toContain("popunder1000.js");
+    expect(scripts[1]?.textContent).toContain("creativeDisplayed-6051308");
   });
 });
