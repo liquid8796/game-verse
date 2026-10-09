@@ -35,16 +35,20 @@ describe("ExoClick Components", () => {
     expect(meta?.getAttribute("content")).toContain("https://s.pemsrv.com");
   });
 
-  it("renders interstitial ins tag, provider script and serve push script when enabled", () => {
+  it("renders interstitial ins tags, provider script and serve push script when enabled", () => {
     process.env.NEXT_PUBLIC_ADS_ENABLED = "true";
     const { container } = render(<ExoClickInterstitial />);
     const wrapper = container.querySelector("#exoclick-interstitial-container");
     expect(wrapper).not.toBeNull();
     expect(wrapper?.getAttribute("data-zoneid")).toBe("6051238");
 
-    const ins = container.querySelector("ins.eas6a97888e35");
-    expect(ins).not.toBeNull();
-    expect(ins?.getAttribute("data-zoneid")).toBe("6051238");
+    const desktopIns = container.querySelector("ins.eas6a97888e35");
+    expect(desktopIns).not.toBeNull();
+    expect(desktopIns?.getAttribute("data-zoneid")).toBe("6051238");
+
+    const mobileIns = container.querySelector("ins.eas6a97888e33");
+    expect(mobileIns).not.toBeNull();
+    expect(mobileIns?.getAttribute("data-zoneid")).toBe("6051310");
 
     // React 19 hoists <script async src="..."> to document.head, while inline script stays in container
     const providerScript = document.head.querySelector(
@@ -56,6 +60,7 @@ describe("ExoClick Components", () => {
     expect(inlineScript).not.toBeNull();
     expect(inlineScript?.textContent).toContain("AdProvider");
     expect(inlineScript?.textContent).toContain("creativeDisplayed-6051238");
+    expect(inlineScript?.textContent).toContain("creativeDisplayed-6051310");
   });
 
   it("renders popunder containers and anti-adblock inline scripts when enabled", () => {

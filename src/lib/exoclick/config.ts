@@ -1,21 +1,25 @@
 /**
  * Cấu hình mạng quảng cáo ExoClick:
- * Zone: Tier 1 - (Desktop Fullpage Interstitial) Game Verse
- * Zone ID: 6051238
- * Class: eas6a97888e35
+ * Zone Desktop Interstitial: Tier 1 - (Desktop Fullpage Interstitial) Game Verse (6051238, eas6a97888e35)
+ * Zone Mobile Interstitial: mobile fullpage interstitial - (Mobile Fullpage Interstitial) (6051310, eas6a97888e33)
+ * Zone Popunder 1: 6051294
+ * Zone Popunder 2: 6051308
  *
  * Client Hints Meta Tag: Cho phép ad server nhận thông tin thiết bị để tối ưu hóa hiển thị.
  * Zone HTML Tag:
  *   <script async type="application/javascript" src="https://a.pemsrv.com/ad-provider.js"></script>
  *   <ins class="eas6a97888e35" data-zoneid="6051238"></ins>
+ *   <ins class="eas6a97888e33" data-zoneid="6051310"></ins>
  *   <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
  *
- * Event: creativeDisplayed-6051238 kích hoạt khi quảng cáo được load và hiển thị.
+ * Events: creativeDisplayed-6051238 & creativeDisplayed-6051310 kích hoạt khi quảng cáo được load và hiển thị.
  */
 export const EXOCLICK_ZONE_INTERSTITIAL = "6051238" as const;
+export const EXOCLICK_ZONE_INTERSTITIAL_MOBILE = "6051310" as const;
 export const EXOCLICK_ZONE_POPUNDER = "6051294" as const;
 export const EXOCLICK_ZONE_POPUNDER_SECONDARY = "6051308" as const;
 export const EXOCLICK_CLASS = "eas6a97888e35" as const;
+export const EXOCLICK_CLASS_MOBILE = "eas6a97888e33" as const;
 export const EXOCLICK_PROVIDER_SRC = "https://a.pemsrv.com/ad-provider.js" as const;
 export const EXOCLICK_SERVING_DOMAIN = "https://s.pemsrv.com" as const;
 export const EXOCLICK_SITE_VERIFICATION = "87c58674c7eabd0e162f44e609b0a49c" as const;
