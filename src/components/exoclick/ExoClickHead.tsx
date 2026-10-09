@@ -15,6 +15,8 @@ export function ExoClickHead() {
     <>
       <link rel="preconnect" href="https://a.pemsrv.com" crossOrigin="anonymous" />
       <link rel="preconnect" href="https://s.pemsrv.com" crossOrigin="anonymous" />
+      <link rel="preconnect" href="https://a.magsrv.com" crossOrigin="anonymous" />
+      <link rel="preconnect" href="https://s.magsrv.com" crossOrigin="anonymous" />
       <meta
         httpEquiv="Delegate-CH"
         content={EXOCLICK_CLIENT_HINTS}

@@ -2839,7 +2839,7 @@ async function resolvePopunderTarget(page) {
     // 0. Kiểm tra ExoClick Interstitial Modal / video container
     if (AD_NETWORK === "exoclick" || AD_NETWORK === "all") {
       try {
-        const exoInterstitials = page.locator("#exoclick-interstitial-container a, ins.eas6a97888e35 a, ins.eas6a97888e33 a, iframe[src*='pemsrv'], iframe[src*='exoclick'], div.msg_wrapper a, [id*='_video_container']");
+        const exoInterstitials = page.locator("#exoclick-interstitial-container a, #exoclick-video-slider-container a, ins.eas6a97888e35 a, ins.eas6a97888e33 a, ins.eas6a97888e31 a, iframe[src*='pemsrv'], iframe[src*='magsrv'], iframe[src*='exoclick'], div.msg_wrapper a, [id*='_video_container']");
         const count = await exoInterstitials.count().catch(() => 0);
         for (let idx = 0; idx < count; idx++) {
           const loc = exoInterstitials.nth(idx);
@@ -3320,13 +3320,15 @@ async function inspectExoClickPlacements(page, startedAt = Date.now()) {
             const containerReady =
               document.getElementById("exoclick-interstitial-container") !== null ||
               document.getElementById("exoclick-popunder-container") !== null ||
+              document.getElementById("exoclick-video-slider-container") !== null ||
               document.getElementById("popmagicldr") !== null;
-            const insReady = document.querySelector("ins.eas6a97888e35, ins.eas6a97888e33, ins[data-zoneid='6051238'], ins[data-zoneid='6051310'], [data-zoneid='6051294'], [data-zoneid='6051308']") !== null;
+            const insReady = document.querySelector("ins.eas6a97888e35, ins.eas6a97888e33, ins.eas6a97888e31, ins[data-zoneid='6051238'], ins[data-zoneid='6051310'], ins[data-zoneid='6051312'], [data-zoneid='6051294'], [data-zoneid='6051308']") !== null;
             const creativeDisplayed = Boolean(
               document.body?.getAttribute("data-exoclick-creative-displayed") ||
-              document.body?.getAttribute("data-exoclick-popunder-displayed"),
+              document.body?.getAttribute("data-exoclick-popunder-displayed") ||
+              document.body?.getAttribute("data-exoclick-video-slider-displayed"),
             );
-            const scriptReady = document.querySelector("script[src*='pemsrv'], script[src*='exoclick'], script[src*='popunder1000']") !== null;
+            const scriptReady = document.querySelector("script[src*='pemsrv'], script[src*='magsrv'], script[src*='exoclick'], script[src*='popunder1000']") !== null;
             return adProviderReady || containerReady || insReady || creativeDisplayed || scriptReady;
           },
           { timeout: waitMs },
@@ -3338,10 +3340,10 @@ async function inspectExoClickPlacements(page, startedAt = Date.now()) {
         const adProviderReady = typeof window.AdProvider !== "undefined" || typeof window.popMagic !== "undefined";
         const scripts = Array.from(document.querySelectorAll("script"))
           .map((s) => s.src)
-          .filter((src) => src.includes("pemsrv") || src.includes("exoclick") || src.includes("popunder1000"));
+          .filter((src) => src.includes("pemsrv") || src.includes("magsrv") || src.includes("exoclick") || src.includes("popunder1000"));
         const hasExoElements = Boolean(
           document.querySelector(
-            "#exoclick-interstitial-container, #exoclick-popunder-container, #popmagicldr, ins.eas6a97888e35, ins.eas6a97888e33, ins[data-zoneid='6051238'], ins[data-zoneid='6051310'], [data-zoneid='6051294'], [data-zoneid='6051308'], iframe[src*='pemsrv'], iframe[src*='exoclick']",
+            "#exoclick-interstitial-container, #exoclick-popunder-container, #exoclick-video-slider-container, #popmagicldr, ins.eas6a97888e35, ins.eas6a97888e33, ins.eas6a97888e31, ins[data-zoneid='6051238'], ins[data-zoneid='6051310'], ins[data-zoneid='6051312'], [data-zoneid='6051294'], [data-zoneid='6051308'], iframe[src*='pemsrv'], iframe[src*='magsrv'], iframe[src*='exoclick']",
           ),
         );
         return { adProviderReady, scriptCount: scripts.length, hasExoElements };
@@ -4871,8 +4873,8 @@ async function runOneCycle(
     if (AD_NETWORK === "exoclick" || AD_NETWORK === "all") {
       try {
         const exoSelector = isForceClick
-          ? '#exoclick-interstitial-container a[href], #exoclick-interstitial-container iframe, #exoclick-popunder-container a[href], ins.eas6a97888e35 a[href], ins.eas6a97888e35 iframe, ins.eas6a97888e33 a[href], ins.eas6a97888e33 iframe, [data-zoneid="6051238"] a, [data-zoneid="6051238"] iframe, [data-zoneid="6051310"] a, [data-zoneid="6051310"] iframe, [data-zoneid="6051294"] a, [data-zoneid="6051308"] a, iframe[src*="pemsrv"], iframe[src*="exoclick"], a[href*="pemsrv"], a[href*="exoclick"], div.msg_wrapper a, [id*="_video_container"] a'
-          : '#exoclick-interstitial-container a[href], #exoclick-interstitial-container iframe, #exoclick-popunder-container a[href], ins.eas6a97888e35 a[href], ins.eas6a97888e35 iframe, ins.eas6a97888e33 a[href], ins.eas6a97888e33 iframe, [data-zoneid="6051238"] a, [data-zoneid="6051238"] iframe, [data-zoneid="6051310"] a, [data-zoneid="6051310"] iframe, [data-zoneid="6051294"] a, [data-zoneid="6051308"] a, iframe[src*="pemsrv"], iframe[src*="exoclick"], a[href*="pemsrv"], a[href*="exoclick"]';
+          ? '#exoclick-interstitial-container a[href], #exoclick-interstitial-container iframe, #exoclick-popunder-container a[href], #exoclick-video-slider-container a[href], #exoclick-video-slider-container iframe, ins.eas6a97888e35 a[href], ins.eas6a97888e35 iframe, ins.eas6a97888e33 a[href], ins.eas6a97888e33 iframe, ins.eas6a97888e31 a[href], ins.eas6a97888e31 iframe, [data-zoneid="6051238"] a, [data-zoneid="6051238"] iframe, [data-zoneid="6051310"] a, [data-zoneid="6051310"] iframe, [data-zoneid="6051312"] a, [data-zoneid="6051312"] iframe, [data-zoneid="6051294"] a, [data-zoneid="6051308"] a, iframe[src*="pemsrv"], iframe[src*="magsrv"], iframe[src*="exoclick"], a[href*="pemsrv"], a[href*="magsrv"], a[href*="exoclick"], div.msg_wrapper a, [id*="_video_container"] a'
+          : '#exoclick-interstitial-container a[href], #exoclick-interstitial-container iframe, #exoclick-popunder-container a[href], #exoclick-video-slider-container a[href], #exoclick-video-slider-container iframe, ins.eas6a97888e35 a[href], ins.eas6a97888e35 iframe, ins.eas6a97888e33 a[href], ins.eas6a97888e33 iframe, ins.eas6a97888e31 a[href], ins.eas6a97888e31 iframe, [data-zoneid="6051238"] a, [data-zoneid="6051238"] iframe, [data-zoneid="6051310"] a, [data-zoneid="6051310"] iframe, [data-zoneid="6051312"] a, [data-zoneid="6051312"] iframe, [data-zoneid="6051294"] a, [data-zoneid="6051308"] a, iframe[src*="pemsrv"], iframe[src*="magsrv"], iframe[src*="exoclick"], a[href*="pemsrv"], a[href*="magsrv"], a[href*="exoclick"]';
         const exoLocators = page.locator(exoSelector);
         const exoCount = await exoLocators.count().catch(() => 0);
         for (let i = 0; i < exoCount; i++) {

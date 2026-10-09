@@ -7,6 +7,7 @@ import {
   ExoClickHead,
   ExoClickInterstitial,
   ExoClickPopunder,
+  ExoClickVideoSlider,
 } from "@/components/exoclick";
 import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
@@ -178,6 +179,7 @@ gtag('config', 'G-PQES332NL4');`,
       <body>
         <ExoClickInterstitial />
         <ExoClickPopunder />
+        <ExoClickVideoSlider />
         <SiteHeader />
         {children}
         <SiteFooter />

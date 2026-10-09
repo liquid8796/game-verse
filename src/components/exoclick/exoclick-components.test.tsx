@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { ExoClickHead } from "./ExoClickHead";
 import { ExoClickInterstitial } from "./ExoClickInterstitial";
 import { ExoClickPopunder } from "./ExoClickPopunder";
+import { ExoClickVideoSlider } from "./ExoClickVideoSlider";
 
 describe("ExoClick Components", () => {
   const originalEnv = process.env;
@@ -25,6 +26,9 @@ describe("ExoClick Components", () => {
 
     const popRes = render(<ExoClickPopunder />);
     expect(popRes.container.innerHTML).toBe("");
+
+    const videoRes = render(<ExoClickVideoSlider />);
+    expect(videoRes.container.innerHTML).toBe("");
   });
 
   it("renders head client hints and preconnects when ads are enabled", () => {
@@ -33,6 +37,11 @@ describe("ExoClick Components", () => {
     const meta = document.head.querySelector('meta[http-equiv="Delegate-CH"]');
     expect(meta).not.toBeNull();
     expect(meta?.getAttribute("content")).toContain("https://s.pemsrv.com");
+
+    const preconnectPemsrv = document.head.querySelector('link[rel="preconnect"][href="https://a.pemsrv.com"]');
+    expect(preconnectPemsrv).not.toBeNull();
+    const preconnectMagsrv = document.head.querySelector('link[rel="preconnect"][href="https://a.magsrv.com"]');
+    expect(preconnectMagsrv).not.toBeNull();
   });
 
   it("renders interstitial ins tags, provider script and serve push script when enabled", () => {
@@ -89,5 +98,28 @@ describe("ExoClick Components", () => {
     expect(scripts[1]?.textContent).toContain("popMagic");
     expect(scripts[1]?.textContent).toContain("popunder1000.js");
     expect(scripts[1]?.textContent).toContain("creativeDisplayed-6051308");
+  });
+
+  it("renders video slider ins tag, provider script and serve push script when enabled", () => {
+    process.env.NEXT_PUBLIC_ADS_ENABLED = "true";
+    const { container } = render(<ExoClickVideoSlider />);
+    const wrapper = container.querySelector("#exoclick-video-slider-container");
+    expect(wrapper).not.toBeNull();
+    expect(wrapper?.getAttribute("data-zoneid")).toBe("6051312");
+
+    const ins = container.querySelector("ins.eas6a97888e31");
+    expect(ins).not.toBeNull();
+    expect(ins?.getAttribute("data-zoneid")).toBe("6051312");
+
+    // React 19 hoists <script async src="..."> to document.head
+    const providerScript = document.head.querySelector(
+      'script[src="https://a.magsrv.com/ad-provider.js"]'
+    );
+    expect(providerScript).not.toBeNull();
+
+    const inlineScript = container.querySelector("script");
+    expect(inlineScript).not.toBeNull();
+    expect(inlineScript?.textContent).toContain("AdProvider");
+    expect(inlineScript?.textContent).toContain("creativeDisplayed-6051312");
   });
 });
