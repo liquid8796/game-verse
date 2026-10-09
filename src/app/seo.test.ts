@@ -117,12 +117,10 @@ describe("SEO and Metadata configuration", () => {
     expect(layoutContent).toContain("<ExoClickInterstitial />");
     expect(layoutContent).toContain("<ExoClickPopunder />");
     expect(layoutContent).toContain("<ExoClickVideoSlider />");
-    expect(layoutContent).toContain("<ExoClickPushNotifications />");
+    expect(layoutContent).not.toContain("<ExoClickPushNotifications />");
     expect(layoutContent).toContain("<ExoClickInPagePush />");
 
     const workerJsPath = join(process.cwd(), "public/worker.js");
-    expect(existsSync(workerJsPath)).toBe(true);
-    const workerContent = readFileSync(workerJsPath, "utf8");
-    expect(workerContent).toContain("https://js.wpnsrv.com/worker.php?v=2.0");
+    expect(existsSync(workerJsPath)).toBe(false);
   });
 });

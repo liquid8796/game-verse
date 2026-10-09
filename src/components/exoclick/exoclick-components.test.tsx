@@ -51,7 +51,7 @@ describe("ExoClick Components", () => {
     const preconnectMagsrv = document.head.querySelector('link[rel="preconnect"][href="https://a.magsrv.com"]');
     expect(preconnectMagsrv).not.toBeNull();
     const preconnectWpnsrv = document.head.querySelector('link[rel="preconnect"][href="https://js.wpnsrv.com"]');
-    expect(preconnectWpnsrv).not.toBeNull();
+    expect(preconnectWpnsrv).toBeNull();
   });
 
   it("renders interstitial ins tags, provider script and serve push script when enabled", () => {
@@ -133,27 +133,10 @@ describe("ExoClick Components", () => {
     expect(inlineScript?.textContent).toContain("creativeDisplayed-6051312");
   });
 
-  it("renders push notifications ins tag, provider script and serve push script when enabled", () => {
+  it("does not render push notifications (disabled per user preference)", () => {
     process.env.NEXT_PUBLIC_ADS_ENABLED = "true";
     const { container } = render(<ExoClickPushNotifications />);
-    const wrapper = container.querySelector("#exoclick-push-notifications-container");
-    expect(wrapper).not.toBeNull();
-    expect(wrapper?.getAttribute("data-zoneid")).toBe("6051314");
-
-    const ins = container.querySelector("ins.eas6a97888e29");
-    expect(ins).not.toBeNull();
-    expect(ins?.getAttribute("data-zoneid")).toBe("6051314");
-
-    // React 19 hoists <script async src="..."> to document.head
-    const providerScript = document.head.querySelector(
-      'script[src="https://a.magsrv.com/ad-provider.js"]'
-    );
-    expect(providerScript).not.toBeNull();
-
-    const inlineScript = container.querySelector("script");
-    expect(inlineScript).not.toBeNull();
-    expect(inlineScript?.textContent).toContain("AdProvider");
-    expect(inlineScript?.textContent).toContain("creativeDisplayed-6051314");
+    expect(container.innerHTML).toBe("");
   });
 
   it("renders in-page push ins tag, provider script and serve push script when enabled", () => {
