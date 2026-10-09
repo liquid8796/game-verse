@@ -30,7 +30,7 @@ export function SiteFooter() {
       </div>
       <div className="shell footer-address-bar">
         <span className="footer-address-label">Business address</span>
-        <address className="footer-address">63-66 Hatton Garden, Suite 23, London EC1N 8LE</address>
+        <address className="footer-address">1300 S Dixie Hwy, Suite B, Lantana, Florida 33462</address>
       </div>
     </footer>
   );
