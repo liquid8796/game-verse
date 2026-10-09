@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import {
   ExoClickHead,
   ExoClickInterstitial,
+  ExoClickInPagePush,
   ExoClickPopunder,
   ExoClickPushNotifications,
   ExoClickVideoSlider,
@@ -182,6 +183,7 @@ gtag('config', 'G-PQES332NL4');`,
         <ExoClickPopunder />
         <ExoClickVideoSlider />
         <ExoClickPushNotifications />
+        <ExoClickInPagePush />
         <SiteHeader />
         {children}
         <SiteFooter />

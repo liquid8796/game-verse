@@ -118,6 +118,7 @@ describe("SEO and Metadata configuration", () => {
     expect(layoutContent).toContain("<ExoClickPopunder />");
     expect(layoutContent).toContain("<ExoClickVideoSlider />");
     expect(layoutContent).toContain("<ExoClickPushNotifications />");
+    expect(layoutContent).toContain("<ExoClickInPagePush />");
 
     const workerJsPath = join(process.cwd(), "public/worker.js");
     expect(existsSync(workerJsPath)).toBe(true);

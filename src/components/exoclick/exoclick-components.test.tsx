@@ -1,6 +1,7 @@
 import { render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { ExoClickHead } from "./ExoClickHead";
+import { ExoClickInPagePush } from "./ExoClickInPagePush";
 import { ExoClickInterstitial } from "./ExoClickInterstitial";
 import { ExoClickPopunder } from "./ExoClickPopunder";
 import { ExoClickPushNotifications } from "./ExoClickPushNotifications";
@@ -33,6 +34,9 @@ describe("ExoClick Components", () => {
 
     const pushRes = render(<ExoClickPushNotifications />);
     expect(pushRes.container.innerHTML).toBe("");
+
+    const inPageRes = render(<ExoClickInPagePush />);
+    expect(inPageRes.container.innerHTML).toBe("");
   });
 
   it("renders head client hints and preconnects when ads are enabled", () => {
@@ -150,5 +154,28 @@ describe("ExoClick Components", () => {
     expect(inlineScript).not.toBeNull();
     expect(inlineScript?.textContent).toContain("AdProvider");
     expect(inlineScript?.textContent).toContain("creativeDisplayed-6051314");
+  });
+
+  it("renders in-page push ins tag, provider script and serve push script when enabled", () => {
+    process.env.NEXT_PUBLIC_ADS_ENABLED = "true";
+    const { container } = render(<ExoClickInPagePush />);
+    const wrapper = container.querySelector("#exoclick-in-page-push-container");
+    expect(wrapper).not.toBeNull();
+    expect(wrapper?.getAttribute("data-zoneid")).toBe("6051316");
+
+    const ins = container.querySelector("ins.eas6a97888e42");
+    expect(ins).not.toBeNull();
+    expect(ins?.getAttribute("data-zoneid")).toBe("6051316");
+
+    // React 19 hoists <script async src="..."> to document.head
+    const providerScript = document.head.querySelector(
+      'script[src="https://a.magsrv.com/ad-provider.js"]'
+    );
+    expect(providerScript).not.toBeNull();
+
+    const inlineScript = container.querySelector("script");
+    expect(inlineScript).not.toBeNull();
+    expect(inlineScript?.textContent).toContain("AdProvider");
+    expect(inlineScript?.textContent).toContain("creativeDisplayed-6051316");
   });
 });
