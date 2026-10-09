@@ -2,6 +2,7 @@ import { render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { ExoClickHead } from "./ExoClickHead";
 import { ExoClickInterstitial } from "./ExoClickInterstitial";
+import { ExoClickPopunder } from "./ExoClickPopunder";
 
 describe("ExoClick Components", () => {
   const originalEnv = process.env;
@@ -21,6 +22,9 @@ describe("ExoClick Components", () => {
 
     const interRes = render(<ExoClickInterstitial />);
     expect(interRes.container.innerHTML).toBe("");
+
+    const popRes = render(<ExoClickPopunder />);
+    expect(popRes.container.innerHTML).toBe("");
   });
 
   it("renders head client hints and preconnects when ads are enabled", () => {
@@ -52,5 +56,20 @@ describe("ExoClick Components", () => {
     expect(inlineScript).not.toBeNull();
     expect(inlineScript?.textContent).toContain("AdProvider");
     expect(inlineScript?.textContent).toContain("creativeDisplayed-6051238");
+  });
+
+  it("renders popunder container and anti-adblock inline script when enabled", () => {
+    process.env.NEXT_PUBLIC_ADS_ENABLED = "true";
+    const { container } = render(<ExoClickPopunder />);
+    const wrapper = container.querySelector("#exoclick-popunder-container");
+    expect(wrapper).not.toBeNull();
+    expect(wrapper?.getAttribute("data-zoneid")).toBe("6051294");
+
+    const script = container.querySelector("script");
+    expect(script).not.toBeNull();
+    expect(script?.textContent).toContain("6051294");
+    expect(script?.textContent).toContain("popMagic");
+    expect(script?.textContent).toContain("popunder1000.js");
+    expect(script?.textContent).toContain("creativeDisplayed-6051294");
   });
 });

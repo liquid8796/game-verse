@@ -115,5 +115,6 @@ describe("SEO and Metadata configuration", () => {
     expect(layoutContent).toContain("87c58674c7eabd0e162f44e609b0a49c");
     expect(layoutContent).toContain("<ExoClickHead />");
     expect(layoutContent).toContain("<ExoClickInterstitial />");
+    expect(layoutContent).toContain("<ExoClickPopunder />");
   });
 });
