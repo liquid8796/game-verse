@@ -3,7 +3,8 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { joinLfgPostAction } from "./actions";
-import { LFG_REGIONS, LFG_VIBES, LFG_SKILLS } from "./validation";
+import { LFG_REGIONS, LFG_VIBES, LFG_SKILLS, LFG_PLATFORMS } from "./validation";
+import { ALL_SQUADS, DEFAULT_SQUAD_FILTERS, filterSquads, type SquadFilters } from "./filter-posts";
 
 export type PublicPost = {
  id:string;userId:string;owner:string;gameId:string;game:string;gameSlug:string;
@@ -11,22 +12,25 @@ export type PublicPost = {
  skill:string;vibe:string;mic:boolean;slots:number;slotsLeft:number;createdAt:Date;
 };
 type GameOption={id:string;title:string;slug:string;image?:string};
-const All="All";
 export function PlayerFinder({posts,games,memberId,initialGame}:{posts:PublicPost[];games:GameOption[];memberId?:string;initialGame?:string}) {
- const [game,setGame]=useState(initialGame&&games.some(g=>g.id===initialGame)?initialGame:All),[region,setRegion]=useState(All),[vibe,setVibe]=useState(All),[search,setSearch]=useState("");
- const [skill,setSkill]=useState(All); const [showJoin,setShowJoin]=useState<string|null>(null),[expanded,setExpanded]=useState(false);
+ const [filters,setFilters]=useState<SquadFilters>(()=>({
+  ...DEFAULT_SQUAD_FILTERS,
+  game:initialGame&&games.some(g=>g.id===initialGame)?initialGame:ALL_SQUADS,
+ }));
+ const [showJoin,setShowJoin]=useState<string|null>(null),[expanded,setExpanded]=useState(false);
  const artwork=new Map(games.map(g=>[g.id,g.image]));
- const filtered=useMemo(()=>posts.filter(p=>
-  (game===All||p.gameId===game)&&(region===All||p.region===region)&&(vibe===All||p.vibe===vibe)&&(skill===All||p.skill===skill)
-  &&(p.title+" "+p.game+" "+p.description+" "+p.mode+" "+p.platform+" "+p.owner).toLowerCase().includes(search.toLowerCase().trim())
- ),[posts,game,region,vibe,skill,search]);
- const reset=()=>{setGame(All);setRegion(All);setVibe(All);setSkill(All);setSearch("");};
+ const filtered=useMemo(()=>filterSquads(posts,filters),[posts,filters]);
+ const update=(changes:Partial<SquadFilters>)=>setFilters(current=>({...current,...changes}));
+ const reset=()=>setFilters(DEFAULT_SQUAD_FILTERS);
+ const activeFilters=(
+  ["game","region","vibe","skill","platform","voice","minSpots","search"] as const
+ ).filter(key=>filters[key]!==DEFAULT_SQUAD_FILTERS[key]).length;
  return <>
   <div className="lfg-game-rail" aria-label="Choose a game">
-   <button onClick={()=>setGame(All)} className={"lfg-game-chip lfg-game-all "+(game===All?"is-active":"")} aria-pressed={game===All}>
+   <button onClick={()=>update({game:ALL_SQUADS})} className={"lfg-game-chip lfg-game-all "+(filters.game===ALL_SQUADS?"is-active":"")} aria-pressed={filters.game===ALL_SQUADS}>
     <span className="lfg-game-all-mark">✳</span><strong>All games</strong><small>Explore everyone</small>
    </button>
-   {games.slice(0,expanded?games.length:7).map(g=><button key={g.id} onClick={()=>setGame(g.id)} className={"lfg-game-chip "+(game===g.id?"is-active":"")} aria-pressed={game===g.id}>
+   {games.slice(0,expanded?games.length:7).map(g=><button key={g.id} onClick={()=>update({game:g.id})} className={"lfg-game-chip "+(filters.game===g.id?"is-active":"")} aria-pressed={filters.game===g.id}>
     <span className="lfg-chip-art">{g.image&&<Image src={g.image} alt="" fill sizes="130px" />}</span><strong>{g.title}</strong>
    </button>)}
    {games.length>7&&<button className="lfg-game-more" onClick={()=>setExpanded(!expanded)} aria-expanded={expanded}>{expanded?"Show less −":"More games + "}</button>}
@@ -40,13 +44,18 @@ export function PlayerFinder({posts,games,memberId,initialGame}:{posts:PublicPos
    <Link href="/find-players/new" className="lfg-action lfg-action-primary">+ POST A SQUAD REQUEST <span aria-hidden="true">↗</span></Link>
   </div>
   <div className="lfg-filterbar">
-   <label className="lfg-search"><span aria-hidden="true">⌕</span><span className="sr-only">Search players and games</span><input type="search" placeholder="Search players, games, modes..." value={search} onChange={e=>setSearch(e.target.value)} /></label>
-   <label><span>REGION</span><select aria-label="Filter by region" value={region} onChange={e=>setRegion(e.target.value)}><option value={All}>Every region</option>{LFG_REGIONS.map(x=><option key={x}>{x}</option>)}</select></label>
-   <label><span>PLAYSTYLE</span><select aria-label="Filter by playstyle" value={vibe} onChange={e=>setVibe(e.target.value)}><option value={All}>Any intensity</option>{LFG_VIBES.map(x=><option key={x}>{x}</option>)}</select></label>
-   <label><span>SKILL</span><select aria-label="Filter by skill" value={skill} onChange={e=>setSkill(e.target.value)}><option value={All}>Any skill</option>{LFG_SKILLS.map(x=><option key={x}>{x}</option>)}</select></label>
-   <button className="lfg-clear" onClick={reset}>RESET FILTERS ↺</button>
+   <label className="lfg-search"><span aria-hidden="true">⌕</span><span className="sr-only">Search players and games</span><input type="search" placeholder="Search players, games, modes..." value={filters.search} onChange={e=>update({search:e.target.value})} /></label>
+   <label><span>REGION</span><select aria-label="Filter by region" value={filters.region} onChange={e=>update({region:e.target.value})}><option value={ALL_SQUADS}>Every region</option>{LFG_REGIONS.map(x=><option key={x}>{x}</option>)}</select></label>
+   <label><span>PLAYSTYLE</span><select aria-label="Filter by playstyle" value={filters.vibe} onChange={e=>update({vibe:e.target.value})}><option value={ALL_SQUADS}>Any intensity</option>{LFG_VIBES.map(x=><option key={x}>{x}</option>)}</select></label>
+   <label><span>SKILL</span><select aria-label="Filter by skill" value={filters.skill} onChange={e=>update({skill:e.target.value})}><option value={ALL_SQUADS}>Any skill</option>{LFG_SKILLS.map(x=><option key={x}>{x}</option>)}</select></label>
   </div>
-  <div className="lfg-results-count" role="status"><span><b>{filtered.length.toString().padStart(2,"0")}</b> OPEN SQUADS FOUND</span><span>Showing authentic community listings · no artificial online status</span></div>
+  <div className="lfg-refinebar" aria-label="More squad filters">
+   <label><span>YOUR PLATFORM</span><select aria-label="Filter by platform" value={filters.platform} onChange={e=>update({platform:e.target.value})}><option value={ALL_SQUADS}>Any platform</option>{LFG_PLATFORMS.map(x=><option key={x}>{x}</option>)}</select></label>
+   <label><span>VOICE CHAT</span><select aria-label="Filter by microphone preference" value={filters.voice} onChange={e=>update({voice:e.target.value as SquadFilters["voice"]})}><option value="all">Any voice preference</option><option value="preferred">Mic preferred</option><option value="optional">Mic optional only</option></select></label>
+   <label><span>OPEN SPOTS</span><select aria-label="Minimum open spots" value={filters.minSpots} onChange={e=>update({minSpots:Number(e.target.value)})}>{[1,2,3,4].map(n=><option value={n} key={n}>{n===1?"Any availability":n+" or more"}</option>)}</select></label>
+   <label><span>SORT BY</span><select aria-label="Sort squad listings" value={filters.sort} onChange={e=>update({sort:e.target.value as SquadFilters["sort"]})}><option value="newest">Newest first</option><option value="openings">Most open spots</option><option value="oldest">Oldest first</option></select></label>
+  </div>
+  <div className="lfg-results-count" role="status"><span><b>{filtered.length.toString().padStart(2,"0")}</b> OPEN SQUADS FOUND</span><div className="lfg-filter-meta"><span>{activeFilters?activeFilters+" active "+(activeFilters===1?"filter":"filters"):"Showing real community listings"}</span><button className="lfg-clear" onClick={reset} disabled={activeFilters===0&&filters.sort==="newest"}>RESET FILTERS ↺</button></div></div>
   {filtered.length===0?<div className="lfg-empty">
    <div aria-hidden="true" className="lfg-empty-icon"><span>＋</span><i /></div>
    <span className="lfg-micro">SIGNAL / NO OPEN LOBBIES</span>
