@@ -5,8 +5,9 @@
  * Zone Video Slider: video slider - (Video Slider) Game Verse (6051312, eas6a97888e31, a.magsrv.com)
  * Zone Push Notifications: push notifications - (Push Notifications) Game Verse (6051314, eas6a97888e29, a.magsrv.com, js.wpnsrv.com)
  * Zone In-Page Push: in page push notifications - (In Page Push Notifications) Game Verse (6051316, eas6a97888e42, a.magsrv.com)
- * Zone Popunder 1: 6051294
- * Zone Popunder 2: 6051308
+ * Zone Popunder 1: 6051294 (Desktop)
+ * Zone Popunder 2: 6051308 (Mobile 1)
+ * Zone Popunder 3: 6052144 (Mobile 2)
  *
  * Client Hints Meta Tag: Cho phép ad server nhận thông tin thiết bị để tối ưu hóa hiển thị.
  * Zone HTML Tag:
@@ -28,6 +29,7 @@ export const EXOCLICK_ZONE_PUSH_NOTIFICATIONS = "6051314" as const;
 export const EXOCLICK_ZONE_IN_PAGE_PUSH = "6051316" as const;
 export const EXOCLICK_ZONE_POPUNDER = "6051294" as const;
 export const EXOCLICK_ZONE_POPUNDER_SECONDARY = "6051308" as const;
+export const EXOCLICK_ZONE_POPUNDER_MOBILE_2 = "6052144" as const;
 export const EXOCLICK_CLASS = "eas6a97888e35" as const;
 export const EXOCLICK_CLASS_MOBILE = "eas6a97888e33" as const;
 export const EXOCLICK_CLASS_VIDEO_SLIDER = "eas6a97888e31" as const;

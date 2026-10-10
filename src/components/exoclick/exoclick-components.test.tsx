@@ -96,8 +96,12 @@ describe("ExoClick Components", () => {
     expect(wrapper2).not.toBeNull();
     expect(wrapper2?.getAttribute("data-zoneid")).toBe("6051308");
 
+    const wrapper3 = container.querySelector("#exoclick-popunder-container-6052144");
+    expect(wrapper3).not.toBeNull();
+    expect(wrapper3?.getAttribute("data-zoneid")).toBe("6052144");
+
     const scripts = container.querySelectorAll("script");
-    expect(scripts.length).toBe(2);
+    expect(scripts.length).toBe(3);
 
     expect(scripts[0]?.textContent).toContain("6051294");
     expect(scripts[0]?.textContent).toContain('"capping_enabled": true');
@@ -110,6 +114,14 @@ describe("ExoClick Components", () => {
     expect(scripts[1]?.textContent).toContain("popMagic");
     expect(scripts[1]?.textContent).toContain("popunder1000.js");
     expect(scripts[1]?.textContent).toContain("creativeDisplayed-6051308");
+
+    expect(scripts[2]?.textContent).toContain("6052144");
+    expect(scripts[2]?.textContent).toContain('"capping_enabled": false');
+    expect(scripts[2]?.textContent).toContain('"frequency_period": 60');
+    expect(scripts[2]?.textContent).toContain('"frequency_count": 1');
+    expect(scripts[2]?.textContent).toContain("popMagic");
+    expect(scripts[2]?.textContent).toContain("popunder1000.js");
+    expect(scripts[2]?.textContent).toContain("creativeDisplayed-6052144");
   });
 
   it("renders video slider ins tag, provider script and serve push script when enabled", () => {

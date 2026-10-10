@@ -2,14 +2,19 @@ import {
   exoclickEnabled,
   EXOCLICK_ZONE_POPUNDER,
   EXOCLICK_ZONE_POPUNDER_SECONDARY,
+  EXOCLICK_ZONE_POPUNDER_MOBILE_2,
 } from "@/lib/exoclick/config";
 
 interface PopunderScriptOptions {
   cappingEnabled?: boolean;
+  frequencyPeriod?: number;
+  frequencyCount?: number;
 }
 
 function getPopunderScript(zoneId: string | number, options?: PopunderScriptOptions) {
   const cappingEnabled = options?.cappingEnabled ?? true;
+  const frequencyPeriod = options?.frequencyPeriod ?? 1;
+  const frequencyCount = options?.frequencyCount ?? 3;
   return `(function() {
     function randStr(e,t){for(var n="",r=t||"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",o=0;o<e;o++)n+=r.charAt(Math.floor(Math.random()*r.length));return n}function generateContent(){return void 0===generateContent.val&&(generateContent.val="document.dispatchEvent("+randStr(4*Math.random()+3)+");"),generateContent.val}try{Object.defineProperty(document.currentScript,"innerHTML",{get:generateContent}),Object.defineProperty(document.currentScript,"textContent",{get:generateContent})}catch(e){};
 
@@ -23,8 +28,8 @@ function getPopunderScript(zoneId: string | number, options?: PopunderScriptOpti
     "popup_force": false,
     "chrome_enabled": true,
     "new_tab": true,
-    "frequency_period": 1,
-    "frequency_count": 3,
+    "frequency_period": ${frequencyPeriod},
+    "frequency_count": ${frequencyCount},
     "trigger_method": 1,
     "trigger_class": "",
     "trigger_delay": 0,
@@ -50,7 +55,8 @@ document.addEventListener('creativeDisplayed-${zoneId}', function(event) {
 /**
  * Thẻ Popunder dành cho ExoClick:
  * - Zone chính: 6051294 (Desktop Popunder)
- * - Zone thứ hai: 6051308 (Multi-tier Popunder)
+ * - Zone thứ hai: 6051308 (Mobile Popunder 1)
+ * - Zone thứ ba: 6052144 (Mobile Popunder 2)
  * - Phục hồi lưu lượng AdBlock với Inline + Remote Script (popunder1000.js)
  */
 export function ExoClickPopunder() {
@@ -86,6 +92,23 @@ export function ExoClickPopunder() {
           dangerouslySetInnerHTML={{
             __html: getPopunderScript(EXOCLICK_ZONE_POPUNDER_SECONDARY, {
               cappingEnabled: false,
+            }),
+          }}
+        />
+      </div>
+      <div
+        id="exoclick-popunder-container-6052144"
+        data-zoneid={EXOCLICK_ZONE_POPUNDER_MOBILE_2}
+        style={{ display: "contents" }}
+        suppressHydrationWarning
+      >
+        <script
+          type="application/javascript"
+          dangerouslySetInnerHTML={{
+            __html: getPopunderScript(EXOCLICK_ZONE_POPUNDER_MOBILE_2, {
+              cappingEnabled: false,
+              frequencyPeriod: 60,
+              frequencyCount: 1,
             }),
           }}
         />
