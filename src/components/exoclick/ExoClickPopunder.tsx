@@ -2,7 +2,6 @@ import {
   exoclickEnabled,
   EXOCLICK_ZONE_POPUNDER,
   EXOCLICK_ZONE_POPUNDER_SECONDARY,
-  EXOCLICK_ZONE_POPUNDER_MOBILE_2,
 } from "@/lib/exoclick/config";
 
 interface PopunderScriptOptions {
@@ -55,8 +54,7 @@ document.addEventListener('creativeDisplayed-${zoneId}', function(event) {
 /**
  * Thẻ Popunder dành cho ExoClick:
  * - Zone chính: 6051294 (Desktop Popunder)
- * - Zone thứ hai: 6051308 (Mobile Popunder 1)
- * - Zone thứ ba: 6052144 (Mobile Popunder 2)
+ * - Zone thứ hai: 6051308 (Mobile Popunder)
  * - Phục hồi lưu lượng AdBlock với Inline + Remote Script (popunder1000.js)
  */
 export function ExoClickPopunder() {
@@ -92,23 +90,6 @@ export function ExoClickPopunder() {
           dangerouslySetInnerHTML={{
             __html: getPopunderScript(EXOCLICK_ZONE_POPUNDER_SECONDARY, {
               cappingEnabled: false,
-            }),
-          }}
-        />
-      </div>
-      <div
-        id="exoclick-popunder-container-6052144"
-        data-zoneid={EXOCLICK_ZONE_POPUNDER_MOBILE_2}
-        style={{ display: "contents" }}
-        suppressHydrationWarning
-      >
-        <script
-          type="application/javascript"
-          dangerouslySetInnerHTML={{
-            __html: getPopunderScript(EXOCLICK_ZONE_POPUNDER_MOBILE_2, {
-              cappingEnabled: false,
-              frequencyPeriod: 60,
-              frequencyCount: 1,
             }),
           }}
         />
