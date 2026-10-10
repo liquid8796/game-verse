@@ -4,7 +4,12 @@ import {
   EXOCLICK_ZONE_POPUNDER_SECONDARY,
 } from "@/lib/exoclick/config";
 
-function getPopunderScript(zoneId: string | number) {
+interface PopunderScriptOptions {
+  cappingEnabled?: boolean;
+}
+
+function getPopunderScript(zoneId: string | number, options?: PopunderScriptOptions) {
+  const cappingEnabled = options?.cappingEnabled ?? true;
   return `(function() {
     function randStr(e,t){for(var n="",r=t||"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",o=0;o<e;o++)n+=r.charAt(Math.floor(Math.random()*r.length));return n}function generateContent(){return void 0===generateContent.val&&(generateContent.val="document.dispatchEvent("+randStr(4*Math.random()+3)+");"),generateContent.val}try{Object.defineProperty(document.currentScript,"innerHTML",{get:generateContent}),Object.defineProperty(document.currentScript,"textContent",{get:generateContent})}catch(e){};
 
@@ -23,7 +28,7 @@ function getPopunderScript(zoneId: string | number) {
     "trigger_method": 1,
     "trigger_class": "",
     "trigger_delay": 0,
-    "capping_enabled": true,
+    "capping_enabled": ${cappingEnabled},
     "tcf_enabled": true,
     "agego_cross_site_enabled": true,
     "only_inline": false
@@ -79,7 +84,9 @@ export function ExoClickPopunder() {
         <script
           type="application/javascript"
           dangerouslySetInnerHTML={{
-            __html: getPopunderScript(EXOCLICK_ZONE_POPUNDER_SECONDARY),
+            __html: getPopunderScript(EXOCLICK_ZONE_POPUNDER_SECONDARY, {
+              cappingEnabled: false,
+            }),
           }}
         />
       </div>

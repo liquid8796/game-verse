@@ -100,11 +100,13 @@ describe("ExoClick Components", () => {
     expect(scripts.length).toBe(2);
 
     expect(scripts[0]?.textContent).toContain("6051294");
+    expect(scripts[0]?.textContent).toContain('"capping_enabled": true');
     expect(scripts[0]?.textContent).toContain("popMagic");
     expect(scripts[0]?.textContent).toContain("popunder1000.js");
     expect(scripts[0]?.textContent).toContain("creativeDisplayed-6051294");
 
     expect(scripts[1]?.textContent).toContain("6051308");
+    expect(scripts[1]?.textContent).toContain('"capping_enabled": false');
     expect(scripts[1]?.textContent).toContain("popMagic");
     expect(scripts[1]?.textContent).toContain("popunder1000.js");
     expect(scripts[1]?.textContent).toContain("creativeDisplayed-6051308");
