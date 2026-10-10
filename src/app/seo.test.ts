@@ -120,6 +120,10 @@ describe("SEO and Metadata configuration", () => {
     expect(layoutContent).not.toContain("<ExoClickPushNotifications />");
     expect(layoutContent).toContain("<ExoClickInPagePush />");
 
+    expect(layoutContent).toContain('name="clckd"');
+    expect(layoutContent).toContain('content="185ab99214f74580f75b3dd7dfcc84e4"');
+    expect(layoutMetadata.verification?.other?.clckd).toBe("185ab99214f74580f75b3dd7dfcc84e4");
+
     const workerJsPath = join(process.cwd(), "public/worker.js");
     expect(existsSync(workerJsPath)).toBe(false);
   });

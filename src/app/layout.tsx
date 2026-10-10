@@ -122,6 +122,7 @@ export const metadata: Metadata = {
         ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION }
         : {}),
       "6a97888e-site-verification": "87c58674c7eabd0e162f44e609b0a49c",
+      clckd: "185ab99214f74580f75b3dd7dfcc84e4",
     },
   },
 };
@@ -130,6 +131,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={display.variable + " " + body.variable}>
       <head>
+        {/* Clickadu site verification */}
+        <meta name="clckd" content="185ab99214f74580f75b3dd7dfcc84e4" />
+
         {/* Search Engine & Feed discovery */}
         <link
           rel="alternate"
