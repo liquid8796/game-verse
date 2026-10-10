@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1040" viewBox="0 0 1000 1040" role="img" aria-labelledby="title desc">
+  <title id="title">A fictional budget of four charged uses</title>
+  <desc id="desc">Five bars show 40, 30, 20, 10 and 0 Magick. Each fictional charged action costs 10, with no regeneration. After four uses, the player needs a regular action or a working recovery condition. These are hypothetical numbers.</desc>
+  <rect width="1000" height="1040" fill="#111820"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="60" y="64" font-size="27" fill="#77D1B4" font-weight="700">HADES II / RESOURCE EXAMPLE</text>
+    <text x="60" y="130" font-size="44" fill="#F4F0E3" font-weight="700">How long can this loop keep going?</text>
+    <path d="M60 162H940" stroke="#394552" stroke-width="2"/>
+    <text x="60" y="225" font-size="30" fill="#B7BBC4">Hypothetical: 40 Magick, 10 per use, no recovery</text>
+    <g fill="#2A3542"><rect x="224" y="294" width="570" height="44"/><rect x="224" y="389" width="570" height="44"/><rect x="224" y="484" width="570" height="44"/><rect x="224" y="579" width="570" height="44"/><rect x="224" y="674" width="570" height="44"/></g>
+    <g fill="#77D1B4"><rect x="224" y="294" width="570" height="44"/><rect x="224" y="389" width="427.5" height="44"/><rect x="224" y="484" width="285" height="44"/><rect x="224" y="579" width="142.5" height="44"/></g>
+    <g font-size="30" fill="#EAE8E0"><text x="60" y="324">Start</text><text x="60" y="419">Use 1</text><text x="60" y="514">Use 2</text><text x="60" y="609">Use 3</text><text x="60" y="704">Use 4</text></g>
+    <g font-size="36" fill="#77D1B4" font-weight="700"><text x="842" y="326">40</text><text x="842" y="421">30</text><text x="842" y="516">20</text><text x="842" y="611">10</text><text x="842" y="706">0</text></g>
+    <text x="60" y="838" font-size="31" fill="#EAE8E0">After four uses: test an ordinary action or recovery.</text>
+    <text x="60" y="883" font-size="27" fill="#9AA3AF">Read your current game for real costs and triggers.</text>
+    <path d="M60 936H940" stroke="#394552" stroke-width="2"/>
+    <text x="60" y="985" font-size="24" fill="#9AA3AF">GAMEVERSE / EXPLANATORY DIAGRAM</text>
+  </g>
+</svg>

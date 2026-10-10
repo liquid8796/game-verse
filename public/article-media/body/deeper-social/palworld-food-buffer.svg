@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="800" viewBox="0 0 1100 800" role="img" aria-labelledby="title desc">
+<title id="title">Measure the food buffer, then plan the trip</title><desc id="desc">Invented stock observation: 80 units before departure falls to 62 after ten minutes, a net loss of 18. If the same trend continues, a further thirty minutes consumes about 54, leaving eight from the remaining 62 before any safety margin.</desc>
+<rect width="1100" height="800" fill="#131d24"/><g font-family="Arial, sans-serif">
+<text x="54" y="76" font-size="42" fill="#eef3f4">Measure the food buffer</text><text x="54" y="122" font-size="27" fill="#b1c0c7">Invented counts for one unchanged food and workforce</text>
+<path d="M130 202V548H965" fill="none" stroke="#7a8b94" stroke-width="3"/>
+<path d="M130 255H965M130 403H965" stroke="#34444e" stroke-width="2"/>
+<text x="98" y="265" font-size="27" fill="#b1c0c7" text-anchor="end">80</text><text x="98" y="413" font-size="27" fill="#b1c0c7" text-anchor="end">40</text>
+<path d="M171 255L359 322" stroke="#77d6a6" stroke-width="8"/><path d="M359 322L923 521" stroke="#e7cd83" stroke-width="6" stroke-dasharray="14 10"/>
+<circle cx="171" cy="255" r="10" fill="#77d6a6"/><circle cx="359" cy="322" r="10" fill="#77d6a6"/><circle cx="923" cy="521" r="10" fill="#e7cd83"/>
+<text x="171" y="210" font-size="37" fill="#77d6a6" text-anchor="middle">80</text><text x="388" y="312" font-size="37" fill="#77d6a6">62</text><text x="941" y="505" font-size="37" fill="#e7cd83">8</text>
+<text x="171" y="590" font-size="28" fill="#b1c0c7" text-anchor="middle">Departure</text><text x="359" y="590" font-size="28" fill="#b1c0c7" text-anchor="middle">10 min</text><text x="923" y="590" font-size="28" fill="#b1c0c7" text-anchor="middle">40 min</text>
+<text x="610" y="253" font-size="30" fill="#77d6a6">Observed: −18 in 10 min</text><text x="610" y="302" font-size="30" fill="#e7cd83">Projected: −54 in 30 more</text>
+<path d="M55 642H1045" stroke="#43525b"/><text x="55" y="694" font-size="29" fill="#eef3f4">Eight units left is a thin margin.</text><text x="55" y="742" font-size="27" fill="#b1c0c7">Net stock change includes production; this is not a Pal consumption rate.</text></g></svg>

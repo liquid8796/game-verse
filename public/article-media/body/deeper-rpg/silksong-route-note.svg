@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1010" viewBox="0 0 1000 1010" role="img" aria-labelledby="title desc">
+  <title id="title">A route note with a known passage and a blocked exit</title>
+  <desc id="desc">Invented connections run from a known stopping point through a tall room to a quest giver. The unresolved upper exit is dashed. The note records an observed obstacle without claiming a required upgrade. This is not a map of Pharloom.</desc>
+  <rect width="1000" height="1010" fill="#111820"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="60" y="64" font-size="27" fill="#A4C4D0" font-weight="700">HOLLOW KNIGHT: SILKSONG / ROUTE NOTE</text>
+    <text x="60" y="130" font-size="44" fill="#F4F0E3" font-weight="700">Record the obstacle and connection</text>
+    <path d="M60 162H940" stroke="#394552" stroke-width="2"/>
+    <rect x="418" y="269" width="186" height="355" fill="#1E2E39" stroke="#658193" stroke-width="3"/>
+    <text x="429" y="358" font-size="29" fill="#D8E5E8" font-weight="700">Tall room</text>
+    <circle cx="125" cy="539" r="22" fill="#85B8A4"/>
+    <path d="M158 539H416M606 584H814" stroke="#85B8A4" stroke-width="5"/>
+    <circle cx="835" cy="584" r="22" fill="#85B8A4"/>
+    <text x="60" y="594" font-size="31" fill="#85B8A4">Known stop</text>
+    <text x="658" y="637" font-size="31" fill="#85B8A4">Quest giver</text>
+    <path d="M512 267V221H801" fill="none" stroke="#DD986B" stroke-width="5" stroke-dasharray="10 8"/>
+    <path d="M787 205L804 221L787 237" fill="none" stroke="#DD986B" stroke-width="4"/>
+    <text x="610" y="268" font-size="30" fill="#DD986B">Upper exit</text>
+    <path d="M60 696H940" stroke="#394552" stroke-width="2"/>
+    <g font-size="30" fill="#D8E5E8"><text x="60" y="753">Note: upper ledge is out of reach with the move tried.</text><text x="60" y="795">Known fact: the lower route reaches the quest giver.</text></g>
+    <text x="60" y="854" font-size="27" fill="#9AA3AF">Invented connections. This is not a Pharloom map.</text>
+    <path d="M60 906H940" stroke="#394552" stroke-width="2"/>
+    <text x="60" y="955" font-size="24" fill="#9AA3AF">GAMEVERSE / EXPLANATORY DIAGRAM</text>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="800" viewBox="0 0 1100 800" role="img" aria-labelledby="title desc">
+<title id="title">One investment, two obligations</title><desc id="desc">Example empire planning diagram connects a developed capital to a nearby town with a possible development investment and to an exposed frontier with a possible defense investment. The decision retains a reserve and asks which choice serves the current objective.</desc>
+<rect width="1100" height="800" fill="#131d24"/><g font-family="Arial, sans-serif"><text x="54" y="76" font-size="42" fill="#eef3f4">One investment, two obligations</text><text x="54" y="122" font-size="27" fill="#b1c0c7">Example empire; costs and options come from the campaign</text>
+<path d="M550 324L262 479M550 324L834 479" stroke="#60737e" stroke-width="4" stroke-dasharray="12 9"/>
+<path d="M464 316V240H503V202H548V249H592V223H633V316Z" fill="#e8eef0"/>
+<text x="550" y="365" font-size="30" text-anchor="middle" fill="#eef3f4">Developed capital</text>
+<path d="M181 497V451L220 421L259 451V497M272 497V463L309 435L346 463V497" fill="#79caa5"/>
+<path d="M758 493V424H790V444H821V424H853V444H884V424H916V493Z" fill="#e99c8d"/>
+<text x="263" y="544" font-size="30" fill="#79caa5" text-anchor="middle">Nearby town</text><text x="835" y="544" font-size="30" fill="#e99c8d" text-anchor="middle">Exposed frontier</text>
+<text x="263" y="589" font-size="27" fill="#b1c0c7" text-anchor="middle">What would it enable?</text><text x="835" y="589" font-size="27" fill="#b1c0c7" text-anchor="middle">Can existing forces protect it?</text>
+<path d="M55 649H1045" stroke="#43525b"/><text x="550" y="702" font-size="30" fill="#e7cd83" text-anchor="middle">Keep a reserve after the chosen investment.</text><text x="550" y="749" font-size="27" fill="#b1c0c7" text-anchor="middle">Then check the next project and its actual prerequisites.</text></g></svg>

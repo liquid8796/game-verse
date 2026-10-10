@@ -1,7 +1,40 @@
 import type { ArticleIllustration } from "./article-media";
 
+function contextualDiagram(
+  afterSection: string,
+  afterParagraph: number,
+  asset: string,
+  height: number,
+  alt: string,
+  caption: string,
+  sourceUrl: string,
+): ArticleIllustration {
+  return {
+    afterSection,
+    afterParagraph,
+    image: {
+      src: `/article-media/body/deeper-rpg/${asset}.svg`,
+      alt,
+      width: 1000,
+      height,
+      caption,
+      credit: "GameVerse explanatory illustration",
+      sourceUrl,
+    },
+  };
+}
+
 export const rpgInline: Partial<Record<string, ArticleIllustration[]>> = {
   "elden-ring-starter": [
+    contextualDiagram(
+      "A cave trip with three decisions on the way",
+      3,
+      "elden-ring-cave-decisions",
+      1040,
+      "An invented cave route links a known Site of Grace, entrance and junction; an investigated branch returns to the junction, while an unknown encounter stays optional.",
+      "Return to the recognizable junction after checking a branch. The route is invented to explain the decision; it is not a map of a particular Elden Ring cave. A rune recovery trip can end once the runes are back.",
+      "https://en.bandainamcoent.eu/elden-ring/news/elden-ring-starter-guide-tips-know-playing-the-game",
+    ),
     {
       afterSection: "Start with a destination you can describe",
       afterParagraph: 1,
@@ -30,6 +63,15 @@ export const rpgInline: Partial<Record<string, ArticleIllustration[]>> = {
     },
   ],
   "baldurs-gate-3-starter": [
+    contextualDiagram(
+      "Work through a messy turn before touching the hotbar",
+      2,
+      "bg3-turn-branches",
+      1020,
+      "A hypothetical turn branches after a shot at a 7-health archer: if it falls, address the next threat; if it survives, reassess the party's remaining actions before it acts.",
+      "The 7 health and 5–10 damage are illustrative. A hit can still leave the archer alive, and the attack can miss. Keep the next character's decision open until you know what actually happened.",
+      "https://blog.playstation.com/2023/09/05/how-baldurs-gate-3-adapts-its-expansive-rpg-gameplay-for-your-dualsense-controller/",
+    ),
     {
       afterSection: "Read the encounter before choosing an attack",
       afterParagraph: 2,
@@ -58,6 +100,15 @@ export const rpgInline: Partial<Record<string, ArticleIllustration[]>> = {
     },
   ],
   "cyberpunk-2077-starter": [
+    contextualDiagram(
+      "Trace a job from the street to the exit",
+      4,
+      "cyberpunk-gig-route",
+      1010,
+      "An illustrative building approach connects the street and side entrance to the objective, with a known return route and a separate fallback to cover if detection occurs.",
+      "Think through the entrance, objective, cover and exit as connected decisions. This schematic illustrates the example gig; it does not represent a specific Night City building or guarantee a safe route.",
+      "https://www.cyberpunk.net/en/",
+    ),
     {
       afterSection: "Choose one main method and one fallback",
       afterParagraph: 1,
@@ -73,6 +124,15 @@ export const rpgInline: Partial<Record<string, ArticleIllustration[]>> = {
     },
   ],
   "black-myth-wukong-starter": [
+    contextualDiagram(
+      "Separate a late dodge from an early counterattack",
+      1,
+      "wukong-followup-window",
+      1020,
+      "A fictional attack timeline shows first swing, pause, second swing and recovery; attacking during the pause is an early commitment, while a short answer is tested after the sequence.",
+      "The pause in this invented sequence still belongs to the attack. First watch the follow-up, then test a short response after the recovery you recognize. The spacing is explanatory, with no measured boss timings.",
+      "https://www.playstation.com/en-us/games/black-myth-wukong/",
+    ),
     {
       afterSection: "Attempt one: find the move that causes the damage",
       afterParagraph: 2,
@@ -88,6 +148,15 @@ export const rpgInline: Partial<Record<string, ArticleIllustration[]>> = {
     },
   ],
   "monster-hunter-wilds-starter": [
+    contextualDiagram(
+      "Compare the same three openings in the field",
+      2,
+      "wilds-missed-hit",
+      1030,
+      "Two field-test schematics distinguish an attack ending short of the target from a target moving away before the hit; adjust useful range or opening recognition accordingly.",
+      "The same miss can come from distance or a late start. Change the part you diagnosed on the next opening. These positions are illustrative and do not supply weapon ranges or attack timings.",
+      "https://www.playstation.com/en-ca/games/monster-hunter-wilds/monster-hunter-wilds-starters-guide/",
+    ),
     {
       afterSection: "Reach changes where you should stand",
       afterParagraph: 1,
@@ -116,6 +185,15 @@ export const rpgInline: Partial<Record<string, ArticleIllustration[]>> = {
     },
   ],
   "hades-ii-starter": [
+    contextualDiagram(
+      "Test the resource loop before buying more damage",
+      1,
+      "hades-magick-budget",
+      1040,
+      "Five bars show a hypothetical Magick budget falling from 40 to 30, 20, 10 and zero after four charged uses costing 10 each, without regeneration.",
+      "Hypothetical arithmetic, not an in-game cost chart: 40 Magick at 10 per use funds four uses without recovery. Read your current setup for real costs, then test the ordinary action or recovery condition that keeps a longer encounter workable.",
+      "https://news.xbox.com/en-us/2026/03/26/hades-2-xbox-partner-preview/",
+    ),
     {
       afterSection: "Name the action doing most of the work",
       afterParagraph: 3,
@@ -144,6 +222,15 @@ export const rpgInline: Partial<Record<string, ArticleIllustration[]>> = {
     },
   ],
   "hollow-knight-silksong-starter": [
+    contextualDiagram(
+      "Build a route note that survives a week away",
+      2,
+      "silksong-route-note",
+      1010,
+      "An invented route connects a known stopping point through a tall room to a quest giver; a dashed upper exit marks a ledge that the tried movement cannot reach.",
+      "Record the known connection and the observed obstacle separately. The upper route remains a question until you can test it again. This is an invented note diagram, not a map of Pharloom or an upgrade requirement.",
+      "https://hollowknightsilksong.com/",
+    ),
     {
       afterSection: "Learn Hornet's landing position",
       afterParagraph: 2,
@@ -159,6 +246,15 @@ export const rpgInline: Partial<Record<string, ArticleIllustration[]>> = {
     },
   ],
   "stardew-valley-starter": [
+    contextualDiagram(
+      "Plan a watering-can upgrade across three mornings",
+      4,
+      "stardew-watering-upgrade",
+      1050,
+      "A conditional three-day plan waters and hands in the can on Spring 10, relies on rain for outdoor crops on Spring 11, then collects the upgraded can and waters on Spring 12.",
+      "This example requires the stated rain forecast and access to Clint for drop-off and collection. Water before handing in the can; rain covers the outdoor plot during the two-night upgrade. Check shop closures and indoor crops separately.",
+      "https://wiki.stardewvalley.net/Watering_Cans",
+    ),
     {
       afterSection: "Treat seeds as a commitment to future mornings",
       afterParagraph: 3,

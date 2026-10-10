@@ -1,6 +1,7 @@
 import type { ArticleIllustration } from "./article-media";
 
 const bodyPath = "/article-media/body/social";
+const deeperBodyPath = "/article-media/body/deeper-social";
 
 export const socialInline: Partial<Record<string, ArticleIllustration[]>> = {
   "helldivers-2-squad-habits": [
@@ -26,6 +27,18 @@ export const socialInline: Partial<Record<string, ArticleIllustration[]>> = {
         width: 1100,
         height: 760,
         caption: "An example arrangement for the terminal described above. Watch the open approaches and keep the operator's escape clear; terrain will decide the actual positions.",
+        credit: "GameVerse illustration",
+      },
+    },
+    {
+      afterSection: "Recover a fallen diver without feeding the same fight",
+      afterParagraph: 3,
+      image: {
+        src: `${deeperBodyPath}/helldivers-recovery-route.svg`,
+        alt: "Hypothetical recovery layout: reinforce at the living squad, cover one diver approaching dropped items, then return to the rally point before heading toward extraction.",
+        width: 1100,
+        height: 800,
+        caption: "The recovery needs its own approach and exit. Reinforce on usable ground, cover the returning diver, and reassess if the threat still blocks the dropped items.",
         credit: "GameVerse illustration",
       },
     },
@@ -56,6 +69,18 @@ export const socialInline: Partial<Record<string, ArticleIllustration[]>> = {
         sourceUrl: "https://store.steampowered.com/app/1623730/",
       },
     },
+    {
+      afterSection: "Estimate the next trip from an observed buffer",
+      afterParagraph: 2,
+      image: {
+        src: `${deeperBodyPath}/palworld-food-buffer.svg`,
+        alt: "Invented food-stock observation: 80 units falls to 62 in ten minutes. A projected further thirty minutes at the same net loss uses 54 units and leaves eight.",
+        width: 1100,
+        height: 800,
+        caption: "Observed stock is a planning clue. The dashed projection assumes the same food, workforce and production; it supplies no universal consumption rate or offline-server guarantee.",
+        credit: "GameVerse illustration",
+      },
+    },
   ],
   "sea-of-thieves-first-crew": [
     {
@@ -80,6 +105,18 @@ export const socialInline: Partial<Record<string, ArticleIllustration[]>> = {
         width: 1100,
         height: 760,
         caption: "Planks and buckets solve different parts of the same problem. Seal the leak and remove the water already aboard while the helm keeps the ship away from fresh damage.",
+        credit: "GameVerse illustration",
+      },
+    },
+    {
+      afterSection: "Leave an island with the crew ready to move",
+      afterParagraph: 3,
+      image: {
+        src: `${deeperBodyPath}/sea-island-departure.svg`,
+        alt: "Example island departure shows a last treasure carrier returning from shore, a ship with a clear exit past a rock, and a distant sail to report before departing together.",
+        width: 1100,
+        height: 800,
+        caption: "Prepare the exit while the last carrier returns, then confirm the pickup. A reported sail is a reason to make a shared decision; its intentions remain unknown.",
         credit: "GameVerse illustration",
       },
     },
@@ -110,6 +147,18 @@ export const socialInline: Partial<Record<string, ArticleIllustration[]>> = {
         sourceUrl: "https://store.steampowered.com/app/275850/",
       },
     },
+    {
+      afterSection: "Plan a walking loop with a return reserve",
+      afterParagraph: 3,
+      image: {
+        src: `${deeperBodyPath}/nms-return-reserve.svg`,
+        alt: "Hypothetical walking loop from ship to deposit and back: protection starts at 100, reaches 70 at the deposit, and might return at 40 only if conditions remain similar; checked shelter is nearby.",
+        width: 1100,
+        height: 800,
+        caption: "The outward walk has already spent part of the reserve. Recheck conditions at the deposit; a storm can invalidate the simple return estimate.",
+        credit: "GameVerse illustration",
+      },
+    },
   ],
   "forza-horizon-5-clean-corners": [
     {
@@ -134,6 +183,18 @@ export const socialInline: Partial<Record<string, ArticleIllustration[]>> = {
         width: 1100,
         height: 760,
         caption: "Separate the jobs on a simple bend: slow on the approach, guide the car through, then add power as the steering opens. The drawing supplies no fixed braking distance or speed.",
+        credit: "GameVerse illustration",
+      },
+    },
+    {
+      afterSection: "Work backward from the wall you keep hitting",
+      afterParagraph: 4,
+      image: {
+        src: `${deeperBodyPath}/forza-wide-or-sliding.svg`,
+        alt: "Two schematic corner failures: running wide before acceleration calls for an entry-speed test, while sliding after adding power calls for a throttle test.",
+        width: 1100,
+        height: 800,
+        caption: "Locate the moment the line fails before changing the setup. These illustrative symptoms suggest separate entry and exit tests, without prescribing a fixed speed or braking distance.",
         credit: "GameVerse illustration",
       },
     },
@@ -165,6 +226,18 @@ export const socialInline: Partial<Record<string, ArticleIllustration[]>> = {
         sourceUrl: "https://store.steampowered.com/app/1295660/",
       },
     },
+    {
+      afterSection: "Compare two settlements before spending the treasury",
+      afterParagraph: 3,
+      image: {
+        src: `${deeperBodyPath}/civ-investment-choice.svg`,
+        alt: "Example empire connects a developed capital to a nearby town with a development opportunity and an exposed frontier with a defense need; choose one investment while retaining a reserve.",
+        width: 1100,
+        height: 800,
+        caption: "Compare what the town investment enables with what the frontier requires. The example supplies a decision structure; actual costs and benefits come from the current campaign.",
+        credit: "GameVerse illustration",
+      },
+    },
   ],
   "street-fighter-6-practice-goals": [
     {
@@ -192,6 +265,18 @@ export const socialInline: Partial<Record<string, ArticleIllustration[]>> = {
         sourceUrl: "https://store.steampowered.com/app/1364780/",
       },
     },
+    {
+      afterSection: "Turn one replay into an anti-air test",
+      afterParagraph: 4,
+      image: {
+        src: `${deeperBodyPath}/sf-anti-air-test.svg`,
+        alt: "Three-stage anti-air drill: test a predictable recorded jump, add the grounded move that preceded the miss, then mix jumping and grounded approaches to test recognition.",
+        width: 1100,
+        height: 800,
+        caption: "Test the answer, whether your character can act, and recognition in separate stages. A successful response to a guaranteed jump does not establish that you can read a mixed approach.",
+        credit: "GameVerse illustration",
+      },
+    },
   ],
   "fc-26-first-career": [
     {
@@ -203,6 +288,18 @@ export const socialInline: Partial<Record<string, ArticleIllustration[]>> = {
         width: 1100,
         height: 900,
         caption: "One example shape for thinking about jobs: provide width, connect passes and protect the defense. Choose the formation and actual FC 26 roles that suit your squad, then check the bench for cover.",
+        credit: "GameVerse illustration",
+      },
+    },
+    {
+      afterSection: "Trace a conceded goal back to the lost pass",
+      afterParagraph: 3,
+      image: {
+        src: `${deeperBodyPath}/fc-covering-pass.svg`,
+        alt: "Illustrative half-pitch shows a winger returning a blocked attack to support and switching toward the far side, with a covering midfielder remaining behind the ball and ahead of two center-backs.",
+        width: 1100,
+        height: 800,
+        caption: "One calmer route around a closed center. Keep the supporting pass and covering job visible, then check whether your FC 26 roles produce that spacing in the actual match.",
         credit: "GameVerse illustration",
       },
     },

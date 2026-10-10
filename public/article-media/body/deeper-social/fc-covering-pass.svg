@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="800" viewBox="0 0 1100 800" role="img" aria-labelledby="title desc">
+<title id="title">Keep a pass behind the winger</title><desc id="desc">Illustrative attacking half-pitch: a winger can return the ball to a supporting player and switch toward the opposite side instead of forcing a blocked central pass. A separate covering midfielder stays between the ball and two center-backs.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#70d7c8"/></marker></defs>
+<rect width="1100" height="800" fill="#131d24"/><g font-family="Arial, sans-serif"><text x="54" y="76" font-size="42" fill="#eef3f4">Keep a pass behind the winger</text><text x="54" y="122" font-size="27" fill="#b1c0c7">Example spacing and passing choices, not a guaranteed routine</text>
+<rect x="127" y="177" width="848" height="461" fill="#223a33" stroke="#7a8b83" stroke-width="3"/><path d="M440 177V265H662V177M505 177V207H595V177" fill="none" stroke="#7a8b83" stroke-width="3"/>
+<circle cx="867" cy="350" r="23" fill="#70d7c8"/><circle cx="755" cy="454" r="23" fill="#70d7c8"/><circle cx="243" cy="350" r="23" fill="#70d7c8"/>
+<circle cx="550" cy="519" r="23" fill="#a7c8f4"/><circle cx="432" cy="600" r="19" fill="#e8eef0"/><circle cx="662" cy="600" r="19" fill="#e8eef0"/>
+<circle cx="689" cy="344" r="19" fill="#e99c8d"/><circle cx="587" cy="323" r="19" fill="#e99c8d"/><circle cx="540" cy="257" r="19" fill="#e99c8d"/>
+<path d="M847 367L775 435M731 449L268 356" fill="none" stroke="#70d7c8" stroke-width="6" marker-end="url(#arrow)"/>
+<path d="M842 344L726 344" stroke="#e99c8d" stroke-width="5" stroke-dasharray="10 8"/><path d="M708 330L731 358M708 358L731 330" stroke="#e99c8d" stroke-width="4"/>
+<text x="782" y="306" font-size="27" fill="#70d7c8">Winger</text><text x="715" y="505" font-size="27" fill="#70d7c8">Support</text><text x="184" y="302" font-size="27" fill="#70d7c8">Far side</text>
+<text x="382" y="558" font-size="27" fill="#a7c8f4">Cover behind the ball</text>
+<path d="M55 684H1045" stroke="#43525b"/><text x="55" y="736" font-size="28" fill="#b1c0c7">Return the pass when the middle is closed; preserve the covering job.</text></g></svg>

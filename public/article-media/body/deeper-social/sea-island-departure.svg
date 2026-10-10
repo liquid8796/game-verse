@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="800" viewBox="0 0 1100 800" role="img" aria-labelledby="title desc">
+<title id="title">Finish the island stop as one crew</title><desc id="desc">Example island departure: a lookout reports a sail offshore, the helm prepares a clear exit past a rock, and the last carrier follows an agreed pickup route from the beach before the ship departs.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#70d7c8"/></marker></defs>
+<rect width="1100" height="800" fill="#131d24"/><g font-family="Arial, sans-serif"><text x="54" y="76" font-size="42" fill="#eef3f4">Finish the island stop as one crew</text><text x="54" y="122" font-size="27" fill="#b1c0c7">Example positions, not an in-game map</text>
+<path d="M58 639Q94 466 214 383T350 215Q481 257 443 385T368 644Z" fill="#786e45" stroke="#b1a574" stroke-width="3"/><text x="113" y="483" font-size="32" fill="#f1e4b4">Island</text>
+<circle cx="381" cy="510" r="18" fill="#e7cd83"/><text x="86" y="571" font-size="28" fill="#e7cd83">Last carrier</text><path d="M304 561L376 525" stroke="#e7cd83" stroke-width="3"/>
+<path d="M404 510L537 510" fill="none" stroke="#70d7c8" stroke-width="6" stroke-dasharray="12 8" marker-end="url(#arrow)"/>
+<path d="M561 561L539 484Q582 462 625 484L603 561Z" fill="#e8eef0"/><path d="M582 490V441" stroke="#e8eef0" stroke-width="5"/>
+<text x="460" y="621" font-size="28" fill="#eef3f4">Confirm the pickup</text>
+<path d="M582 426Q605 357 711 342T913 230" fill="none" stroke="#70d7c8" stroke-width="7" marker-end="url(#arrow)"/>
+<path d="M562 327L610 260L665 312L630 358Z" fill="#4b5963" stroke="#7a8b94" stroke-width="3"/><text x="493" y="227" font-size="27" fill="#b1c0c7">Rock</text>
+<text x="742" y="393" font-size="29" fill="#70d7c8">Clear exit</text><text x="742" y="434" font-size="27" fill="#b1c0c7">Heading + sail state</text>
+<path d="M885 482L846 534H924Z" fill="#e39a8c"/><path d="M884 470V544H933" fill="none" stroke="#e39a8c" stroke-width="4"/>
+<text x="726" y="592" font-size="28" fill="#e39a8c">Report the distant sail</text>
+<path d="M55 689H1045" stroke="#43525b"/><text x="55" y="742" font-size="28" fill="#b1c0c7">Describe what you see · Agree when to leave · Count the people</text></g></svg>

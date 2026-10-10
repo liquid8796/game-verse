@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="800" viewBox="0 0 1100 800" role="img" aria-labelledby="title desc">
+<title id="title">The return walk spends protection too</title><desc id="desc">An illustrative out-and-back route starts at a ship with 100 protection, reaches a deposit with 70, and projects a return with 40 only if conditions are unchanged. A checked shelter offers a nearby fallback. The values are hypothetical.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#85bdf1"/></marker></defs>
+<rect width="1100" height="800" fill="#131d24"/><g font-family="Arial, sans-serif"><text x="54" y="76" font-size="42" fill="#eef3f4">The return walk spends protection too</text><text x="54" y="122" font-size="27" fill="#b1c0c7">Hypothetical readings, not a universal drain rate</text>
+<path d="M186 309Q367 195 544 314T909 314" fill="none" stroke="#85bdf1" stroke-width="7" marker-end="url(#arrow)"/><path d="M901 405Q692 498 545 399T199 410" fill="none" stroke="#85bdf1" stroke-width="6" stroke-dasharray="13 9" marker-end="url(#arrow)"/>
+<path d="M103 376L174 318L245 376L204 383L174 363L144 383Z" fill="#e8eef0"/><text x="174" y="464" font-size="28" text-anchor="middle" fill="#eef3f4">Ship</text>
+<path d="M868 375L895 304L934 357L961 331L989 385Z" fill="#79caa5"/><text x="926" y="459" font-size="28" text-anchor="middle" fill="#79caa5">Deposit</text>
+<text x="175" y="241" font-size="44" fill="#85bdf1" text-anchor="middle">100</text><text x="925" y="242" font-size="44" fill="#85bdf1" text-anchor="middle">70</text>
+<path d="M456 526L523 474L590 526V583H456Z" fill="#314b43" stroke="#79caa5" stroke-width="3"/><text x="523" y="624" font-size="28" fill="#79caa5" text-anchor="middle">Checked shelter</text>
+<text x="65" y="573" font-size="34" fill="#e7cd83">40 on return?</text><text x="65" y="619" font-size="25" fill="#b1c0c7">Only if conditions stay similar</text>
+<path d="M55 688H1045" stroke="#43525b"/><text x="55" y="737" font-size="28" fill="#b1c0c7">Recheck at the deposit. A storm can invalidate the estimate.</text></g></svg>

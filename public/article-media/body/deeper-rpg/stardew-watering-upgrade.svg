@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1050" viewBox="0 0 1000 1050" role="img" aria-labelledby="title desc">
+  <title id="title">Watering-can upgrade across three mornings</title>
+  <desc id="desc">A conditional example shows watering then handing in the can on Spring 10, rain watering outdoor crops on Spring 11, and collecting the can and watering on Spring 12. It requires the stated forecast and the blacksmith being available.</desc>
+  <rect width="1000" height="1050" fill="#111820"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="60" y="64" font-size="27" fill="#ABD092" font-weight="700">STARDEW VALLEY / THREE MORNINGS</text>
+    <text x="60" y="130" font-size="44" fill="#F4F0E3" font-weight="700">Upgrade without a surprise dry day</text>
+    <path d="M60 162H940" stroke="#394552" stroke-width="2"/>
+    <text x="60" y="224" font-size="30" fill="#B7BBC4">Example conditions: rain tomorrow; shop available</text>
+    <g fill="#1E2B2D" stroke="#526A62" stroke-width="2"><rect x="60" y="264" width="274" height="395"/><rect x="363" y="264" width="274" height="395"/><rect x="666" y="264" width="274" height="395"/></g>
+    <g font-size="29" fill="#ABD092" font-weight="700"><text x="83" y="319">SPRING 10</text><text x="386" y="319">SPRING 11</text><text x="689" y="319">SPRING 12</text></g>
+    <g fill="none" stroke="#DEB272" stroke-width="5"><path d="M126 398H214M170 354V442M140 370L200 428M140 428L200 370"/><path d="M732 398H820M776 354V442M746 370L806 428M746 428L806 370"/></g>
+    <circle cx="170" cy="398" r="17" fill="#DEB272"/><circle cx="776" cy="398" r="17" fill="#DEB272"/>
+    <path d="M427 399L443 370L462 402Q463 427 443 427Q424 427 427 399" fill="#86B7CB"/>
+    <path d="M504 374L487 404M548 374L531 404" stroke="#86B7CB" stroke-width="5"/>
+    <g font-size="28" fill="#EAE8E0"><text x="83" y="495">Water crops</text><text x="83" y="537">first, then</text><text x="83" y="579">hand in can.</text><text x="386" y="495">Rain waters</text><text x="386" y="537">outdoor crops.</text><text x="386" y="579">Can at Clint's.</text><text x="689" y="495">Collect can,</text><text x="689" y="537">then water</text><text x="689" y="579">as needed.</text></g>
+    <path d="M334 702H671" stroke="#ABD092" stroke-width="5"/>
+    <text x="330" y="751" font-size="32" fill="#ABD092" font-weight="700">Two upgrade nights</text>
+    <g font-size="29" fill="#B7BBC4"><text x="60" y="817">Check festivals and Clint's schedule before drop-off.</text><text x="60" y="859">Outdoor rain does not water indoor crops.</text></g>
+    <path d="M60 946H940" stroke="#394552" stroke-width="2"/>
+    <text x="60" y="995" font-size="24" fill="#9AA3AF">GAMEVERSE / EXPLANATORY DIAGRAM</text>
+  </g>
+</svg>

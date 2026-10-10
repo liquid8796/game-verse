@@ -363,6 +363,28 @@ Weapon enhancement deserves the same attention. Check the materials an upgrade r
 
 Equipment weight also belongs in this review. Look at the load category after changing armor or equipping weapons. Weapons equipped in unused hand slots still add to equipment load; items left unequipped in your inventory do not. Remove an equipped option you are not using if it pushes you into an unwanted load category, then test your dodge before the next boss attempt.
 
+## A cave trip with three decisions on the way
+
+Imagine a short expedition from a known Site of Grace to a cave you can see from the road. This is a planning example, not directions to a particular dungeon. The useful landmarks are the road junction, the entrance, and the first place inside where the route branches. Before leaving, spend runes you already have a clear use for. Carrying a large balance into an unfamiliar passage adds a recovery problem to a trip whose purpose was simply to explore.
+
+At the entrance, check your flasks and look behind you. If the approach has already used most of your healing, the cave is not the next test yet. Return and learn the approach, or investigate another nearby route. If you arrive in good condition, proceed until you establish whether a checkpoint exists inside. A discovered Site of Grace changes the trip because resting refills flasks and restores health, but also revives most defeated enemies. Consider which stretch you are agreeing to repeat.
+
+At the first junction, choose one branch and remember what identifies it: a descent, a torch, or the sound of something ahead. A dead end can still contain an item or reveal an ambush. Return to the junction after investigating it instead of immediately taking several more turns. Now the other branch has a clear relationship to a place you recognize. Your mental map grows through connections rather than a collection of disconnected rooms.
+
+The next decision is whether to enter a difficult encounter. A doorway with no established route back and very little healing is a poor place to test a long attack for the first time. A nearby checkpoint and a familiar approach make a much better practice setup. You can stop at the discovery and come back prepared; finding the encounter was the expedition's work.
+
+Death creates a different objective. Dropped runes can be recovered at the death location, but another death before recovery loses that earlier pile. If you decide to retrieve them, follow the known route and leave optional enemies alone where possible. Recovering the pile does not commit you to another boss attempt. Once it is back, reassess whether to leave and spend it. Chasing a recovery while also trying a new weapon and investigating an unknown branch makes three problems compete for the same attention.
+
+## When a shield helps, and when it hides the problem
+
+A shield provides a way to observe some attacks without depending entirely on roll timing. It also asks you to watch stamina. In a quiet encounter, block one hit and notice how much of the bar remains. The next choice is whether you can afford another block, move away, or answer. Holding a guard without watching the opponent can make the moment stamina runs out feel surprising, even though the warning was already visible.
+
+A guard counter is a heavy response made immediately after blocking an attack. It is distinct from a parry. The counter can help break an enemy's stance, but its availability does not prove the enemy has finished attacking. Against a sequence you have not read, blocking the first hit and countering straight into the second exchanges one avoidable mistake for another. Test it after the end of a sequence you recognize.
+
+Compare two attempts against that same ordinary enemy. In the first, block and watch the follow-up without countering. In the second, wait for the recognized final hit and try the counter. Check whether it connects and leaves enough room to respond afterward. If it still fails, distinguish an unsafe recovery window from insufficient stamina; changing the shield may affect the latter without fixing the former.
+
+A heavier shield or extra equipped weapon can also change equipment load. Review the category before deciding that the dodge suddenly feels wrong. Keep only the armaments you need equipped for this test, then repeat the encounter. The goal is a defense you can use deliberately: a block for a readable hit, a roll for another situation, and a counter when the opening actually supports it.
+
 ## Leave the next session a clear starting point
 
 Write a brief note before stopping: the next destination, an unresolved encounter, and one thing you want to test. "Return to the cave; try one attack after the overhead swing" is enough. Notes about characters and closed routes are helpful too, especially when a few days separate sessions.
@@ -417,6 +439,28 @@ Control abilities deserve a similar test. Ask which threat the effect prevents, 
 
 Check area effects carefully. The preview can include your own companions or leave them on a hazardous surface after the immediate hit. An attack that wins the current exchange but compromises the next round may need a different angle or target point.
 
+## Work through a messy turn before touching the hotbar
+
+Consider a hypothetical encounter with two enemies: a wounded archer who acts next, and a healthier melee opponent beside your frontline companion. Your ranged character has a line of sight to the archer after a small move. A caster could use an area spell, but its preview also covers an ally. The objective is to reduce the immediate danger without creating a second problem for the party. These positions are an example to reason through, not a named encounter or a recommended opening for every fight.
+
+Start with the archer because of its place in the turn order, then examine it. Check the chance to hit and the damage range on the available attack. Suppose, purely for this example, the target has 7 health and the preview shows 5–10 damage if the attack connects. That is not a guaranteed finish: the attack can miss, and a hit can leave the archer standing. Plan what the party can do if that happens before spending another character's useful action elsewhere.
+
+Next, inspect the required movement. A short step to a clear shot may be worthwhile; moving through a dangerous surface or past a threatening enemy changes the price. Use the preview and warnings rather than assuming the route is harmless. If the shot requires an expensive detour, a different target or control effect may leave the party in a better position. Turn order identifies an urgent question, but does not settle every decision on its own.
+
+Take the shot if the route and attack make sense, then read the result. If the archer falls, the next character can deal with the melee enemy or improve the party's position. If it survives, reconsider the remaining options around its current health and next turn. Do not execute a memorized sequence whose first assumption has just failed. Your next action should answer the battlefield that exists now.
+
+Finally, revisit that area spell. Moving an ally out first may make the preview acceptable, if the ally can do so safely and still accomplish useful work. Otherwise, select a different tool. A large damage total that includes your companion is not free progress. Finish by checking the ranged character's position: reaching the shot was only half of the move; ending somewhere the party can support completes it.
+
+## Check what a second spell would replace
+
+Concentration deserves its own pause because a useful effect can disappear when its caster begins another concentration spell. Read both descriptions before committing. This is particularly easy to miss when one spell is helping an ally and the next looks like an unrelated answer to an enemy. Different targets do not make the concentration requirements independent.
+
+Suppose your caster is already maintaining a control effect that limits a dangerous opponent. Another enemy moves into range of a new spell. Before casting, ask what the first opponent will be able to do if the existing effect ends. You are comparing two possible battlefields, not merely two damage descriptions. Keeping the present effect and using an ordinary attack or another available action can be the stronger turn.
+
+The opposite choice can also make sense. If the controlled opponent is nearly defeated, or the new threat is much more urgent, replacing the effect may be worth it. Make that trade deliberately and adjust the party's positions for the threat that returns. An expired effect is much less confusing when you expected it and already have a response.
+
+If the turn feels impossible, check for a missing condition before blaming the build. The spell might require a slot you spent earlier, a target within range, an unobstructed path, or a different action resource. Read the disabled ability's explanation and try a simpler option. After the fight, review which restriction actually mattered. One encounter that ended with awkward positions does not prove that four classes need replacing; it may show that one companion needed a clearer route and the caster needed to preserve an effect already doing useful work.
+
 ## Finish in a position the party can support
 
 Before ending the turn, review where the character is standing. Can allies reach them? Are they isolated from the rest of the group? Does the position expose a fragile character to several opponents? Remaining movement may help, but moving away from a nearby enemy can have consequences, so read the game's warning and relevant ability descriptions.
@@ -470,6 +514,28 @@ Before visiting a vendor or ripperdoc, name the problem. Are you repeatedly expo
 The larger number is only one part of that decision. A weapon you control comfortably can produce better results than one that promises more damage but misses at your usual range. Cyberware also has requirements and capacity implications. Check the whole loadout rather than assuming one impressive item makes the character complete.
 
 Keep some money available for the next useful upgrade instead of spending it all because a shop is open. When a build already handles ordinary jobs, allow the next difficult encounter to show you what it lacks. That gives the next purchase a purpose.
+
+## Trace a job from the street to the exit
+
+Imagine a gig where you need to retrieve something inside a guarded building. The following is a worked approach, not a description of a specific contract. Stand outside long enough to separate the job's objective from the most obvious enemy. Read whether the client requests discretion or another condition, then inspect the entrances you can actually reach. A front door with cover nearby, a side route, and an upper opening can have different requirements. Seeing a route does not mean your current attributes or equipment let you use it.
+
+Choose the side entrance for this example. Identify where a nearby guard looks, what conceals the approach, and where you can go if detected. Make the initial experiment about reaching the entrance. You do not need to buy a whole stealth build to discover that crossing the open yard too early gives the guard a clear view. Repeat the route with better timing before concluding that damage or cyberware is the missing ingredient.
+
+Once inside, reassess. The interior may put enemies much closer than they appeared from the street. A weapon comfortable at distance can become awkward while you are navigating furniture and doorways. Put the fallback you chose into a usable slot before the situation becomes urgent. If you are quickhacking, read the RAM costs and available targets rather than spending everything on the first enemy merely because the scan permits it.
+
+Now suppose detection happens before you reach the objective. Retreat toward a known piece of cover if you can, face the immediate threat, and use the fallback you already tested. Detection is the transition you are practicing here. If you can stabilize the room but keep getting hit while searching for the objective, the next improvement is likely route knowledge or a calmer search, rather than another damage purchase. If you cannot stabilize it, examine the range, reload, and recovery problems separately.
+
+After reaching the objective, check the remaining instructions and the way out. An approach that enters well but leaves you improvising an escape is only partly understood. Repeat the comparison on another manageable job before spending scarce resources. Similar mistakes across different layouts provide better evidence than one unusually awkward building. Keep the briefing in that comparison: completing the request and enjoying the method are both part of deciding whether the build fits you.
+
+## Untangle damage, stamina, and cyberware capacity
+
+The post-2.0 systems make a few apparently similar problems quite different. Weapon attacks consume stamina, with the cost depending on the weapon. Health items and grenades have charges that recover over time. Cyberware capacity limits what you can install, and armor comes primarily from cyberware. Those rules come from CD PROJEKT RED's overhaul; exact item values should come from your current inventory and descriptions.
+
+If the opening burst feels comfortable but the following exchange does not, look at the relevant bars and charges. Did a long firing sequence drain stamina? Did you use your available healing before the more dangerous part of the room? Or did your close-range fallback require you to leave cover at the worst moment? Each diagnosis points toward a different adjustment: shorter bursts, more deliberate recovery, or a different fallback. Buying a weapon with a larger listed number may leave the cause untouched.
+
+At a ripperdoc, compare a proposed installation with the complete loadout. A useful effect may require removing something else to stay within capacity. Read the item being displaced as carefully as the one being added. A purchase that improves the planned attack but removes an effect you rely on during recovery is a tradeoff, not an automatic upgrade.
+
+Try perk changes before consuming the bigger reset when a smaller experiment answers the question. Update 2.0 introduced free individual perk refunds and a one-time attribute reset. Follow the options your installed game displays, and avoid spending the attribute reset merely to move a few points toward an untested style. Use the official planner to describe the new loop first: how V enters, deals damage, survives a disrupted opening, and leaves. When you can explain all four with tools you have tried, a larger change has a reason beyond the appeal of a finished character screenshot.
 
 ## Let story choices remain story choices
 
@@ -527,6 +593,28 @@ Check stamina before extending an attack. You want enough control to respond whe
 
 If an attempt reaches a new phase, prioritize seeing it. The temptation to spend everything trying to finish can turn a valuable learning opportunity into a blur. Recognizing one new cue may make the next attempt far more stable.
 
+## Separate a late dodge from an early counterattack
+
+Here is a hypothetical boss sequence to make the diagnosis concrete: a visible windup, a wide first swing, a pause, then a second swing. These are invented labels for an exercise, not the timings of a named boss. In the failed version, you dodge the first swing, begin attacking during the pause, and get hit by the second. The mistake can look like poor defense because the damage happens while the opponent is attacking. The decision that created it was starting offense before the sequence ended.
+
+On the next attempt, keep the same approach but remove the attack during the pause. Watch the second swing and concentrate on reaching a position where you can see its finish. If you now avoid both, you have useful evidence: the first dodge was not necessarily the problem. If the second still hits while you are free to move, inspect its cue, direction, and the space available. That is now a smaller defensive question you can test directly.
+
+Once the full sequence is readable, try a short response after the second swing. Stop even if a longer combo looks tempting. Watch whether the boss begins another action before you can recover. A successful hit followed by another unavoidable hit is not the exchange you were looking for. Shorten the punish, change the position from which you start it, or wait for a different opening. The damage number alone cannot tell you whether the trade is useful.
+
+Bring in Immobilize only after that base exchange makes sense. If you want it to extend an opening, cast from a position where the planned attack can reach. Then observe how that opponent responds and how long the opportunity actually remains usable. The spell's existence does not promise an identical window against every boss or at every moment. The test is whether it improves an exchange you already recognize without leaving the following one harder to survive.
+
+For a simple attempt record, use three columns: what happened before the hit, what you were doing when hit, and what to change. "Delayed second swing; starting a long attack; wait for the follow-up" is useful. "Boss is unfair; everything; try harder" is not. The record can be one sentence on paper. It earns its place only if it changes the next attempt.
+
+## Give healing the same scrutiny as attacking
+
+A low health bar makes the heal feel urgent. Urgency does not create an opening. If a boss repeatedly catches the gourd animation, study the sequence leading to that moment. Were you healing immediately after being struck, while another hit was already on its way? Were you relying on distance against an attack that reaches across the arena? The lost health can be a timing problem even when the original plan was to play defensively.
+
+Practice recognizing one recovery in which you can safely try to heal, just as you recognized one for a short attack. During a learning attempt, prefer observing the finish of the sequence to repeatedly gambling on the same unsafe pause. You may have to spend the next opening on recovery instead of damage. That costs an opportunity, but lets you continue reading the fight; an interrupted heal can cost both the opportunity and another attempt.
+
+Stamina adds another choice. A long offensive sequence can leave too little room for the next response. If you survive more reliably when you stop one action earlier, preserve that boundary while learning. A later skill or equipment change may allow a different rhythm, but it does not invalidate what the current setup needs. Read the description and test the actual effect before extending the combo again.
+
+At the shrine, ask whether a proposed adjustment supports the exchange you have established. A spell improvement has limited value if you still cast from beyond useful reach. More comfortable survivability may help you see the next phase, while an unfamiliar stance might add another timing lesson before the first is settled. Choose the change whose benefit you will be able to notice on the next attempt. If you cannot describe what would count as improvement, save the broader rebuild for a quieter moment and continue with the specific sequence you were learning.
+
 ## Review at the shrine, then decide whether to continue
 
 Between attempts, ask whether equipment or skill choices address a problem you observed. More survivability may give you room to learn; a different ability may fit the opening you found. Reallocate carefully and change one useful thing, so you can compare its effect.
@@ -583,6 +671,28 @@ For a melee weapon, learn when you can maintain sharpness safely. The Seikret al
 
 Keep healing on a predictable shortcut and test it before the hunt. Customize the radial menu around the items you actually use. A crowded emergency menu recreates the problem it was supposed to solve: spending the dangerous moment searching for the right input.
 
+## Compare the same three openings in the field
+
+Take two candidate weapons into separate hunts against a target you already recognize. This is a comparison exercise, not a speedrun test; differences in equipment and the monster's behavior make completion time a poor early verdict. Keep preparation comparable and choose three situations to observe: a brief pause, an obvious longer recovery, and the monster turning toward you. You want to discover which weapon lets you notice those situations while still controlling the hunter.
+
+In the brief pause, try the small action you practiced. Check whether it connects without a desperate extra step and whether you can leave when the monster recovers. Record a miss by its cause. Starting outside reach suggests a positioning correction. Beginning the move after the monster is already turning suggests you recognized the opening too late. The same empty swing can result from either, and trying a longer attack solves neither automatically.
+
+In the longer recovery, test the committed action. Watch the monster throughout the sequence, especially when its posture changes. If the attack repeatedly misses a turning part, shorten it or begin from a different angle on the next opportunity. A move you can execute in the Training Area has passed the input test. It still has to pass the field test: a suitable distance, a suitable target, and enough time to complete it.
+
+When the monster faces you, use the defensive answer you identified in the Play Guide. Do not assume every weapon's defensive tool shares the same conditions. Watch where your response leaves you, then decide whether to re-engage or reposition. A weapon can suit you because its recovery feels understandable even when its largest sequence is still unfamiliar. That comfort gives you room to notice the monster instead of spending the whole hunt remembering inputs.
+
+After both hunts, write a concrete comparison. "Weapon A reached the short openings, but I kept forgetting its maintenance; weapon B missed at first, then felt manageable after moving closer" tells you what to practice. "A did more damage" does not tell you how often the damage connected or what you had to do to survive. Choose the candidate whose current mistakes you can explain and whose routine you want to repeat. Technical depth remains available after that choice; you do not need to prove mastery of every weapon before settling on one.
+
+## A visible wound is a question about the next opening
+
+Focus Mode highlights wounds and helps direct attacks. A Focus Strike can exploit and destroy a wound, with damage and an opening for the hunt. Start by learning to aim a familiar action while watching the target. Adding the new mechanic is easier when your underlying attack and recovery are already recognizable.
+
+Imagine that a wound is visible on a part currently turned away from you. Running straight around the monster to reach it may carry you through an incoming attack. First check what the monster is doing. Can you approach after its present action, aim from a better angle, or continue with a short ordinary response until the part comes within reach? The highlight identifies an opportunity to investigate; it does not cancel the route required to get there.
+
+When an opening does appear, aim deliberately and use the Focus Strike you have practiced. Observe where the hunter finishes. If the monster reacts and creates a longer opportunity, follow with the action suited to that recovery rather than automatically restarting your longest combo. If you miss, distinguish aim from distance before trying again. Focus Mode helps with direction, but the field still moves around you.
+
+In a group, the situation can change while you approach. Another hunter may destroy the wound, or the monster may turn toward someone else. Keep reading the target and select a different useful action rather than chasing the highlight that was there a moment ago. You can mention an intended approach to friends, but a first hunt does not need a complicated wound allocation system. Reliable attacks, room for allies, and a clear recovery routine already contribute. Bring those habits back to the next solo attempt and check which decisions remain comfortable when the monster's attention returns to you.
+
 ## Take one weapon through a complete hunt
 
 Eat, restock, and choose an early quest you understand reasonably well. Bring the small routine you practiced and use it for the whole encounter. Pay attention to how it handles travel, short openings, a larger opening, and recovery after a mistake.
@@ -638,6 +748,28 @@ Give the run a second useful action for the case where the main one becomes awkw
 Avoid rebuilding the entire plan around each new offer. If a choice fits an existing action, try it for a few rooms and observe the result. If it changes the plan substantially, take a moment to learn what you now want to do. Carrying several improvements without changing how you play can leave most of their value unused.
 
 Sometimes none of the offers is the missing piece. Pick the most useful available improvement and continue. The goal of a flexible plan is to keep the run functional while you learn what the next choice can support.
+
+## Test the resource loop before buying more damage
+
+Use a small arithmetic example to examine an Omega-heavy plan. Suppose a fictional setup has 40 usable Magick and spends 10 per charged action, with no regeneration during the test. That funds four uses. These numbers are deliberately hypothetical: read your weapon, upgrades, and current bar for the actual costs. The point is to notice why a plan that clears a short room can run out during a longer encounter without any change in execution.
+
+Place Cast where it helps contain approaching ordinary enemies, then try the charged action from a position where it can connect. Watch the resource bar and the enemy response. If you charge again immediately merely because the previous hit worked, you may spend the whole budget before the room's most awkward threats arrive. Keep a regular Attack or Special available and test whether it can finish an enemy without another charge. That gives your remaining Magick a purpose instead of treating every target as an identical expense.
+
+Now compare a damage boon for the charged action with an offered way to recover Magick. Read the recovery condition closely. Does it require an action or position you can use during the encounter you are struggling with? If the condition would force you to stand somewhere unsafe or repeatedly perform an unfamiliar action, its apparent solution carries another problem. Try to picture the recovery step between enemy attacks, not in the quiet after the room ends.
+
+The damage option can still be sensible if it reduces how many charged actions you need and you have a useful fallback. The recovery option can be more valuable if the extended encounter keeps running the plan dry and its trigger fits your movement. Neither conclusion follows solely from rarity. Compare what will happen over several exchanges: set up space, spend, recover if possible, and use an ordinary action when spending again would leave the next threat unanswered.
+
+In the next room, test that full sequence before adding another complication. If you regain Magick but take repeated hits during the recovery, you have not finished repairing the loop. Change where or when you attempt it, or use the fallback while looking for a safer opening. If the loop now works comfortably, later offers can strengthen a routine you actually understand.
+
+## Change one part when the room changes the problem
+
+An ordinary room can make a combination look complete because enemies approach together and stay within reach. A guardian can present a different pattern: fewer targets, longer exchanges, or recovery windows that do not fit your favorite sequence. Read what happens in the encounter before deciding that the run needs a complete replacement build.
+
+First separate the problem of landing the action from the problem of funding it. If the charged move misses because the target leaves before it completes, more Magick only permits more of the same miss. Try a shorter response or a different starting position. If the move lands comfortably but later becomes unavailable, the resource loop is the issue. Those observations help you judge the next boon without assuming every failure is a damage shortage.
+
+A fallback should be practiced while the room is still manageable. Spend a few ordinary encounters using it deliberately, rather than waiting until your main method disappears under pressure. Check its reach and where it leaves Melinoë. A move that exists on the controls is not yet a fallback you can trust if you cannot recognize when to use it.
+
+Between runs, record the region and the failure separately. "Reached the guardian; kept missing the charged action after the target moved" points toward timing practice. "Reached it with little health after crowded rooms" points toward the journey before that fight. Keep the next attempt focused on the relevant stretch. Materials and conversations still give the return visit value, but the combat observation should be specific enough to affect the weapon test or first useful boon choice next time.
 
 ## Bring something back besides a verdict
 
@@ -696,6 +828,30 @@ Read a tool's description and identify the problem you want it to solve. Is it f
 Keep the rest of your routine familiar during that test. When the movement, equipment, and target all change, it becomes difficult to decide why something worked. One deliberate substitution gives you a comparison you can use when another difficult room appears.
 
 Quests can also supply direction when exploration becomes aimless. Review what an inhabitant actually asked for and decide whether it gives you a reachable objective. If the requirement is still unclear, preserve the question and continue elsewhere. An unanswered request can become useful later without taking over the current trip.
+
+## Build a route note that survives a week away
+
+Consider an invented three-room route: a known stopping point, a tall room with an upper exit, and a lower passage leading to a quest giver. These labels are a navigation exercise, not locations on Pharloom's map. Write the connection in the order you can follow it: leave the stopping point to the right, pass through the tall room, then take the lower passage. Attach the unresolved question to the tall room rather than drawing a marker somewhere you will later struggle to recognize.
+
+The useful note might read: "Tall room, upper exit: cannot reach the last ledge with current movement. Lower route reaches the quest giver." That separates a blocked route from a connection you have already established. If a later movement option changes what you can reach, you know which question to test. If you merely need to speak with the resident again, you know that the lower route was accessible without the new option.
+
+When you return, reproduce the known connection first. If it no longer matches your memory, stop at the recognizable landmark and check the note. Do not resolve uncertainty by taking several additional unknown exits. Each detour increases the number of possible places you may have confused. Confirm one connection, update the note if needed, and then resume the intended test.
+
+At the upper exit, decide what counts as an answer. Reaching a new room settles the movement question but opens another exploration choice. Discovering that the ledge is still beyond reach also settles today's test: write what you tried and keep the route for later. Avoid converting an unchanged obstacle into repeated risky jumps with no new reason to expect a different result. A clear negative result can save time on the next trip.
+
+Keep facts separate from guesses. "The ledge is too high for the move I tried" is an observation. "This definitely needs the next upgrade" is a theory until you know the requirement. The distinction prevents a promising guess from becoming a misleading instruction in your own notes. You can remain curious about the route while giving tomorrow's session something accurate to work from.
+
+## Practice the landing before adding another attack
+
+Take a room where the starting surface, landing surface, and immediate threats are easy to see. Try one unfamiliar movement or attack and watch where Hornet finishes. The result includes more than whether the action connected. Does she land on firm ground, continue toward a ledge, or end beside an enemy you had not considered? Those are different consequences of the same successful input.
+
+Now change the starting position slightly while keeping the action the same. Beginning closer to the edge may leave a different margin on the landing platform. Starting with an enemy nearby may add a threat before you regain control. This comparison teaches the space the move needs. Avoid increasing speed, adding attacks, and changing the route simultaneously; you want to know which part of the movement changed the outcome.
+
+In a narrow room, plan the safe surface first and fit offense around it. You may have to let an opportunity pass rather than finish beside a hazard. On broader ground, the same action might be comfortable. That difference explains why a favorite sequence can work repeatedly in one area and feel unreliable somewhere else without any change in the weapon or controls.
+
+A tool deserves the same kind of trial. Read what it does, try it against a familiar situation, and observe what it changes about the approach. Does it let you handle a threat from a position with a safer landing? Does using it distract you from the movement you still need afterward? A useful tool should solve a named difficulty, rather than add an extra input to every room because it is available.
+
+When a trip ends badly, describe the first avoidable decision. "I landed beside the second enemy after hitting the first" suggests changing the action's starting point or landing plan. "I could not remember which exit returns to the known route" calls for a navigation correction. Practicing another attack will not repair the latter. Keeping the two diagnoses separate lets the next trip preserve what you already learned while addressing the part that actually broke down.
 
 ## Return with enough attention to remember the discovery
 
@@ -763,6 +919,30 @@ Food can be useful, but read what an item provides before eating it. Keep an opt
 
 Check the next day's weather when planning tool upgrades. Being without a tool can affect the routine, so consider the chores it normally supports and the days you can arrange around its absence. Good timing makes an upgrade feel useful sooner.
 
+## Plan a watering-can upgrade across three mornings
+
+A tool upgrade is easier to understand as a short calendar. The watering can normally takes two nights to upgrade, so a can handed in on the 10th is ready on the 12th. Rain waters outdoor crops. Those two rules create an opportunity, but you still need to check the forecast and Clint's availability rather than assuming the same dates work in every save.
+
+For a worked example, suppose it is Spring 10, tomorrow's forecast is rain, and the blacksmith is available for both drop-off and collection. These are the example's conditions, not a guaranteed weather pattern. Water the outdoor crop plot on Spring 10 first, then take the can and required money and materials to Clint. The chores already completed today continue to support growth while the tool is away.
+
+On Spring 11, rain handles those outdoor crops. Use the freed morning for something you wanted to try: a town visit, an organized fishing trip, or gathering materials for another project. Do not expand the field simply because today's watering took no time. The can is still being upgraded, and the larger routine will return when the weather clears.
+
+On Spring 12, collect the upgraded can when the shop permits it, then water the crops that need it. Leave room in the day's plan for that collection trip. If a festival, shop closure, or later schedule change affects Clint, revise the dates before handing over the tool. The forecast solves only the watering day; it does not guarantee access to the shop. Indoor crops are another separate check because outdoor rain does not reach them.
+
+If tomorrow is dry, wait for a more suitable window unless you have another reliable watering arrangement or accept the growth delay. Waiting is a practical choice. An upgrade meant to make the routine easier should not create a surprise interruption in the harvest plan. Before spending the money, also consider summer seeds and other near-term purchases. A faster watering routine has value, but it still competes with the projects you actually want to begin.
+
+## Choose the next field size from the day you want
+
+Imagine you have enough seed money to double a small plot. This is an example of a personal planning choice, not a profit ranking. Before shopping, choose tomorrow's afternoon: perhaps you want to reach the mines, or spend some unhurried time fishing. Then ask how much additional morning watering you are willing to put in front of that activity. The answer may be a few extra crops rather than every seed you can afford.
+
+Test the expansion for several ordinary mornings. Notice the time the chores finish, the energy left, and how often you have to refill or reorganize. A rainy day is useful for another outing, but a poor measurement of the daily workload. If the dry-weather routine already leaves you tired or late for the route you wanted, pause further planting. Existing seeds represent work you have committed to; the next purchase remains a choice.
+
+Late in the season, combine workload with harvest timing. A parsnip needs four growth days under ordinary conditions. Planted and watered on Spring 22, with watering each following day and no growth bonuses, it is ready on Spring 26. Planted on Spring 25 under those same assumptions, it would require Summer 1, when an outdoor spring-only crop cannot survive the season change. The seed description and calendar matter more than the empty space in the field.
+
+Keep a reserve for a concrete reason. If you want a summer planting, decide on a modest starting plot and retain money for that purchase. If a community requirement asks for a crop, keep the appropriate item instead of sending everything to the shipping bin without checking. Avoid turning the reserve into an unexplained collection: label or group it around the project it supports, then sell genuine surplus when that project is covered.
+
+At the end of a day, review one mismatch between the plan and what happened. Maybe the crops were manageable but the trip included too many errands; simplify the route. Maybe the route was fine but watering occupied the entire morning; reduce the next expansion or plan an upgrade. This distinction keeps the farm from becoming the answer to every disappointment. Sometimes the better spring is the same field and an afternoon you can actually enjoy.
+
 ## Give the town a place in the routine
 
 Residents and events are a substantial part of the valley. Check the calendar and visit town along a route you already need, leaving enough room to talk rather than only passing through to shop. Learning who is where makes later errands feel less random.
@@ -771,6 +951,6 @@ Keep a short plan for tomorrow before sleeping: water, visit the shop, then fish
 
 ## Sources
 
-[ConcernedApe's official FAQ](https://www.stardewvalley.net/faq/), [official game description](https://store.steampowered.com/app/413150/Stardew_Valley/), and the developer-hosted wiki's [getting-started reference](https://wiki.stardewvalley.net/Getting_Started) and [crop calendar rules](https://wiki.stardewvalley.net/Crops).`,
+[ConcernedApe's official FAQ](https://www.stardewvalley.net/faq/), [official game description](https://store.steampowered.com/app/413150/Stardew_Valley/), and the developer-hosted wiki's [getting-started reference](https://wiki.stardewvalley.net/Getting_Started), [crop calendar rules](https://wiki.stardewvalley.net/Crops), [watering-can upgrade timing](https://wiki.stardewvalley.net/Watering_Cans), and [parsnip growth reference](https://wiki.stardewvalley.net/Parsnip).`,
   }),
 ];

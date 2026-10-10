@@ -289,7 +289,7 @@ const stories: SocialArticle[] = [
     id: "helldivers-2-squad-habits",
     slug: "helldivers-2-teamwork-friendly-fire-extraction-guide",
     title: "Helldivers 2: get the squad home before chasing another fight",
-    excerpt: "A practical squad guide to clear lanes of fire, useful calls, moving between objectives, and an extraction plan that survives the first mistake.",
+    excerpt: "Keep firing lanes clear, give a fallen diver a safe return, and know when a recovery attempt costs too much. A shared route matters most after the plan breaks.",
     type: "guide",
     gameId: "helldivers-2",
     author: "GameVerse Guides",
@@ -339,6 +339,26 @@ Keep the landing area readable. Late explosions thrown into a crowded space may 
 
 After the mission, choose one thing to change. Maybe the group split too early or put a sentry beside the only escape route. Fix that next time. A squad that can identify one avoidable problem and still enjoy the evening has a good reason to deploy again.
 
+## Recover a fallen diver without feeding the same fight
+
+Consider this hypothetical mission: the objective is complete, a diver dies beyond a ridge, and their equipment and samples remain on the far side. The other three players have a clear route toward extraction. One wants to recover everything immediately. Before agreeing, distinguish the loss that matters from the loss that merely feels irritating. A replaceable weapon and samples you hope to extract do not justify exactly the same risk, especially when the squad is already short of reinforcements.
+
+Start the recovery from the living squad's position. Reinforce onto usable ground, let the returning player orient themselves, then look at the approach together. Throwing them straight back beside the equipment may save a walk while denying them any chance to choose a fight. If the far side is still crowded, the recovery is a new task requiring cover and an exit. It is not a free action attached to the reinforcement call.
+
+Give that task a limit. One player approaches the drop while another watches the threat that could cut off their return. The remaining players stay close enough to help without all standing over the same pile. Agree on a visible place to fall back to if enemies arrive. Avoid calling a wide strike onto the recovery area simply because that is where the danger is: the recovering diver needs that ground too.
+
+An unsuccessful attempt should change the decision. If the first recovery costs another reinforcement and leaves the same route blocked, repeating it with less support has not improved the odds. Recheck the mission clock, the squad's equipment, and the route home. Sometimes the sensible result is recovering only what can be reached safely; sometimes it is leaving the pile. A completed objective does not make the remaining reinforcements expendable.
+
+## Diagnose the accident before changing the loadout
+
+After a friendly-fire death, ask where the two players were moving, rather than immediately banning a weapon. Suppose a diver shoots across the objective while another circles around its front. The same accident can recur with a different gun because the crossing still exists. Move the firing position, announce the crossing, or choose an approach behind the teammate. Those changes address the geometry of the mistake.
+
+Explosives create a different diagnosis. Was the warning missing, was the beacon difficult to see, or was the only safe retreat inside the attack's danger area? A louder warning helps the first problem. It cannot fix an attack placed over every available exit. Before the next throw, identify somewhere your teammates can actually go. Do not assign exact safe distances from memory when the selected stratagem's behavior and terrain have changed.
+
+A squad repeatedly running dry may have an ammunition problem, but it may also have a stopping problem. Look at whether resupply was reachable, whether everyone knew it had arrived, and whether the group stayed to fight after the objective ended. If an optional battle consumes the supplies intended for the next objective, changing a support weapon only treats part of the shortage. Route decisions belong in the equipment discussion.
+
+Try one quieter mission with a deliberate recovery rule: reinforce safely, call the dropped items, and reassess before entering the old fight. Keep the normal loadout unless a specific gap becomes obvious. At the end, count whether the squad escaped its worst moment together. That is a more useful test of the new habit than celebrating how many enemies were killed while the route home disappeared.
+
 ## Sources
 
 [PlayStation's Helldivers 2 overview](https://www.playstation.com/en-us/games/helldivers-2/), [official hands-on discussion of stratagems and friendly fire](https://blog.playstation.com/2024/02/02/helldivers-2-hands-on-report-chaotic-co-op-and-empowering-stratagems/), and [Arrowhead's explanation of the sequel's design](https://blog.playstation.com/2024/03/12/helldivers-2-how-arrowhead-turned-the-twin-stick-shooter-original-into-a-bombastic-ps5-sequel/).`,
@@ -347,7 +367,7 @@ After the mission, choose one thing to change. Maybe the group split too early o
     id: "palworld-working-base",
     slug: "palworld-base-work-assignments-food-layout-guide",
     title: "Palworld: build a base you can leave alone for a while",
-    excerpt: "Before adding another production line, watch the one you have. Better work assignments, food, storage, and walking space can give your next expedition room to happen.",
+    excerpt: "Follow an empty food supply back through the work chain, distinguish a carrying problem from a production problem, and use an observed buffer to plan the next outing.",
     type: "guide",
     gameId: "palworld",
     author: "GameVerse Guides",
@@ -397,6 +417,26 @@ A short plan prevents that friction: reserve the materials for the next group ou
 
 Finish the session by checking one result. Did meals last through the trip? Did the intended component accumulate? Did a worker stop getting stuck? When the answer is yes, add the next job. A base earns its expansion by giving you time outside it.
 
+## Separate a food shortage from a carrying shortage
+
+Imagine a base where the food supply keeps emptying even though crops look plentiful. This is a hypothetical case, not a claim about a particular recipe or Pal's current speed. Watch one batch from the start instead of inspecting only the final container. Has the crop completed? Has somebody gathered it? Where did the ingredients go? If preparation is required, does that station have both its inputs and the appropriate worker? An empty container can be the last visible symptom of several different failures.
+
+Suppose ingredients are ready near the fields but little reaches useful storage. Adding another planting worker will increase the pile without repairing the missing step. Check the transporting ability and the actual route. A suitable worker who spends the day on a competing task may need a narrower assignment. A worker repeatedly turning back beside the same obstacle needs a layout change. A worker who is unwell or hungry needs care. Those three cases look similar if you only watch the container count.
+
+Now suppose the ingredients reach storage but the prepared meals do not accumulate. Inspect the recipe and preparation queue before rebuilding the farm. You may be short of a second ingredient, waiting for the worker that supplies heat, or producing a quantity that is consumed as quickly as it appears. Make one change, then follow another complete batch. A base is easier to repair when you can point to the handoff that stopped working.
+
+There is a useful stopping condition for this investigation: the intended meal appears where workers can eat it, and the supply survives a short outing. You have not proved that the base can support every future expedition. You have proved that this chain works under the present load. Keep that distinction when adding more workers, changing food, or bringing a friend into the world; each changes the demand you are testing.
+
+## Estimate the next trip from an observed buffer
+
+Use a small observation to decide how much room the base has. For example, imagine the accessible food stock falls from 80 units to 62 during a ten-minute outing. Those invented counts show a net loss of 18 units, not a universal Pal consumption rate. Production may already be adding food during that interval, and the item count says nothing about different foods' nutritional value. Repeat the observation with the same food and workforce before trusting the trend.
+
+If that pattern persists, another thirty-minute absence would require roughly 54 units just to cover the measured net loss. Leaving with 60 would allow very little room for delays or a production interruption. Improve the failing chain or shorten the trip, and leave a larger margin than the arithmetic alone suggests. If the stock instead rises, you can extend the next outing gradually. Neither result proves the server will behave identically while everybody is offline.
+
+Keep the expedition kit separate from the observation. A human player taking a large stack of base food before departure can make the next count look like a workforce problem. In a shared world, note substantial withdrawals and reserve the supplies the group has already promised to a trip. This takes less effort than trying to infer which invisible event emptied the container after everyone returns.
+
+Before a major rebuild, store the materials for a modest rollback. Move one busy station or one chest, walk the new path, then watch the workers use it. If the queue gets worse, restore that piece rather than redesigning again in frustration. A small functioning base is a reference you can compare with the expansion; once every object has moved, you lose that reference and make diagnosis much slower.
+
 ## Sources
 
 [Pocketpair's official explanation of Pals and base work](https://www.pocketpair.jp/en/games-en/palworld-en/), [Palworld's Steam overview and release dates](https://store.steampowered.com/app/1623730/Palworld/), and [official Mac edition information](https://apps.apple.com/us/app/palworld/id6503918400?mt=12).`,
@@ -405,7 +445,7 @@ Finish the session by checking one result. Did meals last through the trip? Did 
     id: "sea-of-thieves-first-crew",
     slug: "sea-of-thieves-first-voyage-ship-roles-sailing-guide",
     title: "Sea of Thieves: the small jobs that make a first voyage work",
-    excerpt: "A helm needs a lookout, a cannon needs someone keeping the ship afloat, and treasure needs a return trip. Give the crew a simple plan before lowering the sails.",
+    excerpt: "Prepare the island departure while the last carrier returns, give the helm useful calls, and learn when a bucket matters more than another cannon shot.",
     type: "guide",
     gameId: "sea-of-thieves",
     author: "GameVerse Guides",
@@ -455,6 +495,26 @@ The helm also has a job during this scramble. A ship moving into an island while
 
 Return and sell before the voyage becomes longer than the crew wanted. Back at an outpost, choose one maneuver to improve next time. A neat arrival, a clear lookout call, or a repair handled without panic is a small achievement worth carrying into the next journey.
 
+## Leave an island with the crew ready to move
+
+Take a hypothetical two-player sloop stop. One pirate carries treasure back while the other notices a distant sail approaching from the open water. The useful call is its direction and whether it is getting closer, not a confident story about what the strangers intend. At that moment, decide whether the remaining treasure is worth delaying departure. The cargo already aboard and the friend still ashore are part of the same decision.
+
+Prepare the vessel while the last carrier returns. Check the heading, obstacles ahead, and sail state. If the anchor is down, account for raising it before you need to leave in a hurry; a ship with sails raised and anchor up can be more readily repositioned when conditions allow. Stay aware of drift and the shoreline while practicing that arrangement. The aim is a departure you understand, not a rigid rule that ignores wind, terrain, or the crew's experience.
+
+Confirm the returning player's route. “At the beach, last chest” tells the helm something useful; silence does not. If the ship must move, say where the pickup will happen and wait for an acknowledgment. Steering away while assuming your partner will find you can trade a manageable threat for a separated crew. An extra chest does not help if the only player who knows where it is cannot reach the ship.
+
+Once underway, make the next stop explicit. You might choose the nearest suitable selling point or simply create distance while assessing the other ship. Avoid automatically adding another island to the voyage because it is convenient. Your risk has changed: the hold now contains the result of work, and the group has already spent time collecting it. Selling is one possible end to the voyage, not an admission that the crew lacks ambition.
+
+## A repair call needs a condition and a request
+
+During a leak, “we're sinking” gives everyone urgency but little direction. A more useful report distinguishes water that is rising from water the current repairer can control, then asks for the missing help. On a small crew, that may mean “water rising; need a bucket” while the helm keeps the ship off the rocks. No fixed phrase can replace checking the actual hull, but agreeing on this kind of report reduces the guesswork above deck.
+
+If water is arriving faster than one player can remove it, bailing can buy time for a second player to seal damage. Repairing alone while the level keeps climbing may be too slow; endless bailing without stopping the leaks leaves the same emergency waiting. Choose the next action from the condition of the ship. When the influx is controlled, finish the remaining repairs and restore usable supplies before treating the episode as over.
+
+The player steering should avoid disappearing below without a handover. A ship on a collision course can undo the repairs while both pirates are carrying buckets. Likewise, the cannon user should understand when the repairer needs them. Staying on the cannon may keep pressure on an opponent, but it is a poor bargain if your own deck is about to become unavailable. Call the tradeoff openly instead of assuming everyone sees the same water level.
+
+Practice the handover during a calm sail: one player leaves the helm, the other acknowledges taking it, and both know who is checking below. Then reverse the jobs. This teaches each person what information they cannot see from their station. After a difficult encounter, discuss the first missed handover or warning, rather than blaming the last person holding a bucket. The earlier moment often explains why the crew ran out of options.
+
 ## Sources
 
 [Rare's getting-started guide](https://www.seaofthieves.com/getting-started), [official new-player guide](https://news.xbox.com/en-us/wp-content/uploads/sites/2/2020/06/Sea_of_Thieves_Player_Guide-1.pdf), and [Rare's Safer Seas FAQ](https://www.seaofthieves.com/community/forums/topic/161991/safer-seas-faq/1).`,
@@ -463,7 +523,7 @@ Return and sell before the voyage becomes longer than the crew wanted. Back at a
     id: "no-mans-sky-safe-journey",
     slug: "no-mans-sky-first-safe-journey-survival-guide",
     title: "No Man's Sky: make one safe journey before planning a galaxy",
-    excerpt: "A working ship and a stocked suit are a better first goal than a perfect planet. Learn the return trip, keep a supply buffer, and give each landing a reason.",
+    excerpt: "Plan the walk back before chasing another marker. Read each equipment warning separately, protect the return reserve, and solve a blocked departure without mining at random.",
     type: "guide",
     gameId: "no-mans-sky",
     author: "GameVerse Guides",
@@ -513,6 +573,26 @@ Then decide what kind of activity deserves the next evening. Exploration, buildi
 
 At the end of the session, return to a sensible location and use the game's save options deliberately. Next time, you should be able to read the current objective and begin. A functioning ship beside a modest shelter is an excellent starting point for a much larger journey.
 
+## Plan a walking loop with a return reserve
+
+Picture a hypothetical landing where the resource you want is beyond a low ridge, with another interesting marker farther away. Before walking, inspect hazard protection, life support, the Mining Beam, and launch readiness as separate needs. The same-looking bar does not mean the same recharge supply. Read the recharge menu for each piece of equipment and keep the relevant material available. Carrying plenty of one resource does not make an unrelated system ready.
+
+Choose the ridge as the first turn-around point. On the outward walk, notice where shelter is available and whether the conditions change between the ship and the deposit. At the deposit, check the distance home before gathering everything in sight. If the suit is draining faster than expected, return while you can still follow the route comfortably. A recharge buffer is useful because it absorbs a surprise; planning to spend the entire buffer before turning back removes that benefit.
+
+A numerical planning example can clarify the margin without pretending that all planets share a rate. Suppose your current protection starts at 100 and shows 70 when you reach the deposit. Those hypothetical readings mean the outward route consumed 30 percentage points under those conditions. Returning by the same route might consume something similar, leaving 40, but weather can make the estimate wrong. Treat the observation as a reason to reassess at the destination, rather than permission to continue until a warning sounds.
+
+If a storm arrives, shorten the task. Use shelter you have checked or return to the ship; watch the suit display to confirm the chosen refuge is helping. Do not assume an unfamiliar cave contains no additional hazards. If you cannot safely finish the deposit, keep its location for later. The resource remains a useful target after you have upgraded equipment or brought more suitable supplies. Nothing requires the first walk to collect the whole thing.
+
+## Resolve a blocked departure before adding another journey
+
+A ship that will not launch presents a specific problem, so read the warning before mining at random. Open the named component and distinguish damage from a lack of charge. A repair product must be installed in the required slot; a recharge item must be usable by the component. Both can be sitting in an inventory while the ship still needs the corresponding action. Recheck the readout after applying it instead of assuming the item vanished for the intended reason.
+
+If you are attempting to summon the ship from a walk, read that refusal separately. Do not make the entire return plan depend on a summon you have not tested with the current fuel state and location. Early trips are easier to manage when walking back is still practical. Once you understand the conditions that prevented the summon, you can decide whether gathering a recharge supply or returning directly is the safer job.
+
+Inventory trouble deserves the same targeted response. Reserve room for the item the current objective actually requests before picking up unrelated curiosities. Inspect what can be stored, used, or sold when you reach a suitable place. Do not discard the suit's return supplies just to fit the last optional discovery. An interesting item is inconvenient cargo if collecting it leaves you unable to use the equipment that will carry it home.
+
+For the next session, write a specific departure note: the active mission, the next component or product it needs, and the resource you used most on the previous walk. Then restock that resource before leaving. This connects the open world to something you observed yourself. It also leaves room to change your mind: a day spent scanning creatures is a valid journey if the suit, the ship, and the return route are ready for it.
+
 ## Sources
 
 [Hello Games' official No Man's Sky overview](https://www.nomanssky.com/press/), [Waypoint's inventory and difficulty changes](https://www.nomanssky.com/waypoint-update/), [Beyond's component repair and pinning changes](https://www.nomanssky.com/beyond-update/), [Omega's Launch Thruster status readout](https://www.nomanssky.com/omega-update/), and [the official Steam game description](https://store.steampowered.com/app/275850/No_Mans_Sky/).`,
@@ -521,7 +601,7 @@ At the end of the session, return to a sensible location and use the game's save
     id: "forza-horizon-5-clean-corners",
     slug: "forza-horizon-5-assists-braking-cornering-guide",
     title: "Forza Horizon 5: learn one corner before buying more horsepower",
-    excerpt: "Keep the car familiar, use assists deliberately, and separate braking from turning. A repeatable route makes it easier to see what your driving needs next.",
+    excerpt: "Running wide before power and sliding after it need different tests. Use one familiar car, two landmarks, and three purposeful runs to find what the corner actually needs.",
     type: "guide",
     gameId: "forza-horizon-5",
     author: "GameVerse Guides",
@@ -573,6 +653,26 @@ In multiplayer, leave enough room for another driver to make an imperfect decisi
 
 Finish with a drive somewhere you enjoy. The volcano, coast, and city streets make room for an evening beyond results. A small improvement in one familiar car is plenty to carry into the next race; the rest of the garage will still be there.
 
+## Work backward from the wall you keep hitting
+
+Consider a hypothetical right-hand bend leading onto a long straight. On the first run, the car reaches the outside wall before you accelerate. On another, it makes the bend but slides when you add power. Both attempts end badly, yet they ask different questions. In the first, inspect the approach speed and turn-in. In the second, inspect the exit input. Calling both cases “not enough grip” can lead to buying upgrades without testing the simpler explanation.
+
+Choose two landmarks: one on the approach and another just beyond the exit. The first helps repeat the braking decision; the second tells you when the car has settled enough for the straight. Keep the same car, assists, and weather where the event permits. Try braking a little before the original landmark and release pressure smoothly as you turn. Do not also change the steering line or install new tires. You need to see what the earlier braking changed.
+
+If the car now follows the bend, compare the exit. Did you reach the second landmark facing down the straight, or were you still correcting? A slightly slower approach that produces a straight, stable exit may be the quicker complete sequence. If the car still pushes wide before power is added, reduce entry speed again and consider whether the steering input begins too late. There is no single speed to copy across cars, classes, conditions, and different corners.
+
+Once entry is repeatable, test the throttle separately. Add it gradually while unwinding the steering. If the rear begins to move outward only after that input, try less power at the same point, then a slightly later application. Watch which change preserves the line. This is a short diagnosis for a particular bend, not a claim that every sliding car has the same cause. Road surface, drivetrain, setup, and collisions can change what you feel.
+
+## Make three runs answer one question
+
+A small practice set is easier to interpret than an evening of random improvements. Use one run to observe, one to try a correction, and one to see whether you can repeat it. In the hypothetical bend above, the correction might be “brake before the sign.” Record whether each exit was clean and whether you needed a large correction. Keep the event result beside those notes, but do not let one victory erase a messy corner.
+
+Traffic can invalidate a comparison. If another car blocks the line or contact changes your speed, mark that attempt as interrupted. Do not move your braking point merely because a crowded race ended with a wall impact. Try the same bend when you have room. In a real race you still need to adapt: following closely can hide the landmark, and an inside passing line may require a calmer entry than the line you practiced alone.
+
+Avoid rewinding until the corner looks perfect and then treating that as the new baseline. Rewind is useful for seeing the effect of one changed input, but it removes the approach you failed to reproduce. Follow the short experiment with a complete run from the start. If the bend works only after several rewinds, identify the cue you missed on the live approach rather than choosing a more powerful car to compensate.
+
+When the correction transfers, broaden the practice by one step. Take the same car to a similar bend or race a clean lap with fewer route cues. Keep the earlier assistance until you know which task it was doing for you. Turning off the suggested line is useful when you can read your landmarks; turning it off while learning an unfamiliar course introduces a navigation problem. A good session ends with a specific habit you can carry somewhere else.
+
 ## Sources
 
 [Forza's official Horizon 5 launch overview](https://forza.net/news/forza-horizon-5-now-available), [the official Steam description](https://store.steampowered.com/app/1551360/Forza_Horizon_5/), and [Forza Support's Horizon guidance](https://support.forzamotorsport.net/hc/en-us/categories/4406282670355-Forza-Horizon-5).`,
@@ -581,7 +681,7 @@ Finish with a drive somewhere you enjoy. The volcano, coast, and city streets ma
     id: "civilization-vii-ages-plan",
     slug: "civilization-vii-test-of-time-ages-first-empire-guide",
     title: "Civilization VII: plan an empire for the next Age",
-    excerpt: "The current game lets your civilization endure or change. Read the updated objectives, give settlements clear jobs, and make the Age Transition part of the plan.",
+    excerpt: "Compare a town investment with an exposed frontier, then test the next Age's benefits against your actual map. A practical empire plan using the Test of Time rules.",
     type: "guide",
     gameId: "civilization-vii",
     author: "GameVerse Guides",
@@ -633,6 +733,28 @@ After the transition, read the changed objectives and new options before resumin
 
 For the first campaign, keep notes on a few decisions that surprised you. Losing after learning why an economy stalled gives the next start a useful purpose. The game has enough rules that one understandable empire is a better teacher than several abandoned openings.
 
+## Compare two settlements before spending the treasury
+
+Imagine an empire with a developed capital, a nearby town, and a frontier settlement beside a rival. This is a planning example, not a recommended opening build or an exact conversion-cost calculation. You can afford one substantial investment while retaining a reserve. The town has an attractive development option; the frontier has a defense problem. Before selecting either, open their current information and ask what happens to the rest of the empire if the treasury is spent there.
+
+For the town, inspect the actual benefits of its current role and the costs of changing it. What project would the changed settlement make possible, and can you begin it in time to matter? “Eventually useful” is not the same as useful in the next phase. For the frontier, identify the threat rather than reflexively buying military strength. A unit in the wrong place may not protect the route, while a diplomatic agreement or a more defensible position may reduce the immediate pressure.
+
+Compare the two choices against your current objective. If the frontier can survive with existing units and a clear arrangement, the town investment might support the campaign better. If the border is exposed and losing that settlement would interrupt the economy, consolidation deserves attention first. Record the reason for the choice in one sentence. This makes the outcome easier to review than a list of things you purchased because they became available.
+
+Check the new queue after the investment. A newly unlocked building or project still needs the conditions described in its current entry. If the expected benefit is delayed, determine whether you missed a prerequisite, lacked the required capacity, or simply underestimated the completion time. Buying a second investment to cover the first one's delay can leave the empire with two unfinished plans and no reserve for the original frontier problem.
+
+## Test an Age choice against the map you have
+
+The important Test of Time question is no longer simply which civilization you must switch to. You can retain a Time-Tested civilization or evolve into another during the transition. If you retain one, read the current Affirmation and Syncretism choices carefully. The latter can adopt unique units or infrastructure from a civilization in its Apex Age; the former doubles down on your civilization's identity. The particular available choices still need checking in your campaign.
+
+Take a hypothetical empire whose strongest settlements are inland, with only one lightly developed coastal outpost. An attractive option associated with a maritime plan may require substantially more development than an option supporting your existing core. That does not make the maritime choice wrong. It means the choice includes the cost of making that outpost and its connections useful. Ask where the benefit would actually operate before accepting a description that sounds powerful in isolation.
+
+Make three notes before confirming: the immediate job for the strongest city, the weakest obligation on the border, and the first practical use of the chosen benefit. These are your own review prompts, not three hidden requirements imposed by the game. After the transition, inspect the relevant tooltips and objectives again. Do not copy a previous Age's queue blindly when the available infrastructure, resources, or priorities have changed.
+
+If a Triumph is close to completion, read precisely what remains and compare the detour with the wider victory plan. Triumphs are optional objectives across six Attributes, so a nearly finished challenge can be tempting without being decisive. A short investment may be worthwhile; a new war or unsupported expansion may cost more than the reward serves. Check the current reward and progress before choosing. Launch-era Legacy Path instructions are the wrong reference for this decision.
+
+At the next pause, compare your prediction with the result. Did the benefit reach the settlement you expected? Did protecting the border consume the reserve anyway? Keep the answer, including an inconvenient one, for the next Age review. The goal is to understand one cause well enough to make a better choice; a campaign diary full of unexplained victories offers less help than a failed investment whose cost you can now see.
+
 ## Sources
 
 [2K's Test of Time update announcement](https://newsroom-anz.2k.com/news/sid-meiers-civilizationr-vii-test-of-time-update-now-available), [Firaxis' Test of Time patch notes](https://store.steampowered.com/news/app/1295660/view/688631746613215317), and [the official Civilization VII game guide](https://civilization.2k.com/civ-vii/game-guide/).`,
@@ -641,7 +763,7 @@ For the first campaign, keep notes on a few decisions that surprised you. Losing
     id: "street-fighter-6-practice-goals",
     slug: "street-fighter-6-beginner-practice-inputs-anti-air-guide",
     title: "Street Fighter 6: take one useful habit into your next match",
-    excerpt: "Choose controls you enjoy, check what the game reads, and practice a small answer to a real problem. Your first improvement can be much simpler than a long combo.",
+    excerpt: "Turn a missed jump response into a recorded training situation. Separate recognition, recovery and execution, then check whether your punish reaches an opponent who can defend.",
     type: "guide",
     gameId: "street-fighter-6",
     author: "GameVerse Guides",
@@ -693,15 +815,35 @@ If you are playing with a friend, ask for a few repetitions of the situation rat
 
 World Tour and Battle Hub offer other ways to enjoy the game between focused sessions. Leave room for those, too. A practice routine should make you want to play another match, not make every evening feel like unfinished homework.
 
+## Turn one replay into an anti-air test
+
+Take a hypothetical replay where an opponent jumps at you repeatedly and your grounded button loses each time. Pause before the jump and note the distance, which way you face, and whether you were already committed to an attack. Being hit while your move is recovering is a different problem from seeing the jump and choosing the wrong response. An anti-air command cannot fix a moment when the character is still occupied by the previous action.
+
+In training, recreate the approximate distance with the same characters. Record a simple approach and jump, then play it back while you try the chosen anti-air. Capcom's recording tools let you save and replay an opponent's actions; use the current settings to create the situation you actually want. Begin without a preceding grounded attack so you can test the answer itself. A clean hit at one range does not prove the move covers every jump angle.
+
+Next, recreate the grounded action you were using in the replay. If it leaves you unable to respond before the jumping attack reaches you, the useful change may be pressing that button less predictably at that distance. If you are free to act but the anti-air still fails, check the timing, range, and input history separately. Move the starting positions a little to see where the answer stops working. You are learning its boundary, not searching for a button that wins every situation.
+
+Then mix the jump with a recorded grounded approach. Use playback settings or a partner so you do not know in advance which one is coming. Answer the jump when you recognize it and stay ready on the ground when it does not happen. If you react well to a guaranteed jump but struggle in this mixture, return to the visual cue and spacing. Faster repetitions of the guaranteed case would train the part you already understand.
+
+## A punish needs time, reach, and a usable input
+
+Suppose you block an opponent's attack and your short punish fails. Before adding a longer combo, recreate the blocked move and make the training opponent defend afterward. This checks whether your response is a punish at all. A sequence that hits an idle dummy can be blocked when the opponent is allowed to recover. Watch the game's training feedback and repeat from the distance the blocked move leaves between the characters.
+
+Three observations narrow the failure. If the response never starts, inspect the command and whether you pressed while still in blockstun. If it starts but falls short, test a reaching option appropriate to your character rather than speeding up the same short attack. If it reaches but is defended, check the recovery window and the timing. Do not assume an attack is punishable from every range just because a guide supplies a negative number for it.
+
+Keep the reliable first hit until it works from both facing directions. Only then attach a follow-up, and compare what the input display shows when it drops. A longer sequence adds opportunities to miss without improving the first decision. Resource use should also be deliberate: if the extension spends Drive, ask whether you can afford it in the match state you are recreating. Training with endless replenishment can hide the consequence of a habit carried into a real round.
+
+For the next matches, count opportunities rather than only successful hits. If the opponent never uses the attack you practiced, you have no evidence that the punish failed to transfer. If it appears three times, note whether you recognized it, reached it, and performed the input. Choose the weakest of those steps for the next brief drill. This separates learning the situation from landing the sequence and keeps a lost set from becoming a reason to rebuild everything.
+
 ## Sources
 
-[Capcom's Street Fighter 6 overview](https://store.steampowered.com/app/1364780/Street_Fighter_6/), [official Fighting Ground manual](https://game.capcom.com/manual/SF6/en/switch2/page/6/1), and [Capcom's control explanations](https://www.streetfighter.com/6/en-us/mode/fightingground.html).`,
+[Capcom's Street Fighter 6 overview](https://store.steampowered.com/app/1364780/Street_Fighter_6/), [official Fighting Ground manual](https://game.capcom.com/manual/SF6/en/switch2/page/6/1), [Capcom's recording settings guide, in Japanese](https://game.capcom.com/manual/SF6/ja/switch2/page/8/6), and [Capcom's control explanations](https://www.streetfighter.com/6/en-us/mode/fightingground.html).`,
   },
   {
     id: "fc-26-first-career",
     slug: "ea-sports-fc-26-first-manager-career-squad-guide",
     title: "EA SPORTS FC 26: give your first career a team you understand",
-    excerpt: "Inspect the squad before buying a star, choose one formation, and use a few matches to identify the actual problem. A workable season begins with a clear first eleven.",
+    excerpt: "Trace a conceded goal back to the turnover, keep a supporting pass behind the winger, and plan cover for a crowded schedule before committing the transfer budget.",
     type: "guide",
     gameId: "ea-sports-fc-26",
     author: "GameVerse Guides",
@@ -752,6 +894,28 @@ Consider wages and the rest of the budget as well as the transfer fee. Keep room
 Check the upcoming fixtures and rotate with a purpose. Give substitutes minutes before an emergency forces you to rely on them. Young players are easier to develop when their opportunities fit the team rather than appearing only in a desperate change late in a match.
 
 Save at a sensible point and leave a short note about the next fixture or planned decision. Returning to a season should feel like returning to a club you know. Once the shape is working, you can add more ambitious tactics and transfers without losing the reason you started.
+
+## Trace a conceded goal back to the lost pass
+
+Consider a hypothetical attack from your right side. The winger receives near the touchline, the fullback moves forward, and both central midfielders are ahead of the ball. You attempt a pass into a crowded center and lose it. The opposition then attacks the space you left. The last defender may look slow in the replay, but a faster replacement would still inherit a difficult situation. Begin the review at the turnover, before the final chase.
+
+Pause there and find the nearest player who could have delayed the counter. Did you have a midfielder behind the ball, or had you sent everybody forward? If a covering player was present, did you switch to them and protect the passing lane, or immediately pull a center-back out? If nobody was available, inspect the roles and your own attack pattern. A tactical gap and a defensive switching mistake can produce the same goal while needing different corrections.
+
+Try a calmer version of the attack over the next few possessions. Keep a supporting pass available behind the winger. When the center is closed, return the ball instead of forcing the same forward option. Watch what that does to the team's spacing: perhaps the opposite side becomes available, or perhaps you need another patient pass before the defense moves. The diagram here shows an example passing route and covering position, not a guaranteed FC 26 scoring routine.
+
+Change the tactical role only if the repeated evidence points there. Read its current description and check how it affects both phases. Asking a midfielder to protect deeper space may reduce a useful attacking run. That can be a reasonable trade, but judge it by the chances you create as well as the counters you stop. If the safe option exists and you repeatedly ignore it, a more cautious formation will not make the same rushed pass a better decision.
+
+## Give a three-match stretch an actual rotation plan
+
+Imagine a league match, a cup tie, and another league match arriving close together. This is an invented schedule; check the calendar and player information in your save. Identify the starter whose job has the least cover, then prepare a substitute before exhaustion or injury forces the choice. The replacement needs to fit the job you ask of them, not merely occupy the same colored position on the formation screen.
+
+Choose which fixture offers a sensible opportunity to use that player. A weaker opponent is not a promise of an easy match, so keep enough familiar players around the substitute to understand the result. Replacing both sides of the defense, the holding midfielder, and the goalkeeper at once makes any problem harder to trace. One planned change can reveal whether the reserve provides useful cover or needs a different surrounding role.
+
+Review energy, sharpness, and the available training-plan information before advancing. The purpose is to prepare players for the next job while managing the condition of those already playing. Do not apply one aggressive plan to everyone simply because the label sounds productive. A starter needing recovery and a reserve needing preparation have different immediate needs. The current interface shows the consequences more reliably than an old guide's slider recipe.
+
+Use the stretch to refine the transfer list. Suppose the backup winger works well, but the substitute midfielder leaves the covering job undone even with clear instructions and support. That identifies a role to investigate, not an automatic order to buy the highest-rated midfielder you can afford. Compare suitability, contract commitments, and the room left for other gaps. A loan or an existing player in a simpler job may be sufficient for this season; test the option before promising the budget elsewhere.
+
+Finally, check whether you are playing a Full Career or a Manager Live Challenge. EA's challenges can limit transfers, player eligibility, training features, or tactical changes, so some solutions may be unavailable by design. Read those conditions before treating a locked option as an interface problem. Make the next fixture note describe the available choice: who starts, who provides cover, and which tactical question you are still testing.
 
 ## Sources
 

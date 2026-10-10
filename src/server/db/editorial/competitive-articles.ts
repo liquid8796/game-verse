@@ -50,10 +50,31 @@ Riot's [patch 4.05](https://playvalorant.com/en-us/news/game-updates/valorant-pa
 
 Use the chosen profile for several sessions before reassessing it. Write a specific reason for any change: hard to see in bright areas, too much target obstruction, or a center gap that is difficult to judge. If you cannot name a recurring readability problem, leave it alone and spend the next session on placement or movement. A settled setup makes those habits easier to evaluate.
 
+## Give a missed first shot the right explanation
+
+Consider three short recordings of a missed first shot. In the first, the player turns toward a bright wall and briefly cannot locate the crosshair's center. In the second, the center stays visible, but it begins below the opponent and has to travel upward before the shot. In the third, it reaches the intended point while the player is still moving. The final result may look similar; the practice needed is different.
+
+For the first case, repeat the turn in the same place with your baseline and one outline adjustment. Does the center become easier to recover without obscuring the target? For the second, leave the profile alone and practice approaching that angle with your aim already near the likely target height. For the third, revisit the stopping drill with feedback enabled and give yourself enough time to see the movement settle before firing.
+
+These are diagnostic examples, not a promise that every missed shot has one cause. A recording can contain several mistakes, and weapon behavior contributes too. Start with the earliest visible problem you can repeat. Fixing that may make the later mistake easier to judge, while changing color, gap, sensitivity, and shooting rhythm together makes the comparison nearly useless.
+
+Riot's beginner guide makes the basic movement distinction clear: stopping before firing helps shooting accuracy. A static crosshair can conceal that feedback, so a neat center on the screen should not settle the question by itself. Keep the simpler profile if it helps you see opponents, and use the practice profile when you need to inspect your movement.
+
+## Compare two profiles without chasing a score
+
+Name your current profile A and duplicate it as B. Change one property in B, such as outline weight. Use the same weapon, distance, display settings, and short route for both. Visit a bright surface, a darker corner, and a position where a distant target appears small. The repeatability matters more than building an elaborate aim challenge.
+
+After each attempt, note one visible result: “lost the center after turning toward the wall,” “outline covered the target edge,” or “no readability problem.” Try the profiles in both orders. If A is always first, the improvement you feel on B may partly come from having rehearsed the route once already. A handful of attempts is enough to expose a clear obstruction; it is not enough to prove that a profile makes you win more matches.
+
+If the difference is minor, choose the version you find comfortable and return to ordinary play. Keep a change log with the setting and reason, rather than a collection of codes named after the match you happened to win. When a similar issue appears weeks later, that note tells you what you already tested.
+
+Recheck readability after changing resolution or the way you sit at the display. Those changes can affect how the same small shape appears. Do not rebuild the profile after every bad evening, though. A recurring visibility problem gives you something to test; disappointment with a result does not identify which part of the setup caused it.
+
 ## Sources
 
 - [Riot Games: VALORANT patch 4.05, crosshair profile codes](https://playvalorant.com/en-us/news/game-updates/valorant-patch-notes-4-05/)
-- [Riot Games: VALORANT patch 5.04, color and line controls](https://playvalorant.com/en-us/news/game-updates/valorant-patch-notes-5-04/)`;
+- [Riot Games: VALORANT patch 5.04, color and line controls](https://playvalorant.com/en-us/news/game-updates/valorant-patch-notes-5-04/)
+- [Riot Games: beginner guide, movement and shooting accuracy](https://playvalorant.com/en-us/news/announcements/beginners-guide/)`;
 
 const cs2Body = `The expensive mistake in Counter-Strike often happens before anyone fires. One player buys a rifle, two buy pistols, another saves, and the last spends everything on an AWP without asking for support. Each purchase may make sense in isolation. Together, they can leave the team with no convincing way to win the round and no shared plan for the next one.
 
@@ -108,6 +129,26 @@ When a retake has little realistic chance, keeping a rifle can strengthen the fo
 If the team saves, communicate early and choose a route that protects the weapon. If it commits, move together so the first duel can be traded. On the final round before a money reset or the end of the match, retained equipment has a different value because there may be no later purchase to support.
 
 The habit to carry into your next match is simple: check five inventories, agree on the attempt, then buy. That brief pause connects this round's equipment to the next round's chances.
+
+## Check the teammate who cannot reach the next target
+
+The $800 ceiling in the earlier example works for a player holding $3,200. It does not describe a teammate who has only $2,100. With the same hypothetical $2,400 in expected income and a $4,800 target, that teammate reaches $4,500 even after spending nothing. They are already $300 short. Calling a team-wide $800 allowance would hide that problem and make it worse.
+
+Ask how the next attempt will supply the missing equipment. Perhaps someone expects to retain a useful rifle, another can provide a drop, or the team agrees on a cheaper package for the underfunded player. If none of those plans is credible, change the next-round target together. A full buy that exists only in four players' calculations can leave the fifth trying to fill a role without the equipment it requires.
+
+The figures are an invented exercise; use your match's balances, loss information, and current prices. Their purpose is to show why a spending ceiling belongs to a plan for five people. A player with enough money for an extra pistol is not obliged to spend it, especially if preserving more cash would support a drop later.
+
+This is also a reason to name uncertain assumptions. “I can drop next round if I survive” is different from “I can afford that drop even if we lose everything.” Both statements can help a team decide, but the first needs a fallback. Do not treat a hoped-for saved rifle as a guaranteed part of a necessary future buy.
+
+## Match an uneven inventory to a realistic round
+
+Consider five players after a costly round. Two have kept rifles and armor but hold little cash. Two have healthy balances but need to replace their equipment. The fifth has no rifle and a smaller balance. The team is stronger than a glance at its two lowest cash totals suggests, but weaker than its total money might imply.
+
+First, confirm what the two survivors actually kept. Then have the richer players price their complete packages and check whether either can help the fifth. Do this before buying optional upgrades. If the remaining money cannot supply the intended weapons and essential utility, choose a narrower attempt together: a position that suits the available ranges, a coordinated entry with the utility you can afford, or a deliberate saving round.
+
+The location and timing matter as much as the shopping list. Modest close-range weapons suggest staying close enough to support the first encounter; splitting into distant individual duels may discard their best opportunity. A saved rifle should have a way to influence the attempt, rather than automatically standing at the back while everyone else contests positions it cannot see.
+
+After the round, compare the actual purchase with the plan. Did a missing smoke make the entry harder? Did someone buy late because a drop was not confirmed? Did the team preserve the next target after losing? Name the practical failure before arguing about whether the round was an eco or a force. Labels are useful only when they help the next five inventories support the same attempt.
 
 ## Sources
 
@@ -165,6 +206,26 @@ Early on, workable equipment and a safe exit matter more than a perfect inventor
 In teams, discuss shortages before looting separately. One player may have spare ammunition, another more healing than they can use, and another an item that duplicates a teammate's role. Share from a protected position and keep enough time to rotate.
 
 After an elimination, check your surroundings before sorting the drops. Take the upgrade or supplies you need, replenish what was spent, and move. A finished loadout should make decisions faster. If you repeatedly hesitate between redundant weapons or reach for an empty recovery slot, revise that part next match.
+
+## Work backward from the next piece of cover
+
+Imagine a Zero Build fight ends beside a road. There are dropped items nearby, your squad needs recovery, and the next safe area is beyond the road. A direct dash across may look quickest, but the useful question is where the squad can stop afterward. Choose an actual destination with cover and inspect the approach before committing a movement tool.
+
+If there is a safer intermediate position, use it to recover and look at the next crossing. One teammate can watch the exposed direction while another takes the short recovery they can finish. That does not guarantee safety, but it gives the loadout a job: provide enough time and protection to resume moving together. Overshield or a valuable weapon does not answer where you will be when an opponent opens fire.
+
+Compare that with staying at the loot pile until every slot looks ideal. Each extra swap uses time in the place where the fight was audible and visible to others. You may leave with a better weapon and a worse position, or spend the movement option escaping pressure that a quicker departure could have avoided. A small upgrade should earn the delay it costs.
+
+In build modes, the group may be able to create temporary cover, but that is still a plan with requirements. Check materials and whether someone can use them before relying on protection that has not been built. The example is a terrain sketch, not an exact route on the current island. Apply it to the cover and tools your actual playlist provides.
+
+## Decide what the last spare slot should solve
+
+Suppose your inventory already handles close fights and useful ranged damage. You find a second weapon that looks attractive, but it overlaps with the one you use at distance. Compare it with what you would give up: another recovery option, a utility item, or the supplies your squad expects you to carry. The choice depends on which failure you are trying to prevent.
+
+If recent fights have left you unable to recover before rotating, another similar damage option may not help. If your squad already has ample recovery but struggles with a particular range, the specialist weapon could be useful. Read the item in this playlist and try its handling in a safe moment. A name remembered from a previous season is not enough to establish its current behavior or availability.
+
+Review one awkward exchange afterward. Did you hesitate because two weapons filled the same job? Did you run out of useful recovery? Did the movement option take you somewhere your teammates could not follow? Make the next loadout change answer that observation, rather than the rarity of the last item you saw.
+
+A consistent slot habit can help you find familiar jobs under pressure, but it should allow an unfamiliar item to be tested before you depend on it. The aim is to know which tool you intend to use and why. A tidy inventory is valuable when it supports a decision you can carry out during the next fight or crossing.
 
 ## Sources
 

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="800" viewBox="0 0 1100 800" role="img" aria-labelledby="title desc">
+<title id="title">Two bad exits, two different tests</title><desc id="desc">Two schematic right bends separate a car running wide before acceleration from a car making the bend but sliding after power is added. The first test changes entry speed; the second changes throttle. No fixed braking distance is given.</desc>
+<rect width="1100" height="800" fill="#131d24"/><g font-family="Arial, sans-serif"><text x="54" y="76" font-size="42" fill="#eef3f4">Two bad exits, two different tests</text><text x="54" y="122" font-size="27" fill="#b1c0c7">Keep the car, route, and assists unchanged</text>
+<path d="M540 173V643" stroke="#43525b" stroke-width="2"/>
+<path d="M155 506V366Q155 278 279 278H447" fill="none" stroke="#42545f" stroke-width="88"/><path d="M703 506V366Q703 278 827 278H993" fill="none" stroke="#42545f" stroke-width="88"/>
+<path d="M145 508V361Q133 245 226 208" fill="none" stroke="#e99c8d" stroke-width="7"/><path d="M692 508V365Q692 272 815 278Q861 274 895 228T963 260" fill="none" stroke="#e7cd83" stroke-width="7"/>
+<circle cx="146" cy="466" r="13" fill="#e8eef0"/><circle cx="694" cy="466" r="13" fill="#e8eef0"/>
+<text x="60" y="565" font-size="29" fill="#e99c8d">Runs wide before power</text><text x="60" y="612" font-size="27" fill="#b1c0c7">Test an earlier, calmer entry</text>
+<text x="591" y="565" font-size="29" fill="#e7cd83">Slides after power</text><text x="591" y="612" font-size="27" fill="#b1c0c7">Test gentler or later throttle</text>
+<text x="75" y="206" font-size="27" fill="#e99c8d">Missed line</text><text x="649" y="206" font-size="27" fill="#e7cd83">Exit correction</text>
+<path d="M55 674H1045" stroke="#43525b"/><text x="55" y="721" font-size="28" fill="#eef3f4">Change one input, then repeat the whole approach.</text><text x="55" y="763" font-size="25" fill="#b1c0c7">Illustrative symptoms; surface, drivetrain and setup also matter.</text></g></svg>

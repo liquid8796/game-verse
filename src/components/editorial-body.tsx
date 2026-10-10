@@ -2,12 +2,20 @@ import { Fragment, type ReactNode } from "react";
 import { ArticleFigure } from "@/features/articles/components/article-figure";
 import type { ArticleIllustration } from "@/features/articles/lib/article-media";
 
-export function getEditorialHeadings(body: string) {
-  return body.trim().split(/\n\s*\n/).flatMap((block, index) => {
+export function getEditorialHeadings(body: string, stableIds = true) {
+  const headings = body.trim().split(/\n\s*\n/).flatMap((block, index) => {
     if (!block.startsWith("## ")) return [];
     const title = block.slice(3).trim();
     const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-    return [{ title, id: `section-${index}-${slug}`, index }];
+    return [{ title, slug, index }];
+  });
+  return headings.map((heading, position) => {
+    const occurrence = headings.slice(0, position).filter((item) => item.slug === heading.slug).length + 1;
+    return {
+      title: heading.title,
+      id: stableIds ? `section-${heading.slug}${occurrence > 1 ? "-" + occurrence : ""}` : `section-${heading.index}-${heading.slug}`,
+      index: heading.index,
+    };
   });
 }
 
@@ -49,8 +57,8 @@ export function getIllustrationAnchor(body: string, illustration: ArticleIllustr
 }
 
 /** Editorial text and contextual figures, with stable section anchors. */
-export function EditorialBody({ body, headingLevel = 2, illustrations = [] }: { body: string; headingLevel?: 2 | 3; illustrations?: ArticleIllustration[] }) {
-  const headingList = getEditorialHeadings(body);
+export function EditorialBody({ body, headingLevel = 2, illustrations = [], headingAliases = {} }: { body: string; headingLevel?: 2 | 3; illustrations?: ArticleIllustration[]; headingAliases?: Record<string, string> }) {
+  const headingList = getEditorialHeadings(body, headingLevel === 2);
   const headings = new Map(headingList.map((heading) => [heading.index, heading]));
   const Heading = headingLevel === 3 ? "h3" : "h2";
   const blocks = editorialBlocks(body);
@@ -64,8 +72,9 @@ export function EditorialBody({ body, headingLevel = 2, illustrations = [] }: { 
       {blocks.map((block, index) => {
         const heading = headings.get(index);
         const lines = block.split("\n");
+        const alias = heading ? headingAliases[heading.title] : undefined;
         const content = heading
-          ? <Heading id={heading.id}>{heading.title}</Heading>
+          ? <>{alias && alias !== heading.id && <span id={alias} className="heading-alias" aria-hidden="true" />}<Heading id={heading.id}>{heading.title}</Heading></>
           : isBulletBlock(block)
             ? <ul>{lines.map((line, item) => <li key={item}>{inlineLinks(line.slice(2))}</li>)}</ul>
             : <p>{lines.map((line, item) => <Fragment key={item}>{item > 0 && " "}{inlineLinks(line)}</Fragment>)}</p>;

@@ -6,6 +6,7 @@ import { EditorialBody, getEditorialHeadings } from "@/components/editorial-body
 import { getCurrentUser } from "@/features/auth/lib/session";
 import { ArticleFigure } from "@/features/articles/components/article-figure";
 import { getArticleMedia } from "@/features/articles/lib/article-media";
+import { legacyHeadingIds } from "@/features/articles/lib/legacy-heading-ids";
 import { SaveArticleControl } from "@/features/saved/components/save-article-control";
 import { isArticleSaved } from "@/features/saved/repository/saved-repository";
 import { formatDate } from "@/lib/format";
@@ -126,7 +127,7 @@ export default async function ArticlePage({ params }: Props) {
             <ul>{headings.map((heading) => <li key={heading.id}><a href={"#" + heading.id}>{heading.title}</a></li>)}</ul>
           </nav>
         )}
-        <EditorialBody body={article.body} illustrations={media?.illustrations} />
+        <EditorialBody body={article.body} illustrations={media?.illustrations} headingAliases={legacyHeadingIds[article.id]} />
         <div className="article-end"><Link className="text-link" href="/articles">← More stories and guides</Link></div>
         <AdSlot name="article-bottom" format="rectangle" />
       </article>

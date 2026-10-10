@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="800" viewBox="0 0 1100 800" role="img" aria-labelledby="title desc">
+<title id="title">A recovery needs a way back</title><desc id="desc">Hypothetical overhead plan: reinforce at the living squad, send one diver toward dropped items with a covering teammate, and return to the rally point before following the extraction route. A danger area lies beyond the items.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#70d7c8"/></marker></defs>
+<rect width="1100" height="800" fill="#131d24"/>
+<g font-family="Arial, sans-serif"><text x="54" y="76" font-size="42" fill="#eef3f4">A recovery needs a way back</text><text x="54" y="122" font-size="27" fill="#b1c0c7">Hypothetical terrain and positions</text>
+<path d="M565 194Q632 333 560 415T602 649" fill="none" stroke="#3d4b52" stroke-width="62"/>
+<ellipse cx="837" cy="295" rx="174" ry="106" fill="#663835" stroke="#e39a8c" stroke-width="3" stroke-dasharray="12 10"/>
+<text x="837" y="279" font-size="29" text-anchor="middle" fill="#ffd1c7">Threat still active</text><text x="837" y="320" font-size="26" text-anchor="middle" fill="#ffd1c7">Reassess the approach</text>
+<path d="M328 520L527 480L685 447" fill="none" stroke="#70d7c8" stroke-width="7" marker-end="url(#arrow)"/>
+<path d="M693 477L531 549L333 569" fill="none" stroke="#70d7c8" stroke-width="5" stroke-dasharray="12 8" marker-end="url(#arrow)"/>
+<circle cx="260" cy="544" r="67" fill="#234c46" stroke="#70d7c8" stroke-width="3"/><circle cx="710" cy="454" r="25" fill="#e7cd83"/>
+<text x="260" y="532" font-size="28" text-anchor="middle" fill="#eff9f6">Living</text><text x="260" y="567" font-size="28" text-anchor="middle" fill="#eff9f6">squad</text>
+<text x="635" y="408" font-size="28" fill="#e7cd83">Dropped items</text>
+<circle cx="463" cy="403" r="21" fill="#a7c8f4"/><path d="M482 389L619 347" stroke="#a7c8f4" stroke-width="4"/>
+<text x="299" y="348" font-size="28" fill="#a7c8f4">Cover the return</text>
+<path d="M222 620L130 674" stroke="#70d7c8" stroke-width="6" marker-end="url(#arrow)"/><text x="300" y="659" font-size="28" fill="#b1c0c7">Then follow the extraction route</text>
+<path d="M55 716H1045" stroke="#43525b"/><text x="55" y="761" font-size="28" fill="#b1c0c7">Reinforce safely · Recover only if viable · Leave together</text></g></svg>

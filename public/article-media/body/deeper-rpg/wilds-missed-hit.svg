@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1030" viewBox="0 0 1000 1030" role="img" aria-labelledby="title desc">
+  <title id="title">Two causes of a missed hit in a field test</title>
+  <desc id="desc">The upper schematic shows an attack ending short of its target. The lower schematic shows a target moving away before the attack arrives. Adjust useful range or opening recognition according to the cause.</desc>
+  <rect width="1000" height="1030" fill="#111820"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="60" y="64" font-size="27" fill="#DEB272" font-weight="700">MONSTER HUNTER WILDS / FIELD TEST</text>
+    <text x="60" y="130" font-size="44" fill="#F4F0E3" font-weight="700">A missed hit can have two causes</text>
+    <path d="M60 162H940" stroke="#394552" stroke-width="2"/>
+    <text x="60" y="235" font-size="34" fill="#DEB272" font-weight="700">1 / Started outside useful reach</text>
+    <circle cx="140" cy="337" r="21" fill="#86B7A4"/>
+    <circle cx="805" cy="337" r="48" fill="#DEB272"/>
+    <path d="M176 337H584M570 322L587 337L570 352" fill="none" stroke="#86B7A4" stroke-width="6"/>
+    <path d="M603 293V381" stroke="#E4A27D" stroke-width="4" stroke-dasharray="7 6"/>
+    <g font-size="29" fill="#EAE8E0"><text x="74" y="411">Hunter</text><text x="437" y="411">Attack ends</text><text x="747" y="411">Target</text></g>
+    <text x="60" y="472" font-size="31" fill="#EAE8E0">Next test: begin within the move's useful range.</text>
+    <path d="M60 518H940" stroke="#394552" stroke-width="2"/>
+    <text x="60" y="579" font-size="34" fill="#DEB272" font-weight="700">2 / The target moved before the hit</text>
+    <circle cx="140" cy="681" r="21" fill="#86B7A4"/>
+    <circle cx="590" cy="681" r="47" fill="none" stroke="#77818F" stroke-width="3" stroke-dasharray="8 7"/>
+    <circle cx="822" cy="681" r="48" fill="#DEB272"/>
+    <path d="M176 681H559" stroke="#86B7A4" stroke-width="7"/>
+    <path d="M652 651L770 629" stroke="#DEB272" stroke-width="5"/>
+    <g font-size="29" fill="#EAE8E0"><text x="431" y="759">Earlier position</text><text x="748" y="759">Now</text></g>
+    <text x="60" y="821" font-size="30" fill="#EAE8E0">Next test: recognize the opening earlier or shorten it.</text>
+    <text x="60" y="865" font-size="27" fill="#9AA3AF">Illustrative positions, no weapon-specific distances.</text>
+    <path d="M60 926H940" stroke="#394552" stroke-width="2"/>
+    <text x="60" y="975" font-size="24" fill="#9AA3AF">GAMEVERSE / EXPLANATORY DIAGRAM</text>
+  </g>
+</svg>

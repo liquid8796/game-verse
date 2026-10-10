@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="800" viewBox="0 0 1100 800" role="img" aria-labelledby="title desc">
+<title id="title">Build the anti-air test in stages</title><desc id="desc">A practice sequence moves from a predictable recorded jump to the grounded move used before a missed anti-air, then to mixed recordings of jumping and grounded approaches. It checks the answer, whether the player can act, and recognition in turn.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#a7c8f4"/></marker></defs>
+<rect width="1100" height="800" fill="#131d24"/><g font-family="Arial, sans-serif"><text x="54" y="76" font-size="42" fill="#eef3f4">Build the anti-air test in stages</text><text x="54" y="122" font-size="27" fill="#b1c0c7">Recreate one replay moment with the same characters</text>
+<path d="M121 238V612" stroke="#a7c8f4" stroke-width="5" marker-end="url(#arrow)"/>
+<circle cx="121" cy="241" r="31" fill="#274461"/><text x="121" y="252" font-size="30" text-anchor="middle" fill="#eef3f4">1</text>
+<text x="187" y="237" font-size="33" fill="#a7c8f4">Predictable recorded jump</text><text x="187" y="282" font-size="27" fill="#b1c0c7">Does the answer work at this distance?</text>
+<circle cx="121" cy="406" r="31" fill="#274461"/><text x="121" y="417" font-size="30" text-anchor="middle" fill="#eef3f4">2</text>
+<text x="187" y="402" font-size="33" fill="#a7c8f4">Add your preceding grounded move</text><text x="187" y="447" font-size="27" fill="#b1c0c7">Are you free to act when the jump arrives?</text>
+<circle cx="121" cy="571" r="31" fill="#274461"/><text x="121" y="582" font-size="30" text-anchor="middle" fill="#eef3f4">3</text>
+<text x="187" y="567" font-size="33" fill="#a7c8f4">Mix jumps and grounded approaches</text><text x="187" y="612" font-size="27" fill="#b1c0c7">Can you recognize which answer is needed?</text>
+<path d="M55 682H1045" stroke="#43525b"/><text x="55" y="735" font-size="28" fill="#b1c0c7">Execution · Recovery · Recognition — test each separately</text></g></svg>
