@@ -125,6 +125,9 @@ describe("SEO and Metadata configuration", () => {
     expect(layoutContent).toContain('content="185ab99214f74580f75b3dd7dfcc84e4"');
     expect(layoutMetadata.verification?.other?.clckd).toBe("185ab99214f74580f75b3dd7dfcc84e4");
 
+    expect(layoutContent).toContain("https://abscloud.org/1/e2c368a3b75c92d67638ec10b3fa2a44");
+    expect(layoutContent).toContain("https://bauval.org/14/6e3a0e1764459200f8bf1502dd0c9426");
+
     const workerJsPath = join(process.cwd(), "public/worker.js");
     expect(existsSync(workerJsPath)).toBe(false);
   });

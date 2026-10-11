@@ -165,11 +165,23 @@ gtag('config', 'G-PQES332NL4');`,
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7851683096379872"
           crossOrigin="anonymous"
         />
+
+        {/* Adsterra Popunder */}
+        <script
+          data-cfasync="false"
+          src="https://abscloud.org/1/e2c368a3b75c92d67638ec10b3fa2a44"
+        />
       </head>
       <body>
         <SiteHeader />
         {children}
         <SiteFooter />
+
+        {/* Adsterra Social Bar */}
+        <script
+          data-cfasync="false"
+          src="https://bauval.org/14/6e3a0e1764459200f8bf1502dd0c9426"
+        />
       </body>
     </html>
   );

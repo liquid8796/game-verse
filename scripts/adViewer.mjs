@@ -648,7 +648,8 @@ const NATIVE_SLOT_SELECTOR = ".adsterra-native";
 const NATIVE_READY_SELECTOR = '.adsterra-native[data-status="ready"]';
 const NATIVE_CONTAINER_ID = "container-5e6634da84f8f263d7ab34ae152f1c8d";
 const SOCIAL_BAR_KEY = "977a66f06e979e2830ee60ed1fa88533";
-const SOCIAL_BAR_SELECTOR = `iframe[id*="${SOCIAL_BAR_KEY}"], iframe[class*="${SOCIAL_BAR_KEY}"], iframe[style*="2147483647"], iframe[id*="container-"][style*="fixed"]`;
+const SOCIAL_BAR_KEY_NEW = "6e3a0e1764459200f8bf1502dd0c9426";
+const SOCIAL_BAR_SELECTOR = `iframe[id*="${SOCIAL_BAR_KEY}"], iframe[class*="${SOCIAL_BAR_KEY}"], iframe[id*="${SOCIAL_BAR_KEY_NEW}"], iframe[class*="${SOCIAL_BAR_KEY_NEW}"], iframe[src*="bauval.org"], iframe[src*="abscloud.org"], iframe[style*="2147483647"], iframe[id*="container-"][style*="fixed"]`;
 const CLICKADU_CONTAINER_SELECTOR = "#clickadu-ad-container, .clickadu-container, [id*='clickadu']";
 const ADCASH_CONTAINER_SELECTOR =
   "#adcash-ad-container, .adcash-container, in-page-message, in-page-message >>> [id^='note-'], div >>> #goToButton, div >>> #modal, div[znid], div[donto], div[donto][znid], [id*='aclib'], [class*='aclib'], [id*='adcash'], iframe[src*='acscdn'], iframe[src*='adcash']";
@@ -5193,6 +5194,10 @@ async function runOneCycle(
                   '.adsterra-leaderboard[data-status="ready"] iframe',
                   'iframe[src*="deliberatewatchful.com"]',
                   'iframe[src*="adsterra"]',
+                  'iframe[src*="bauval.org"]',
+                  'iframe[src*="abscloud.org"]',
+                  'a[href*="bauval.org"]',
+                  'a[href*="abscloud.org"]',
                 ]
               : [
                   '.adsterra-smartlink',
