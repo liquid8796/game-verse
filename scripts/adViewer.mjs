@@ -2119,11 +2119,12 @@ async function resolveAdClickTarget(locator, options = {}) {
   if (!box || box.width < 2 || box.height < 2) return null;
   const isPush =
     options.isInPagePush ||
+    options.isSocialBar ||
     (await locator
       .evaluate((el) => el.tagName.toLowerCase() === "in-page-message" || Boolean(el.closest("in-page-message")))
       .catch(() => false));
   if (isPush) {
-    // Với In-Page Push (thường có nút đóng [x] ở góc trên bên phải):
+    // Với In-Page Push hoặc SocialBar (thường có nút đóng [x] ở góc trên bên phải):
     // Click vào vùng giữa-trái (25% - 45% chiều rộng, 35% - 65% chiều cao) để an toàn vào nội dung quảng cáo và tránh nút close.
     const tx = box.x + box.width * (0.25 + Math.random() * 0.2);
     const ty = box.y + box.height * (0.35 + Math.random() * 0.3);
@@ -3263,7 +3264,10 @@ async function inspectAdsterraPlacements(page, startedAt = Date.now()) {
     const iframeHandle = await socialBarIframe.elementHandle().catch(() => null);
     const frame = iframeHandle ? await iframeHandle.contentFrame().catch(() => null) : null;
     if (frame) {
-      const socialLinks = await frame.locator('a[href], [class*="__link"]').count().catch(() => 0);
+      const socialLinks = await frame
+        .locator('a[class*="__finlink"], [class*="__btn"], a[href]:not([class*="__closelink"]):not([class*="close"])')
+        .count()
+        .catch(() => 0);
       socialBarCreativeCount = socialLinks;
     }
   }
@@ -3286,6 +3290,83 @@ async function inspectAdsterraPlacements(page, startedAt = Date.now()) {
     socialBarFound,
     socialBarIframe,
   };
+}
+
+/**
+ * Xoá sạch các cookies / storage liên quan đến giới hạn tần suất (Frequency Capping) của Adsterra:
+ * - Popunder capping: pp_main_<hash>, pp_sub_<hash> (hash e2c368a3b75c92d67638ec10b3fa2a44)
+ * - Social Bar capping: sb_main_<hash>, sb_count_<hash> (hash 6e3a0e1764459200f8bf1502dd0c9426)
+ * - Visitor identifiers: vrk4*, dom3*
+ * Giúp Adsterra luôn nhận diện là lượt truy cập mới và phân phối Social Bar & Popunder ở mọi chu kỳ.
+ */
+async function resetAdsterraCapping(page, context) {
+  try {
+    if (context?.cookies) {
+      const allCookies = await context.cookies().catch(() => []);
+      for (const cookie of allCookies) {
+        const name = (cookie?.name || "").toLowerCase();
+        const domain = (cookie?.domain || "").toLowerCase();
+        if (
+          name.startsWith("pp_") ||
+          name.startsWith("sb_") ||
+          name.startsWith("vrk4") ||
+          name.startsWith("dom3") ||
+          name.includes("e2c368a3b75c92d67638ec10b3fa2a44") ||
+          name.includes("6e3a0e1764459200f8bf1502dd0c9426") ||
+          name.includes("977a66f06e979e2830ee60ed1fa88533") ||
+          domain.includes("bauval.org") ||
+          domain.includes("abscloud.org")
+        ) {
+          await context.clearCookies({ name: cookie.name, domain: cookie.domain }).catch(() => {});
+        }
+      }
+    }
+
+    if (page && !page.isClosed()) {
+      await page
+        .evaluate(() => {
+          try {
+            const cookieList = (document.cookie || "").split(";");
+            for (const c of cookieList) {
+              const eqPos = c.indexOf("=");
+              const name = (eqPos > -1 ? c.substring(0, eqPos) : c).trim();
+              const lower = name.toLowerCase();
+              if (
+                lower.startsWith("pp_") ||
+                lower.startsWith("sb_") ||
+                lower.startsWith("vrk4") ||
+                lower.startsWith("dom3") ||
+                lower.includes("e2c368a3b75c92d67638ec10b3fa2a44") ||
+                lower.includes("6e3a0e1764459200f8bf1502dd0c9426") ||
+                lower.includes("977a66f06e979e2830ee60ed1fa88533")
+              ) {
+                const host = window.location.hostname;
+                document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+                document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${host}`;
+                document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.${host}`;
+              }
+            }
+          } catch {}
+          try {
+            for (let i = localStorage.length - 1; i >= 0; i--) {
+              const k = localStorage.key(i);
+              if (
+                k &&
+                (k.startsWith("pp_") ||
+                  k.startsWith("sb_") ||
+                  k.startsWith("vrk4") ||
+                  k.startsWith("dom3") ||
+                  k.includes("e2c368a3b75c92d67638ec10b3fa2a44") ||
+                  k.includes("6e3a0e1764459200f8bf1502dd0c9426"))
+              ) {
+                localStorage.removeItem(k);
+              }
+            }
+          } catch {}
+        })
+        .catch(() => {});
+    }
+  } catch {}
 }
 
 async function inspectAdcashPlacements(page, startedAt = Date.now()) {
@@ -4608,6 +4689,10 @@ async function runOneCycle(
       log(`[Traffic Source] 🌐 Truy cập trực tiếp (Direct Traffic)`);
     }
 
+    if (AD_NETWORK === "adsterra" || AD_NETWORK === "all") {
+      await resetAdsterraCapping(page, context);
+    }
+
     const renderStartedAt = Date.now();
     log(`Mở trang chủ ${WEB_URL}...`);
     await page.goto(WEB_URL, {
@@ -4841,13 +4926,16 @@ async function runOneCycle(
           const frame = iframeHandle ? await iframeHandle.contentFrame().catch(() => null) : null;
           let foundSocialLinks = false;
           if (frame) {
-            const socialLinks = frame.locator('a[href], [class*="__link"]');
+            const socialLinks = frame.locator('a[class*="__finlink"], [class*="__btn"], a[href]:not([class*="__closelink"]):not([class*="close"])');
             const scCount = await socialLinks.count().catch(() => 0);
             for (let i = 0; i < scCount; i++) {
+              const link = socialLinks.nth(i);
+              const cls = (await link.getAttribute("class").catch(() => "")) || "";
+              if (cls.includes("__closelink") || cls.includes("close")) continue;
               foundSocialLinks = true;
               adCandidates.push({
                 name: `${isForceClick ? "[Force] " : ""}SocialBar Notification link ${i + 1}/${scCount}`,
-                locator: socialLinks.nth(i),
+                locator: link,
                 isSocialBar: true,
               });
             }
@@ -5012,10 +5100,12 @@ async function runOneCycle(
       // 3. Chế độ tự động: Ưu tiên click Popunder hoặc tương tác tự nhiên theo mạng quảng cáo
       const isClickadu = AD_NETWORK === "clickadu" || AD_NETWORK === "all";
       const isAdcash = AD_NETWORK === "adcash" || AD_NETWORK === "all";
-      const allowPopunderAttempt = FOCUS_POPUNDER_SOCIAL || POPUNDER_RATIO > 0 || isClickadu;
-      if (allowPopunderAttempt && (preferPopunder || isClickadu)) {
+      const isAdsterra = AD_NETWORK === "adsterra" || AD_NETWORK === "all";
+      const allowPopunderAttempt = FOCUS_POPUNDER_SOCIAL || POPUNDER_RATIO > 0 || isClickadu || isAdsterra;
+      if (allowPopunderAttempt && (preferPopunder || isClickadu || isAdsterra)) {
+        const popLabel = isAdsterra ? "Adsterra Popunder" : isClickadu ? "Clickadu Popunder" : "Popunder Ưu Tiên";
         log(
-          `🎯 [${isClickadu ? "Clickadu Popunder" : "Popunder Ưu Tiên"}${POPUNDER_RATIO > 0 ? ` ${Math.round(POPUNDER_RATIO * 100)}%` : ""}] Kích hoạt click tự nhiên trên trang web để kích hoạt Popunder (${cycleClickMode} mode)...`,
+          `🎯 [${popLabel}${POPUNDER_RATIO > 0 ? ` ${Math.round(POPUNDER_RATIO * 100)}%` : ""}] Kích hoạt click tự nhiên trên trang web để kích hoạt Popunder (${cycleClickMode} mode)...`,
         );
         const popTarget = await resolvePopunderTarget(page);
         log(`-> Click tự nhiên tại (${Math.round(popTarget.x)}, ${Math.round(popTarget.y)}) để kích hoạt Popunder...`);
@@ -5073,6 +5163,7 @@ async function runOneCycle(
           const clickTarget = await resolveAdClickTarget(highPriorityCandidate.locator, {
             isInPagePush: Boolean(highPriorityCandidate.isInPagePush),
             isInterstitial: Boolean(highPriorityCandidate.isInterstitial),
+            isSocialBar: Boolean(highPriorityCandidate.isSocialBar),
           });
           if (clickTarget) {
             log(`-> Click ${typeLabel} tại (${Math.round(clickTarget.x)}, ${Math.round(clickTarget.y)})...`);
@@ -5812,9 +5903,12 @@ export {
   parseAdNetwork,
   AD_NETWORK,
   inspectClickaduPlacements,
+  inspectAdsterraPlacements,
+  resetAdsterraCapping,
   ADCASH_CONTAINER_SELECTOR,
   CLICKADU_CONTAINER_SELECTOR,
   SOCIAL_BAR_KEY,
+  SOCIAL_BAR_KEY_NEW,
   SOCIAL_BAR_SELECTOR,
   parseTrafficSource,
   parseTrafficRatio,
