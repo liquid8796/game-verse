@@ -102,6 +102,7 @@ describe("SEO and Metadata configuration", () => {
     expect(existsSync(adsTxtPath)).toBe(true);
     const content = readFileSync(adsTxtPath, "utf8");
     expect(content).toContain("google.com, pub-7851683096379872, DIRECT, f08c47fec0942fa0");
+    expect(content).toContain("tsyndicate.com, 349190, DIRECT");
 
     const layoutPath = join(process.cwd(), "src/app/layout.tsx");
     const layoutContent = readFileSync(layoutPath, "utf8");
