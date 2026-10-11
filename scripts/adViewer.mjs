@@ -6,7 +6,7 @@
  * Mỗi chu kỳ:
  *   1. Mở Chromium với profile tạm thời và nạp tiện ích CanvasBlocker
  *   2. Vào trang chủ website (WEB_URL)
- *   3. Đợi các vị trí quảng cáo (Adsterra banner 728x90, native ads, popunder) tải đầy đủ
+ *   3. Đợi các vị trí quảng cáo (Clickadu, Adcash popunder/banner) tải đầy đủ
  *   4. Kiểm tra và xác nhận trạng thái hiển thị của banner và native creative
  *   5. Click vào quảng cáo để mở trang đích trên tab mới
  *   6. Dừng ngẫu nhiên 5-10s để đọc trang quảng cáo chính
@@ -642,14 +642,6 @@ const MAX_READING_BEFORE_CLICK_MS = Math.max(
 const SELF_UPDATE = process.env.AD_VIEWER_SELF_UPDATE === "1";
 const ENABLE_DEV_MODE = process.env.AD_VIEWER_ENABLE_DEV_MODE !== "0";
 
-const BANNER_SLOT_SELECTOR = ".adsterra-leaderboard";
-const BANNER_READY_SELECTOR = '.adsterra-leaderboard[data-status="ready"]';
-const NATIVE_SLOT_SELECTOR = ".adsterra-native";
-const NATIVE_READY_SELECTOR = '.adsterra-native[data-status="ready"]';
-const NATIVE_CONTAINER_ID = "container-5e6634da84f8f263d7ab34ae152f1c8d";
-const SOCIAL_BAR_KEY = "977a66f06e979e2830ee60ed1fa88533";
-const SOCIAL_BAR_KEY_NEW = "6e3a0e1764459200f8bf1502dd0c9426";
-const SOCIAL_BAR_SELECTOR = `iframe[id*="${SOCIAL_BAR_KEY}"], iframe[class*="${SOCIAL_BAR_KEY}"], iframe[id*="${SOCIAL_BAR_KEY_NEW}"], iframe[class*="${SOCIAL_BAR_KEY_NEW}"], iframe[src*="bauval.org"], iframe[src*="abscloud.org"], iframe[style*="2147483647"], iframe[id*="container-"][style*="fixed"]`;
 const CLICKADU_CONTAINER_SELECTOR = "#clickadu-ad-container, .clickadu-container, [id*='clickadu']";
 const ADCASH_CONTAINER_SELECTOR =
   "#adcash-ad-container, .adcash-container, in-page-message, in-page-message >>> [id^='note-'], div >>> #goToButton, div >>> #modal, div[znid], div[donto], div[donto][znid], [id*='aclib'], [class*='aclib'], [id*='adcash'], iframe[src*='acscdn'], iframe[src*='adcash']";
@@ -706,7 +698,6 @@ function parseAdNetwork(cliArgs = process.argv, env = process.env) {
   const raw = (cli || envVal || "").trim().toLowerCase();
   if (raw === "adcash") return "adcash";
   if (raw === "clickadu") return "clickadu";
-  if (raw === "adsterra") return "adsterra";
   if (raw === "all" || raw === "both") return "all";
   return "clickadu";
 }
@@ -2119,12 +2110,11 @@ async function resolveAdClickTarget(locator, options = {}) {
   if (!box || box.width < 2 || box.height < 2) return null;
   const isPush =
     options.isInPagePush ||
-    options.isSocialBar ||
     (await locator
       .evaluate((el) => el.tagName.toLowerCase() === "in-page-message" || Boolean(el.closest("in-page-message")))
       .catch(() => false));
   if (isPush) {
-    // Với In-Page Push hoặc SocialBar (thường có nút đóng [x] ở góc trên bên phải):
+    // Với In-Page Push (thường có nút đóng [x] ở góc trên bên phải):
     // Click vào vùng giữa-trái (25% - 45% chiều rộng, 35% - 65% chiều cao) để an toàn vào nội dung quảng cáo và tránh nút close.
     const tx = box.x + box.width * (0.25 + Math.random() * 0.2);
     const ty = box.y + box.height * (0.35 + Math.random() * 0.3);
@@ -2830,8 +2820,8 @@ async function preClickEngagement(page, ctx, targetX, targetY, instanceId = 0, c
 /**
  * Xác định toạ độ click tự nhiên trên trang web để kích hoạt Popunder.
  * Tìm kiếm các vùng nội dung chính (tiêu đề, đoạn văn, hero text) và loại trừ
- * hoàn toàn các khung quảng cáo (adsterra-unit, adsterra-stack, adsterra-flank, iframe)
- * để tránh việc click kích hoạt nhầm vào NativeBanner hoặc banner ngoài ý muốn.
+ * hoàn toàn các khung quảng cáo (iframe, container quảng cáo)
+ * để tránh việc click kích hoạt nhầm vào banner ngoài ý muốn.
  */
 async function resolvePopunderTarget(page) {
   try {
@@ -2878,7 +2868,7 @@ async function resolvePopunderTarget(page) {
     // Lấy toạ độ các khối quảng cáo để tránh click nhầm vào ads
     const adBoxes = [];
     try {
-      const adLocators = page.locator(".adsterra-unit, .adsterra-stack, .adsterra-flank, iframe, in-page-message, #adcash-ad-container, .adcash-container");
+      const adLocators = page.locator("iframe, in-page-message, #adcash-ad-container, .adcash-container, #clickadu-ad-container, .clickadu-container");
       const adCount = await adLocators.count().catch(() => 0);
       for (let i = 0; i < Math.min(50, adCount); i++) {
         const b = await adLocators.nth(i).boundingBox().catch(() => null);
@@ -3148,225 +3138,6 @@ async function checkRemoteVersion(url) {
 function formatBox(box) {
   if (!box) return "không có";
   return `${Math.round(box.width)}×${Math.round(box.height)} @ ${Math.round(box.x)},${Math.round(box.y)}`;
-}
-
-function classifyPlacement(rawStatus, readySelectorFound, creativeCount) {
-  if (rawStatus === "blocked") return "blocked";
-  if (readySelectorFound && creativeCount > 0) return "ready";
-  return "no-fill";
-}
-
-async function inspectAdsterraPlacements(page, startedAt = Date.now()) {
-  const terminalWaitMs = Math.max(0, AD_READY_TIMEOUT_MS - (Date.now() - startedAt));
-
-  // Đợi cả hai slot rời trạng thái loading. Selector ready được kiểm tra lại bên dưới cùng
-  // creative thật; chỉ một thuộc tính data-status không đủ để kết luận quảng cáo đã render.
-  if (terminalWaitMs > 0) {
-    await page
-      .waitForFunction(
-        ({ bannerSelector, nativeSelector }) => {
-          const terminal = (selector) => {
-            const el = document.querySelector(selector);
-            if (!el) return true;
-            const status = el.getAttribute("data-status") ?? "";
-            return status === "ready" || status === "blocked";
-          };
-          return terminal(bannerSelector) && terminal(nativeSelector);
-        },
-        { bannerSelector: BANNER_SLOT_SELECTOR, nativeSelector: NATIVE_SLOT_SELECTOR },
-        { timeout: terminalWaitMs },
-      )
-      .catch(() => {});
-  }
-
-  const bannerSlot = page.locator(BANNER_SLOT_SELECTOR).first();
-  const nativeSlot = page.locator(NATIVE_SLOT_SELECTOR).first();
-  const bannerSlotFound = (await bannerSlot.count()) > 0;
-  const nativeSlotFound = (await nativeSlot.count()) > 0;
-  const bannerRawStatus = bannerSlotFound
-    ? (await bannerSlot.getAttribute("data-status").catch(() => null)) ?? "loading"
-    : "missing";
-  const nativeRawStatus = nativeSlotFound
-    ? (await nativeSlot.getAttribute("data-status").catch(() => null)) ?? "loading"
-    : "missing";
-
-  const bannerReady = page.locator(BANNER_READY_SELECTOR).first();
-  const bannerReadyFound = (await bannerReady.count()) > 0;
-  const bannerIframe = page
-    .locator(`${BANNER_READY_SELECTOR} iframe[width="728"][height="90"], .adsterra-banner[data-status="ready"] iframe, .adsterra-unit iframe`)
-    .first();
-  const bannerIframeFound = (await bannerIframe.count()) > 0;
-  let bannerCreativeCount = 0;
-
-  if (bannerIframeFound) {
-    const candidateIframes = page.locator(
-      `${BANNER_READY_SELECTOR} iframe[width="728"][height="90"], .adsterra-banner[data-status="ready"] iframe, .adsterra-unit iframe`
-    );
-    const ifrCount = await candidateIframes.count().catch(() => 0);
-    for (let f = 0; f < ifrCount; f++) {
-      const iframeHandle = await candidateIframes.nth(f).elementHandle().catch(() => null);
-      const frame = iframeHandle ? await iframeHandle.contentFrame().catch(() => null) : null;
-      if (frame) {
-        const creativeWaitMs = Math.max(0, AD_READY_TIMEOUT_MS - (Date.now() - startedAt));
-        if (creativeWaitMs > 0 && bannerCreativeCount === 0) {
-          await frame.locator("a[href] img, a[href]").first().waitFor({
-            state: "attached",
-            timeout: Math.min(creativeWaitMs, 3000),
-          }).catch(() => {});
-        }
-        const linkedImages = await frame.locator("a[href] img").count().catch(() => 0);
-        const linkedCreatives = await frame.locator("a[href]").count().catch(() => 0);
-        const countCreatives = linkedImages > 0 ? linkedImages : linkedCreatives;
-        if (countCreatives > 0) {
-          bannerCreativeCount += countCreatives;
-        }
-      }
-    }
-  }
-
-  const nativeReady = page.locator(NATIVE_READY_SELECTOR).first();
-  const nativeReadyFound = (await nativeReady.count()) > 0;
-  const nativeContainer = page
-    .locator(`${NATIVE_READY_SELECTOR} #${NATIVE_CONTAINER_ID}`)
-    .first();
-  const nativeWaitMs = Math.max(0, AD_READY_TIMEOUT_MS - (Date.now() - startedAt));
-  if (nativeReadyFound && nativeWaitMs > 0) {
-    await nativeContainer.locator('[class*="__bn-container"], a[target="_blank"]').first().waitFor({
-      state: "attached",
-      timeout: nativeWaitMs,
-    }).catch(() => {});
-  }
-  const nativeCards = await nativeContainer.locator('[class*="__bn-container"]').count().catch(() => 0);
-  const nativeLinks = await nativeContainer.locator('a[target="_blank"]').count().catch(() => 0);
-  const nativeCreativeCount = Math.max(nativeCards, nativeLinks);
-
-  const banner = {
-    status: classifyPlacement(bannerRawStatus, bannerReadyFound && bannerIframeFound, bannerCreativeCount),
-    rawStatus: bannerRawStatus,
-    iframe728x90: bannerIframeFound,
-    creativeCount: bannerCreativeCount,
-    slotBox: bannerSlotFound ? await bannerSlot.boundingBox().catch(() => null) : null,
-    iframeBox: bannerIframeFound ? await bannerIframe.boundingBox().catch(() => null) : null,
-  };
-  const native = {
-    status: classifyPlacement(nativeRawStatus, nativeReadyFound, nativeCreativeCount),
-    rawStatus: nativeRawStatus,
-    creativeCount: nativeCreativeCount,
-    slotBox: nativeSlotFound ? await nativeSlot.boundingBox().catch(() => null) : null,
-  };
-
-  const socialBarIframe = page.locator(SOCIAL_BAR_SELECTOR).first();
-  const socialBarFound = (await socialBarIframe.count().catch(() => 0)) > 0;
-  let socialBarCreativeCount = 0;
-  let socialBarBox = null;
-  if (socialBarFound) {
-    socialBarBox = await socialBarIframe.boundingBox().catch(() => null);
-    const iframeHandle = await socialBarIframe.elementHandle().catch(() => null);
-    const frame = iframeHandle ? await iframeHandle.contentFrame().catch(() => null) : null;
-    if (frame) {
-      const socialLinks = await frame
-        .locator('a[class*="__finlink"], [class*="__btn"], a[href]:not([class*="__closelink"]):not([class*="close"])')
-        .count()
-        .catch(() => 0);
-      socialBarCreativeCount = socialLinks;
-    }
-  }
-
-  const socialBar = {
-    found: socialBarFound,
-    creativeCount: socialBarCreativeCount,
-    box: socialBarBox,
-    status: socialBarFound ? "ready" : "waiting",
-  };
-
-  return {
-    renderMs: Date.now() - startedAt,
-    banner,
-    native,
-    socialBar,
-    allReady: banner.status === "ready" && (native.status === "ready" || !nativeSlotFound),
-    bannerIframeFound,
-    bannerIframe,
-    socialBarFound,
-    socialBarIframe,
-  };
-}
-
-/**
- * Xoá sạch các cookies / storage liên quan đến giới hạn tần suất (Frequency Capping) của Adsterra:
- * - Popunder capping: pp_main_<hash>, pp_sub_<hash> (hash e2c368a3b75c92d67638ec10b3fa2a44)
- * - Social Bar capping: sb_main_<hash>, sb_count_<hash> (hash 6e3a0e1764459200f8bf1502dd0c9426)
- * - Visitor identifiers: vrk4*, dom3*
- * Giúp Adsterra luôn nhận diện là lượt truy cập mới và phân phối Social Bar & Popunder ở mọi chu kỳ.
- */
-async function resetAdsterraCapping(page, context) {
-  try {
-    if (context?.cookies) {
-      const allCookies = await context.cookies().catch(() => []);
-      for (const cookie of allCookies) {
-        const name = (cookie?.name || "").toLowerCase();
-        const domain = (cookie?.domain || "").toLowerCase();
-        if (
-          name.startsWith("pp_") ||
-          name.startsWith("sb_") ||
-          name.startsWith("vrk4") ||
-          name.startsWith("dom3") ||
-          name.includes("e2c368a3b75c92d67638ec10b3fa2a44") ||
-          name.includes("6e3a0e1764459200f8bf1502dd0c9426") ||
-          name.includes("977a66f06e979e2830ee60ed1fa88533") ||
-          domain.includes("bauval.org") ||
-          domain.includes("abscloud.org")
-        ) {
-          await context.clearCookies({ name: cookie.name, domain: cookie.domain }).catch(() => {});
-        }
-      }
-    }
-
-    if (page && !page.isClosed()) {
-      await page
-        .evaluate(() => {
-          try {
-            const cookieList = (document.cookie || "").split(";");
-            for (const c of cookieList) {
-              const eqPos = c.indexOf("=");
-              const name = (eqPos > -1 ? c.substring(0, eqPos) : c).trim();
-              const lower = name.toLowerCase();
-              if (
-                lower.startsWith("pp_") ||
-                lower.startsWith("sb_") ||
-                lower.startsWith("vrk4") ||
-                lower.startsWith("dom3") ||
-                lower.includes("e2c368a3b75c92d67638ec10b3fa2a44") ||
-                lower.includes("6e3a0e1764459200f8bf1502dd0c9426") ||
-                lower.includes("977a66f06e979e2830ee60ed1fa88533")
-              ) {
-                const host = window.location.hostname;
-                document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
-                document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${host}`;
-                document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.${host}`;
-              }
-            }
-          } catch {}
-          try {
-            for (let i = localStorage.length - 1; i >= 0; i--) {
-              const k = localStorage.key(i);
-              if (
-                k &&
-                (k.startsWith("pp_") ||
-                  k.startsWith("sb_") ||
-                  k.startsWith("vrk4") ||
-                  k.startsWith("dom3") ||
-                  k.includes("e2c368a3b75c92d67638ec10b3fa2a44") ||
-                  k.includes("6e3a0e1764459200f8bf1502dd0c9426"))
-              ) {
-                localStorage.removeItem(k);
-              }
-            }
-          } catch {}
-        })
-        .catch(() => {});
-    }
-  } catch {}
 }
 
 async function inspectAdcashPlacements(page, startedAt = Date.now()) {
@@ -4118,16 +3889,14 @@ async function runOneCycle(
         ? "Clickadu"
         : AD_NETWORK === "adcash"
         ? "🚀 Adcash (AutoTag 1zmakzh6c)"
-        : AD_NETWORK === "adsterra"
-        ? "Adsterra"
-        : "Tất cả nhà mạng";
+        : "Tất cả nhà mạng (Clickadu + Adcash)";
     log(`[Nhà Mạng Quảng Cáo] Mục tiêu: ${AD_NETWORK.toUpperCase()} (${adNetworkDesc})`);
     if (AD_NETWORK === "clickadu") {
       log(`[Trọng Tâm Định Dạng] Chế độ quảng cáo: Clickadu (Popunder & Banner)`);
     } else if (AD_NETWORK === "adcash") {
       log(`[Trọng Tâm Định Dạng] Chế độ quảng cáo: 🚀 AutoTag tự động tối ưu hoá định dạng Adcash (Không phân biệt Popunder/Native)`);
     } else {
-      log(`[Trọng Tâm Định Dạng] Chế độ quảng cáo: ${FOCUS_POPUNDER_SOCIAL ? "🎯 ƯU TIÊN POPUNDER + SOCIALBAR (Triệt tiêu impression & click NativeBanner)" : "Cân bằng mọi định dạng (Popunder + SocialBar + Banner + Native)"}`);
+      log(`[Trọng Tâm Định Dạng] Chế độ quảng cáo: Kết hợp tất cả nhà mạng (Clickadu + Adcash)`);
     }
     if (cdpUrl) {
       log(`Kết nối tới Chrome ${useMyChrome ? "chính " : ""}qua CDP: ${cdpUrl}...`);
@@ -4689,10 +4458,6 @@ async function runOneCycle(
       log(`[Traffic Source] 🌐 Truy cập trực tiếp (Direct Traffic)`);
     }
 
-    if (AD_NETWORK === "adsterra" || AD_NETWORK === "all") {
-      await resetAdsterraCapping(page, context);
-    }
-
     const renderStartedAt = Date.now();
     log(`Mở trang chủ ${WEB_URL}...`);
     await page.goto(WEB_URL, {
@@ -4748,36 +4513,17 @@ async function runOneCycle(
         );
       }
     } else {
-      if (!FOCUS_POPUNDER_SOCIAL) {
-        await page.locator(".adsterra-stack").scrollIntoViewIfNeeded().catch(() => {});
-      }
-      diagnostic = await inspectAdsterraPlacements(page, renderStartedAt);
-
+      const clkDiagnostic = await inspectClickaduPlacements(page, renderStartedAt);
+      const adcDiagnostic = await inspectAdcashPlacements(page, renderStartedAt);
       log(
-        `Adsterra banner: ${diagnostic.banner.status} ` +
-          `(DOM=${diagnostic.banner.rawStatus}, iframe 728×90=${diagnostic.banner.iframe728x90 ? "có" : "không"}, ` +
-          `creative=${diagnostic.banner.creativeCount}, slot=${formatBox(diagnostic.banner.slotBox)}, ` +
-          `iframe=${formatBox(diagnostic.banner.iframeBox)})`,
+        `Clickadu: ${clkDiagnostic.status} (render=${clkDiagnostic.renderMs}ms), ` +
+          `Adcash: ${adcDiagnostic.status} (scripts acscdn=${adcDiagnostic.scriptCount}, render=${adcDiagnostic.renderMs}ms).`,
       );
-      log(
-        `Adsterra native: ${diagnostic.native.status} ` +
-          `(DOM=${diagnostic.native.rawStatus}, creative=${diagnostic.native.creativeCount}, ` +
-          `slot=${formatBox(diagnostic.native.slotBox)})`,
-      );
-      log(
-        `Adsterra social-bar: ${diagnostic.socialBar?.status || (diagnostic.socialBarFound ? "ready" : "waiting")} ` +
-          `(found=${diagnostic.socialBarFound ? "có" : "không"}, creative=${diagnostic.socialBar?.creativeCount || 0}, ` +
-          `frame=${formatBox(diagnostic.socialBar?.box)})`,
-      );
-      log(`Thời gian chờ render Adsterra: ${diagnostic.renderMs}ms.`);
-
-      isRenderFinished = FOCUS_POPUNDER_SOCIAL
-        ? (diagnostic.socialBarFound || diagnostic.banner.status === "ready")
-        : (diagnostic.allReady || (diagnostic.banner.status === "ready" && diagnostic.native.status === "ready"));
+      isRenderFinished = clkDiagnostic.status === "ready" || adcDiagnostic.status === "ready";
       isForceClick = !isRenderFinished;
       if (isForceClick) {
         log(
-          `[ForceClick] ⚡ Quá thời gian chờ render Adsterra (${diagnostic.renderMs}ms / tối đa ${AD_READY_TIMEOUT_MS}ms) mà quảng cáo chưa hoàn tất tải (banner=${diagnostic.banner.status}, native=${diagnostic.native.status}, socialBar=${diagnostic.socialBarFound ? "có" : "không"}) — KÍCH HOẠT CƯỠNG CHẾ (Force Click) 1 quảng cáo bất kỳ ngay lập tức!`,
+          `[ForceClick] ⚡ Quá thời gian chờ render quảng cáo (${Math.max(clkDiagnostic.renderMs, adcDiagnostic.renderMs)}ms / tối đa ${AD_READY_TIMEOUT_MS}ms) — KÍCH HOẠT CƯỠNG CHẾ (Force Click) ngay!`,
         );
       }
     }
@@ -4891,122 +4637,7 @@ async function runOneCycle(
       }
     }
 
-    const shouldScanAdsterra = AD_NETWORK === "adsterra" || AD_NETWORK === "all";
-
-    // 1. Toàn bộ các thẻ Native Ads (chỉ quét nếu KHÔNG bật FOCUS_POPUNDER_SOCIAL và cho phép Adsterra)
-    if (!FOCUS_POPUNDER_SOCIAL) {
-      try {
-        const nativeSelector = isForceClick
-          ? `${NATIVE_READY_SELECTOR} #${NATIVE_CONTAINER_ID} a, ${NATIVE_READY_SELECTOR} a, #${NATIVE_CONTAINER_ID} a, .adsterra-native a, [id*="container-"] a`
-          : diagnostic?.native?.status === "ready"
-          ? `${NATIVE_READY_SELECTOR} #${NATIVE_CONTAINER_ID} a[target="_blank"], ${NATIVE_READY_SELECTOR} a`
-          : null;
-        if (shouldScanAdsterra && nativeSelector) {
-          const nativeLinks = page.locator(nativeSelector);
-          const count = await nativeLinks.count().catch(() => 0);
-          for (let i = 0; i < count; i++) {
-            adCandidates.push({
-              name: `${isForceClick ? "[Force] " : ""}Native ad card ${i + 1}/${count}`,
-              locator: nativeLinks.nth(i),
-            });
-          }
-        }
-      } catch (err) {
-        log(`Lỗi khi quét native ads: ${err instanceof Error ? err.message : String(err)}`);
-      }
-    }
-
-    // 1b. SocialBar (Floating Notification iframe - CPM cao, ưu tiên đặc biệt)
-    if (shouldScanAdsterra) {
-      try {
-        const socialBarIframe = page.locator(SOCIAL_BAR_SELECTOR).first();
-        const socialBarCount = await socialBarIframe.count().catch(() => 0);
-        if (socialBarCount > 0) {
-          const iframeHandle = await socialBarIframe.elementHandle().catch(() => null);
-          const frame = iframeHandle ? await iframeHandle.contentFrame().catch(() => null) : null;
-          let foundSocialLinks = false;
-          if (frame) {
-            const socialLinks = frame.locator('a[class*="__finlink"], [class*="__btn"], a[href]:not([class*="__closelink"]):not([class*="close"])');
-            const scCount = await socialLinks.count().catch(() => 0);
-            for (let i = 0; i < scCount; i++) {
-              const link = socialLinks.nth(i);
-              const cls = (await link.getAttribute("class").catch(() => "")) || "";
-              if (cls.includes("__closelink") || cls.includes("close")) continue;
-              foundSocialLinks = true;
-              adCandidates.push({
-                name: `${isForceClick ? "[Force] " : ""}SocialBar Notification link ${i + 1}/${scCount}`,
-                locator: link,
-                isSocialBar: true,
-              });
-            }
-          }
-          if (!foundSocialLinks) {
-            adCandidates.push({
-              name: `${isForceClick ? "[Force] " : ""}SocialBar Notification iframe`,
-              locator: socialBarIframe,
-              isSocialBar: true,
-            });
-          }
-        }
-      } catch (err) {
-        log(`Lỗi khi quét SocialBar: ${err instanceof Error ? err.message : String(err)}`);
-      }
-    }
-
-    // 2. Banner ad creative trong các iframe quảng cáo (728x90, 468x60, 320x50, 300x250, 160x600, 160x300)
-    if (shouldScanAdsterra) {
-      try {
-        const bannerSelector = isForceClick
-          ? '.adsterra-banner iframe, .adsterra-leaderboard iframe, .adsterra-unit iframe, .adsterra-stack iframe, iframe[width="728"], iframe[src*="adsterra"], iframe[src*="alwingulla"], iframe[src*="doubleclick"], iframe[src*="banner"]'
-          : '.adsterra-banner[data-status="ready"] iframe, .adsterra-leaderboard[data-status="ready"] iframe, .adsterra-unit iframe';
-        const bannerIframes = page.locator(bannerSelector);
-        const iframeCount = await bannerIframes.count().catch(() => 0);
-        for (let f = 0; f < iframeCount; f++) {
-          const iframeHandle = await bannerIframes.nth(f).elementHandle().catch(() => null);
-          const frame = iframeHandle ? await iframeHandle.contentFrame().catch(() => null) : null;
-          let foundFrameLinks = false;
-          if (frame) {
-            const bannerLinks = frame.locator("a[href]");
-            const bannerCount = await bannerLinks.count().catch(() => 0);
-            for (let i = 0; i < bannerCount; i++) {
-              foundFrameLinks = true;
-              adCandidates.push({
-                name: `${isForceClick ? "[Force] " : ""}Banner iframe #${f + 1} link ${i + 1}/${bannerCount}`,
-                locator: bannerLinks.nth(i),
-              });
-            }
-          }
-          if (isForceClick && !foundFrameLinks) {
-            adCandidates.push({
-              name: `[Force] Banner iframe #${f + 1} element`,
-              locator: bannerIframes.nth(f),
-            });
-          }
-        }
-      } catch (err) {
-        log(`Lỗi khi quét banner ads: ${err instanceof Error ? err.message : String(err)}`);
-      }
-    }
-
-    // 3. Adsterra Smartlink
-    if (shouldScanAdsterra) {
-      try {
-        const smartlink = page.locator(
-          '.adsterra-smartlink, a[href*="deliberatewatchful.com"], a[href*="alwingulla"], a[href*="f06720140b3b11ad092d96fa65ca5110"]',
-        );
-        const smartCount = await smartlink.count().catch(() => 0);
-        for (let i = 0; i < smartCount; i++) {
-          adCandidates.push({
-            name: `${isForceClick ? "[Force] " : ""}Adsterra Smartlink ${i + 1}/${smartCount}`,
-            locator: smartlink.nth(i),
-          });
-        }
-      } catch {
-        // bỏ qua
-      }
-    }
-
-    // 4. Dự phòng cưỡng chế nếu trang tải quá chậm chưa có link nào
+    // Dự phòng cưỡng chế nếu trang tải quá chậm chưa có link nào
     if (isForceClick && adCandidates.length === 0) {
       const fallbackLocators = [
         ...(AD_NETWORK === "adcash" || AD_NETWORK === "all"
@@ -5014,18 +4645,6 @@ async function runOneCycle(
           : []),
         ...(AD_NETWORK === "clickadu" || AD_NETWORK === "all"
           ? [{ name: "[Force] Clickadu Container", sel: CLICKADU_CONTAINER_SELECTOR }]
-          : []),
-        ...(shouldScanAdsterra
-          ? [
-              { name: "[Force] Adsterra Banner Slot", sel: ".adsterra-banner, .adsterra-leaderboard" },
-              ...(FOCUS_POPUNDER_SOCIAL
-                ? []
-                : [
-                    { name: "[Force] Adsterra Native Slot", sel: ".adsterra-native, #container-5e6634da84f8f263d7ab34ae152f1c8d" },
-                    { name: "[Force] Adsterra Stack Container", sel: ".adsterra-stack" },
-                  ]),
-              { name: "[Force] Adsterra SocialBar", sel: SOCIAL_BAR_SELECTOR },
-            ]
           : []),
         { name: "[Force] External Link", sel: "a[target='_blank']" },
       ];
@@ -5035,7 +4654,6 @@ async function runOneCycle(
           adCandidates.push({
             name: fb.name,
             locator: loc,
-            isSocialBar: fb.sel === SOCIAL_BAR_SELECTOR,
           });
         }
       }
@@ -5100,10 +4718,9 @@ async function runOneCycle(
       // 3. Chế độ tự động: Ưu tiên click Popunder hoặc tương tác tự nhiên theo mạng quảng cáo
       const isClickadu = AD_NETWORK === "clickadu" || AD_NETWORK === "all";
       const isAdcash = AD_NETWORK === "adcash" || AD_NETWORK === "all";
-      const isAdsterra = AD_NETWORK === "adsterra" || AD_NETWORK === "all";
-      const allowPopunderAttempt = FOCUS_POPUNDER_SOCIAL || POPUNDER_RATIO > 0 || isClickadu || isAdsterra;
-      if (allowPopunderAttempt && (preferPopunder || isClickadu || isAdsterra)) {
-        const popLabel = isAdsterra ? "Adsterra Popunder" : isClickadu ? "Clickadu Popunder" : "Popunder Ưu Tiên";
+      const allowPopunderAttempt = FOCUS_POPUNDER_SOCIAL || POPUNDER_RATIO > 0 || isClickadu;
+      if (allowPopunderAttempt && (preferPopunder || isClickadu)) {
+        const popLabel = isClickadu ? "Clickadu Popunder" : "Popunder Ưu Tiên";
         log(
           `🎯 [${popLabel}${POPUNDER_RATIO > 0 ? ` ${Math.round(POPUNDER_RATIO * 100)}%` : ""}] Kích hoạt click tự nhiên trên trang web để kích hoạt Popunder (${cycleClickMode} mode)...`,
         );
@@ -5148,22 +4765,19 @@ async function runOneCycle(
         }
       }
 
-      // 4. Ưu tiên click Interstitial Modal, In-Page Push (Adcash) hoặc SocialBar (Adsterra) nếu Popunder chưa mở tab
+      // 4. Ưu tiên click Interstitial Modal hoặc In-Page Push (Adcash) nếu Popunder chưa mở tab
       if (!adClicked) {
-        const highPriorityCandidate = adCandidates.find((c) => c.isInterstitial || c.isInPagePush || c.isSocialBar);
+        const highPriorityCandidate = adCandidates.find((c) => c.isInterstitial || c.isInPagePush);
         if (highPriorityCandidate) {
           const typeLabel = highPriorityCandidate.isInterstitial
             ? "Interstitial Modal"
-            : highPriorityCandidate.isInPagePush
-            ? "In-Page Push"
-            : "SocialBar";
+            : "In-Page Push";
           log(
             `🔔 [${typeLabel} Ưu Tiên] Phát hiện quảng cáo nổi/modal; tiến hành click [${highPriorityCandidate.name}] (${cycleClickMode} mode)...`,
           );
           const clickTarget = await resolveAdClickTarget(highPriorityCandidate.locator, {
             isInPagePush: Boolean(highPriorityCandidate.isInPagePush),
             isInterstitial: Boolean(highPriorityCandidate.isInterstitial),
-            isSocialBar: Boolean(highPriorityCandidate.isSocialBar),
           });
           if (clickTarget) {
             log(`-> Click ${typeLabel} tại (${Math.round(clickTarget.x)}, ${Math.round(clickTarget.y)})...`);
@@ -5188,7 +4802,7 @@ async function runOneCycle(
       }
 
       if (!adClicked && adCandidates.length > 0) {
-        const remainingCandidates = adCandidates.filter((c) => !c.isSocialBar && !c.isInPagePush && !c.isInterstitial);
+        const remainingCandidates = adCandidates.filter((c) => !c.isInPagePush && !c.isInterstitial);
         const candidatesToClick = remainingCandidates.length > 0 ? remainingCandidates : adCandidates;
         const maxCandidates = FOCUS_POPUNDER_SOCIAL ? 2 : 3;
         let candidateAttempts = 0;
@@ -5227,8 +4841,8 @@ async function runOneCycle(
       }
     }
 
-    // 4. Nếu Popunder/SocialBar/AutoTag/Clickadu vẫn chưa mở được tab: Thử lại 1 lần click tự nhiên
-    if (!adClicked && cycleClickMode !== "manual" && (shouldScanAdsterra || isAdcash || isClickadu)) {
+    // 4. Nếu Popunder/AutoTag/Clickadu vẫn chưa mở được tab: Thử lại 1 lần click tự nhiên
+    if (!adClicked && cycleClickMode !== "manual" && (isAdcash || isClickadu)) {
       log(`🎯 [${isClickadu ? "Clickadu Popunder" : isAdcash ? "Adcash AutoTag" : "Popunder"} Thử Lại] Kích hoạt click mô phỏng tự nhiên trên trang để thử lại...`);
       const popTarget = await resolvePopunderTarget(page);
       const popup = await performEngageAndClick(page, context, popTarget.x, popTarget.y, instanceId, cycleClickMode);
@@ -5247,7 +4861,7 @@ async function runOneCycle(
       }
     }
 
-    // 5. Dự phòng selector cuối cùng (giới hạn tối đa 2 lần thử, TUYỆT ĐỐI không click Native khi bật FOCUS_POPUNDER_SOCIAL)
+    // 5. Dự phòng selector cuối cùng (giới hạn tối đa 2 lần thử)
     if (!adClicked && cycleClickMode !== "manual") {
       const candidateSelectors = [
         ...(AD_NETWORK === "adcash" || AD_NETWORK === "all"
@@ -5275,28 +4889,6 @@ async function runOneCycle(
               '.clickadu-container a[href]',
               'iframe[src*="clickadu"]',
             ]
-          : []),
-        ...(shouldScanAdsterra
-          ? (FOCUS_POPUNDER_SOCIAL
-              ? [
-                  SOCIAL_BAR_SELECTOR,
-                  '.adsterra-smartlink',
-                  '.adsterra-banner[data-status="ready"] iframe',
-                  '.adsterra-leaderboard[data-status="ready"] iframe',
-                  'iframe[src*="deliberatewatchful.com"]',
-                  'iframe[src*="adsterra"]',
-                  'iframe[src*="bauval.org"]',
-                  'iframe[src*="abscloud.org"]',
-                  'a[href*="bauval.org"]',
-                  'a[href*="abscloud.org"]',
-                ]
-              : [
-                  '.adsterra-smartlink',
-                  'a[href*="deliberatewatchful.com"]',
-                  '.adsterra-banner[data-status="ready"] iframe',
-                  '#container-5e6634da84f8f263d7ab34ae152f1c8d a[target="_blank"]',
-                  '.adsterra-native a[target="_blank"]',
-                ])
           : []),
       ];
 
@@ -5589,7 +5181,7 @@ async function main() {
   log(`Thời gian hover trên quảng cáo trước khi click: ${hoverDesc}${HOVER_CONFIG.userSpecified ? " (tuỳ chỉnh)" : " (mặc định)"}`);
 
   const renderTimeoutDesc = `${AD_READY_TIMEOUT_MS}ms (${(AD_READY_TIMEOUT_MS / 1000).toFixed(1)}s)`;
-  log(`Thời gian chờ render Adsterra tối đa: ${renderTimeoutDesc}${RENDER_TIMEOUT_CONFIG.userSpecified ? " (tuỳ chỉnh)" : " (mặc định)"} [Quá hạn sẽ cưỡng chế click ngay]`);
+  log(`Thời gian chờ render quảng cáo tối đa: ${renderTimeoutDesc}${RENDER_TIMEOUT_CONFIG.userSpecified ? " (tuỳ chỉnh)" : " (mặc định)"} [Quá hạn sẽ cưỡng chế click ngay]`);
 
   const extPath = USE_CANVAS_BLOCKER ? resolveExtensionPath() : null;
   if (extPath) {
@@ -5903,13 +5495,8 @@ export {
   parseAdNetwork,
   AD_NETWORK,
   inspectClickaduPlacements,
-  inspectAdsterraPlacements,
-  resetAdsterraCapping,
   ADCASH_CONTAINER_SELECTOR,
   CLICKADU_CONTAINER_SELECTOR,
-  SOCIAL_BAR_KEY,
-  SOCIAL_BAR_KEY_NEW,
-  SOCIAL_BAR_SELECTOR,
   parseTrafficSource,
   parseTrafficRatio,
   resolveTrafficReferrer,

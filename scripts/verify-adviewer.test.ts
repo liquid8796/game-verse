@@ -258,41 +258,34 @@ describe("AdViewer runner integrity", () => {
     expect(parsed.hasContainerSelector).toBe(true);
   });
 
-  it("verifies Adsterra network, capping reset and Social Bar support", () => {
+  it("verifies Adsterra code is cleanly removed from adViewer and batch launcher", () => {
     const batContent = readFileSync(join(root, "run-ad-viewer.bat"), "utf8");
-    expect(batContent).toContain("Adsterra");
-    expect(batContent).toContain('set "ARG_AD_NETWORK=--ad-network=adsterra"');
+    expect(batContent).not.toContain("Adsterra");
+    expect(batContent).not.toContain('set "ARG_AD_NETWORK=--ad-network=adsterra"');
 
     const adViewerContent = readFileSync(join(root, "scripts/adViewer.mjs"), "utf8");
-    expect(adViewerContent).toContain("resetAdsterraCapping");
-    expect(adViewerContent).toContain("inspectAdsterraPlacements");
-    expect(adViewerContent).toContain("SOCIAL_BAR_KEY_NEW");
-    expect(adViewerContent).toContain("6e3a0e1764459200f8bf1502dd0c9426");
-    expect(adViewerContent).toContain("e2c368a3b75c92d67638ec10b3fa2a44");
-    expect(adViewerContent).toContain("bauval.org");
-    expect(adViewerContent).toContain("abscloud.org");
+    expect(adViewerContent).not.toContain("resetAdsterraCapping");
+    expect(adViewerContent).not.toContain("inspectAdsterraPlacements");
+    expect(adViewerContent).not.toContain("SOCIAL_BAR_KEY");
+    expect(adViewerContent).not.toContain("SOCIAL_BAR_KEY_NEW");
+    expect(adViewerContent).not.toContain("6e3a0e1764459200f8bf1502dd0c9426");
+    expect(adViewerContent).not.toContain("e2c368a3b75c92d67638ec10b3fa2a44");
+    expect(adViewerContent).not.toContain("bauval.org");
+    expect(adViewerContent).not.toContain("abscloud.org");
 
     const { execSync } = require("node:child_process");
     const testSnippet = `
-      import { parseAdNetwork, resetAdsterraCapping, inspectAdsterraPlacements, SOCIAL_BAR_KEY_NEW, SOCIAL_BAR_SELECTOR } from './scripts/adViewer.mjs';
+      import { parseAdNetwork } from './scripts/adViewer.mjs';
       const results = {
-        adNetAdsterra: parseAdNetwork(['node', 'adViewer.mjs', '--ad-network=adsterra'], {}),
+        adNetAdsterraFallback: parseAdNetwork(['node', 'adViewer.mjs', '--ad-network=adsterra'], {}),
         adNetAll: parseAdNetwork(['node', 'adViewer.mjs', '--ad-network=all'], {}),
-        hasResetFn: typeof resetAdsterraCapping === 'function',
-        hasInspectFn: typeof inspectAdsterraPlacements === 'function',
-        socialBarKey: SOCIAL_BAR_KEY_NEW,
-        hasSocialBarSelector: SOCIAL_BAR_SELECTOR.includes('6e3a0e1764459200f8bf1502dd0c9426') && SOCIAL_BAR_SELECTOR.includes('bauval.org'),
       };
       console.log(JSON.stringify(results));
     `;
     const stdout = execSync(`node --input-type=module -e "${testSnippet.replace(/\n/g, ' ')}"`, { cwd: root, encoding: "utf8" });
     const parsed = JSON.parse(stdout.trim());
-    expect(parsed.adNetAdsterra).toBe("adsterra");
+    expect(parsed.adNetAdsterraFallback).toBe("clickadu");
     expect(parsed.adNetAll).toBe("all");
-    expect(parsed.hasResetFn).toBe(true);
-    expect(parsed.hasInspectFn).toBe(true);
-    expect(parsed.socialBarKey).toBe("6e3a0e1764459200f8bf1502dd0c9426");
-    expect(parsed.hasSocialBarSelector).toBe(true);
   });
 });
 

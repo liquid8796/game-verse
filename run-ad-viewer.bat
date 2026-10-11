@@ -329,8 +329,8 @@ if defined INPUT_HOVER (
 )
 echo.
 
-REM 13. Thoi gian toi da cho render Adsterra
-echo [13] Thoi gian toi da cho render quang cao Adsterra [Render Timeout]:
+REM 13. Thoi gian toi da cho render quang cao
+echo [13] Thoi gian toi da cho render quang cao [Render Timeout]:
 echo      Nhap so giay (vi du: 5, 8, 10), hoac ms (vi du: 6000, 8000).
 echo      Neu qua thoi gian nay ma quang cao chua tai xong thi auto se cuong che click 1 quang cao bat ky.
 echo      De trong de su dung mac dinh (10 giay).
@@ -349,20 +349,16 @@ REM 14. Nha mang quang cao muc tieu (Ad Network)
 echo [14] Nha mang quang cao muc tieu [Ad Network]:
 echo      1. Clickadu [Mac dinh - Mang quang cao Clickadu]
 echo      2. Adcash [Chay AutoTag 1zmakzh6c tu dong]
-echo      3. Adsterra [Mang quang cao Adsterra]
-echo      4. Tat ca nha mang [All networks - Clickadu + Adcash + Adsterra]
+echo      3. Tat ca nha mang [All networks - Clickadu + Adcash]
 set "INPUT_AD_NETWORK="
-set /p "INPUT_AD_NETWORK=    Chon [1-4, Enter = 1]: "
+set /p "INPUT_AD_NETWORK=    Chon [1-3, Enter = 1]: "
 set "ARG_AD_NETWORK=--ad-network=clickadu"
 if "%INPUT_AD_NETWORK%"=="2" (
     set "ARG_AD_NETWORK=--ad-network=adcash"
     echo     -^> Nha mang: Adcash [AutoTag 1zmakzh6c]
 ) else if "%INPUT_AD_NETWORK%"=="3" (
-    set "ARG_AD_NETWORK=--ad-network=adsterra"
-    echo     -^> Nha mang: Adsterra
-) else if "%INPUT_AD_NETWORK%"=="4" (
     set "ARG_AD_NETWORK=--ad-network=all"
-    echo     -^> Nha mang: Tat ca [Clickadu + Adcash + Adsterra]
+    echo     -^> Nha mang: Tat ca [Clickadu + Adcash]
 ) else (
     echo     -^> Nha mang: Clickadu [Mac dinh]
 )
