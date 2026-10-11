@@ -3,13 +3,6 @@ import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, Manrope } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import {
-  ExoClickHead,
-  ExoClickInterstitial,
-  ExoClickInPagePush,
-  ExoClickPopunder,
-  ExoClickVideoSlider,
-} from "@/components/exoclick";
 import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
@@ -121,7 +114,6 @@ export const metadata: Metadata = {
       ...(process.env.NEXT_PUBLIC_BING_VERIFICATION
         ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION }
         : {}),
-      "6a97888e-site-verification": "87c58674c7eabd0e162f44e609b0a49c",
       clckd: "185ab99214f74580f75b3dd7dfcc84e4",
     },
   },
@@ -173,19 +165,8 @@ gtag('config', 'G-PQES332NL4');`,
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7851683096379872"
           crossOrigin="anonymous"
         />
-
-        {/* ExoClick verification & client hints */}
-        <meta
-          name="6a97888e-site-verification"
-          content="87c58674c7eabd0e162f44e609b0a49c"
-        />
-        <ExoClickHead />
       </head>
       <body>
-        <ExoClickInterstitial />
-        <ExoClickPopunder />
-        <ExoClickVideoSlider />
-        <ExoClickInPagePush />
         <SiteHeader />
         {children}
         <SiteFooter />

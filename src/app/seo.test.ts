@@ -111,14 +111,15 @@ describe("SEO and Metadata configuration", () => {
     expect(layoutContent).toContain("https://www.googletagmanager.com/gtag/js?id=G-PQES332NL4");
     expect(layoutContent).toContain("Organization");
     expect(layoutContent).toContain("SearchAction");
-    expect(layoutContent).toContain('name="6a97888e-site-verification"');
-    expect(layoutContent).toContain("87c58674c7eabd0e162f44e609b0a49c");
-    expect(layoutContent).toContain("<ExoClickHead />");
-    expect(layoutContent).toContain("<ExoClickInterstitial />");
-    expect(layoutContent).toContain("<ExoClickPopunder />");
-    expect(layoutContent).toContain("<ExoClickVideoSlider />");
+    expect(layoutContent).not.toContain('name="6a97888e-site-verification"');
+    expect(layoutContent).not.toContain("87c58674c7eabd0e162f44e609b0a49c");
+    expect(layoutContent).not.toContain("<ExoClickHead />");
+    expect(layoutContent).not.toContain("<ExoClickInterstitial />");
+    expect(layoutContent).not.toContain("<ExoClickPopunder />");
+    expect(layoutContent).not.toContain("<ExoClickVideoSlider />");
     expect(layoutContent).not.toContain("<ExoClickPushNotifications />");
-    expect(layoutContent).toContain("<ExoClickInPagePush />");
+    expect(layoutContent).not.toContain("<ExoClickInPagePush />");
+    expect(layoutMetadata.verification?.other?.["6a97888e-site-verification"]).toBeUndefined();
 
     expect(layoutContent).toContain('name="clckd"');
     expect(layoutContent).toContain('content="185ab99214f74580f75b3dd7dfcc84e4"');
