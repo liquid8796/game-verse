@@ -226,36 +226,36 @@ describe("AdViewer runner integrity", () => {
     expect(parsed.instZero).toBe(1);
   });
 
-  it("verifies ExoClick ad network configuration, capping reset and diagnostic functions", () => {
+  it("verifies Clickadu ad network configuration and diagnostic functions", () => {
     const batContent = readFileSync(join(root, "run-ad-viewer.bat"), "utf8");
-    expect(batContent).toContain("1. ExoClick [Mac dinh - Popunder + Interstitial + Slider + In-Page Push]");
-    expect(batContent).toContain('set "ARG_AD_NETWORK=--ad-network=exoclick"');
+    expect(batContent).toContain("1. Clickadu [Mac dinh - Mang quang cao Clickadu]");
+    expect(batContent).toContain('set "ARG_AD_NETWORK=--ad-network=clickadu"');
 
     const adViewerContent = readFileSync(join(root, "scripts/adViewer.mjs"), "utf8");
-    expect(adViewerContent).toContain("resetExoClickCapping");
-    expect(adViewerContent).toContain("inspectExoClickPlacements");
-    expect(adViewerContent).toContain("zone-cap-");
-    expect(adViewerContent).toContain("BetterJsPop");
+    expect(adViewerContent).toContain("inspectClickaduPlacements");
+    expect(adViewerContent).toContain("CLICKADU_CONTAINER_SELECTOR");
+    expect(adViewerContent).not.toContain("resetExoClickCapping");
+    expect(adViewerContent).not.toContain("inspectExoClickPlacements");
 
     const { execSync } = require("node:child_process");
     const testSnippet = `
-      import { parseAdNetwork, resetExoClickCapping, inspectExoClickPlacements } from './scripts/adViewer.mjs';
+      import { parseAdNetwork, inspectClickaduPlacements, CLICKADU_CONTAINER_SELECTOR } from './scripts/adViewer.mjs';
       const results = {
         adNetDefault: parseAdNetwork(['node', 'adViewer.mjs'], {}),
-        adNetExo: parseAdNetwork(['node', 'adViewer.mjs', '--ad-network=exoclick'], {}),
+        adNetClickadu: parseAdNetwork(['node', 'adViewer.mjs', '--ad-network=clickadu'], {}),
         adNetAdcash: parseAdNetwork(['node', 'adViewer.mjs', '--ad-network=adcash'], {}),
-        hasResetFn: typeof resetExoClickCapping === 'function',
-        hasInspectFn: typeof inspectExoClickPlacements === 'function',
+        hasInspectFn: typeof inspectClickaduPlacements === 'function',
+        hasContainerSelector: Boolean(CLICKADU_CONTAINER_SELECTOR),
       };
       console.log(JSON.stringify(results));
     `;
     const stdout = execSync(`node --input-type=module -e "${testSnippet.replace(/\n/g, ' ')}"`, { cwd: root, encoding: "utf8" });
     const parsed = JSON.parse(stdout.trim());
-    expect(parsed.adNetDefault).toBe("exoclick");
-    expect(parsed.adNetExo).toBe("exoclick");
+    expect(parsed.adNetDefault).toBe("clickadu");
+    expect(parsed.adNetClickadu).toBe("clickadu");
     expect(parsed.adNetAdcash).toBe("adcash");
-    expect(parsed.hasResetFn).toBe(true);
     expect(parsed.hasInspectFn).toBe(true);
+    expect(parsed.hasContainerSelector).toBe(true);
   });
 });
 
